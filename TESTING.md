@@ -17,6 +17,7 @@
 - Change a fixture total by 0.03%; confirm the fingerprint, buyer sheet, social card, React export, and Add to Dataset action are all withheld.
 - Load one COA after another and confirm lab-sourced strain, farm, lot, sample, harvest, cannabinoid, CBD, THC, and total-terpene fields never retain stale values.
 - Paste both a deployed direct PDF URL and a public laboratory result-page URL into link import; confirm each resolves the original PDF and produces the same verified result.
+- Use `examples/johnny-glaze-lab-result.html` as the deterministic deployed result-page fixture; the resolver must discover `johnny-glaze-coa.pdf` and return the same 629,029-byte certificate payload.
 - Upload a JPEG through the flower image control and confirm it appears in both generated assets.
 - Export both PNGs and confirm exact dimensions of 1600 × content height and 1080 × 1350.
 - Inspect the buyer-sheet footer and full 16-row source panel; no content may be clipped or overlap the footer.

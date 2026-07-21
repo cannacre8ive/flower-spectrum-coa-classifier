@@ -9,6 +9,7 @@ All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.
 - Fail-closed reconciliation gate requiring positive source-row mass to match the laboratory-reported Total Terpenes value within 0.02% before classification or export.
 - Source-truth audit summary showing source rows, internal engine keys, extracted sum, lab total, and difference.
 - Public laboratory result-page resolution that discovers and retrieves the original linked PDF certificate while retaining private-network and size protections.
+- Deterministic deployed lab-result-page fixture for end-to-end resolver regression testing.
 - Versioned brand and accuracy screenshots for the current release.
 
 ### Changed

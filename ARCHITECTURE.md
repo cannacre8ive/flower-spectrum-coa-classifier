@@ -49,6 +49,7 @@ Uploaded files, classification, PDF rendering, and OCR remain client-side. Only 
 ├── assets/johnny-glaze-flower.jpeg
 ├── components/FlowerSpectrumStrainCard.jsx
 ├── examples/johnny-glaze-coa.pdf
+├── examples/johnny-glaze-lab-result.html
 ├── examples/illustrative-coa.txt
 ├── examples/illustrative-coa.pdf
 ├── scripts/create_fixture_pdf.py
