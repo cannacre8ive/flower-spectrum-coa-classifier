@@ -19,3 +19,4 @@ Serve the repository with `python3 -m http.server 4173`; do not open the HTML di
 2. Run the in-app self-test and the manual COA happy path.
 3. Include desktop and mobile screenshots for visual changes.
 4. Confirm the required aroma-only disclaimer remains visible.
+5. For every production deployment, refresh the share image when the UI changes and verify Open Graph/Twitter metadata against the stable public Vercel alias.

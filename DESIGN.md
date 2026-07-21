@@ -34,3 +34,4 @@ The identity is typographic and data-led: a quiet near-black canvas, warm paper 
 - The buyer sheet uses a content-aware vertical canvas: every mapped terpene row must fit before the footer, even when that produces a taller export.
 - The social card stays at 1080 × 1350 and overlays a compact fingerprint on the flower photograph to keep both recognition devices visible.
 - Profile-learning controls use the same fixed ten-color order as the wheel. A selected band exposes the measured compounds and their relative weighted contribution in text as well as color.
+- Social link preview: 1200 × 630 production screengrab, near-black canvas preserved, primary promise and fingerprint visible, no invented mock UI. Use concise title/description text in metadata instead of burning extra copy into the image.

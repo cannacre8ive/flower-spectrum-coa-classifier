@@ -6,6 +6,10 @@
 
 ![Flower Spectrum classifier interface](documentation/assets/flower-spectrum-classifier.png)
 
+**Share description:** Turn any cannabis COA into a science-backed aroma fingerprint, buyer sheet, and social card with Flower Spectrum.
+
+![Flower Spectrum social link preview](documentation/assets/social-preview.jpg)
+
 Flower Spectrum translates lab-tested cannabis terpene panels into a consistent ten-profile aroma fingerprint and shelf strip. It gives shoppers a clearer signal than THC alone, retailers a way to balance their assortment, and growers a visual language for the chemistry behind their craft.
 
 ## Release previews
@@ -48,6 +52,7 @@ The app has no database. COA data stays in the current browser session and is on
 
 ## Recent updates
 
+- Added share-ready Open Graph and Twitter metadata plus a 1200 × 630 production screengrab for rich social previews.
 - Added versioned release screenshots for the classifier, Johnny Glaze buyer sheet, social card, and the final reference comparison.
 - Added real PDF and public COA-link ingestion with automatic terpene-page selection, two-column extraction, source review, and OCR fallback.
 - Added Johnny Glaze as a complete demo with its flower photograph, six-page COA, 4.06% terpene panel, buyer sheet, and social card.

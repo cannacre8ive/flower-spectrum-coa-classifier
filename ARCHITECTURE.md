@@ -44,7 +44,12 @@ Uploaded files, classification, PDF rendering, and OCR remain client-side. Only 
 ├── examples/illustrative-coa.txt
 ├── examples/illustrative-coa.pdf
 ├── scripts/create_fixture_pdf.py
-├── documentation/assets/
+├── documentation/assets/social-preview.jpg
+├── documentation/assets/*.png
 ├── vercel.json
 └── product and engineering documentation
 ```
+
+## Social discovery layer
+
+Both HTML entry points expose the same canonical production URL, short product description, Open Graph fields, and Twitter large-image card. The preview image is a real 1200 × 630 production screengrab served from the same public Vercel origin so social crawlers do not depend on GitHub or local files.

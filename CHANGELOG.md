@@ -2,6 +2,22 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.3.2] - 2026-07-20
+
+### Added
+
+- 1200 × 630 production screengrab at `documentation/assets/social-preview.jpg` for link unfurls.
+- Complete Open Graph and Twitter Card metadata on both the root entry page and canonical classifier page.
+- Canonical URL, theme color, robots image-preview directive, image dimensions, MIME type, and accessible preview alt text.
+
+### Changed
+
+- Added concise social-share copy to the README and documented social-preview requirements across release artifacts.
+
+### Fixed
+
+- Ensured the stable Vercel production URL produces a branded large-image preview instead of a generic text-only link.
+
 ## [2.3.1] - 2026-07-20
 
 ### Added

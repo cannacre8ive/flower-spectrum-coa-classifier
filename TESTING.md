@@ -34,5 +34,9 @@
 ## Release checks
 
 - Capture the current interface in `documentation/assets/`.
+- Capture or refresh `documentation/assets/social-preview.jpg` at 1200 × 630 from the deployed production UI.
+- Verify the stable Vercel alias and social-preview image both return unauthenticated HTTP 200 responses.
+- Inspect rendered HTML for canonical, description, Open Graph, and `summary_large_image` Twitter metadata using absolute HTTPS URLs.
+- Confirm the preview title is concise, the description is useful out of context, and the image has explicit dimensions and alt text.
 - Update README live URL, screenshot, recent updates, and CHANGELOG.
 - Verify the production URL returns HTTP 200 and the classifier flow works.

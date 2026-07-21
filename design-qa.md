@@ -6,6 +6,7 @@
 - Final Johnny Glaze social export: `documentation/assets/johnny-glaze-social-card.png`
 - Combined supplied-reference/implementation comparison: `documentation/assets/buyer-sheet-reference-comparison.png`
 - Release interface screenshot: `documentation/assets/flower-spectrum-classifier.png`
+- Social link preview: `documentation/assets/social-preview.jpg` (1200 × 630)
 - Production URL: `https://flower-spectrum-coa-classifier.vercel.app`
 - Output dimensions: buyer sheet 1600 × 2098; social card 1080 × 1350
 - Fixture state: Johnny Glaze, Ideal Cannabis, six-page COA, selected terpene page 3, 15 mapped analytes
@@ -23,6 +24,7 @@ The supplied Sunday Driver report and the generated Johnny Glaze buyer sheet wer
 7. Profile-lab selection changes the illustrative fingerprint and driver copy. Result-band selection reveals only measured contributing terpenes with values and relative contribution bars.
 8. Real PDF upload and public-link import both identify page 3 and map 15 analytes. Metadata resolves Johnny Glaze, `2108CH0442.1887`, `JG 060821`, `06/08/2021`, 34.00% total cannabinoids, 0.08% CBD, and 4.06% total terpenes.
 9. The parser regression suite passes 12/12 fixtures. Final production browser logs contain zero errors or warnings.
+10. The social preview is a center-safe production screengrab with the product promise and fingerprint visible at 1200 × 630; metadata supplies the short title and description separately for accessible link unfurls.
 
 ## Severity review
 
