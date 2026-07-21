@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Flower Spectrum · Terpene Fingerprint Classifier</title>
-<meta name="description" content="Turn any cannabis COA into a science-backed aroma fingerprint, buyer sheet, and social card with Flower Spectrum.">
+<meta name="description" content="Turn a verified cannabis COA PDF into an accuracy-gated aroma fingerprint, buyer sheet, and social card with Flower Spectrum.">
 <meta name="theme-color" content="#0e0e0c">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <link rel="canonical" href="https://flower-spectrum-coa-classifier.vercel.app/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Flower Spectrum">
 <meta property="og:title" content="Flower Spectrum · COA Aroma Fingerprints">
-<meta property="og:description" content="Turn any cannabis COA into a science-backed aroma fingerprint, buyer sheet, and social card.">
+<meta property="og:description" content="Turn a verified cannabis COA PDF into an accuracy-gated aroma fingerprint, buyer sheet, and social card.">
 <meta property="og:url" content="https://flower-spectrum-coa-classifier.vercel.app/">
 <meta property="og:image" content="https://flower-spectrum-coa-classifier.vercel.app/documentation/assets/social-preview.jpg">
 <meta property="og:image:secure_url" content="https://flower-spectrum-coa-classifier.vercel.app/documentation/assets/social-preview.jpg">
@@ -21,10 +21,10 @@
 <meta property="og:image:alt" content="Flower Spectrum classifier showing a ten-profile cannabis aroma fingerprint">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Flower Spectrum · COA Aroma Fingerprints">
-<meta name="twitter:description" content="Turn any cannabis COA into a science-backed aroma fingerprint, buyer sheet, and social card.">
+<meta name="twitter:description" content="Turn a verified cannabis COA PDF into an accuracy-gated aroma fingerprint, buyer sheet, and social card.">
 <meta name="twitter:image" content="https://flower-spectrum-coa-classifier.vercel.app/documentation/assets/social-preview.jpg">
 <meta name="twitter:image:alt" content="Flower Spectrum classifier showing a ten-profile cannabis aroma fingerprint">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%230e0e0c%22/><circle cx=%2232%22 cy=%2232%22 r=%2218%22 fill=%22none%22 stroke=%22%236AAFA0%22 stroke-width=%226%22/><circle cx=%2232%22 cy=%2232%22 r=%225%22 fill=%22%23e8e3d9%22/></svg>">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%230e0e0c%22/><circle cx=%2232%22 cy=%2232%22 r=%2218%22 fill=%22none%22 stroke=%22%23C9A84C%22 stroke-width=%226%22/><circle cx=%2232%22 cy=%2232%22 r=%225%22 fill=%22%23e8e3d9%22/></svg>">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
   :root{ --bg:#0e0e0c; --surface:#181715; --border:#2a2824; --fg:#e8e3d9; --fg-dim:#a8a092; --muted:#6e675b; --accent:#6AAFA0;
@@ -40,7 +40,7 @@
   .sub{font-size:14px;color:var(--fg-dim);line-height:1.55;margin:0 0 20px;max-width:680px}
   .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px}
   .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
-  input[type=text],input[type=number],textarea,select{background:var(--bg);border:1px solid var(--border);color:var(--fg);font-family:var(--mono);font-size:12px;padding:9px 10px;border-radius:7px;width:100%}
+  input[type=text],input[type=url],input[type=number],textarea,select{background:var(--bg);border:1px solid var(--border);color:var(--fg);font-family:var(--mono);font-size:12px;padding:9px 10px;border-radius:7px;width:100%}
   textarea{font-size:12px;line-height:1.5;resize:vertical}
   input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent)}
   .grid{display:grid;gap:10px}
@@ -92,7 +92,10 @@
 </head>
 <body>
 <header class="site-nav">
-  <a class="wordmark" href="#top" aria-label="Flower Spectrum home">Flower <em>Spectrum</em></a>
+  <a class="wordmark-lockup" href="#top" aria-label="Flower Spectrum home">
+    <span class="wordmark">Flower Spectrum</span>
+    <span class="wordmark-spectrum" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span>
+  </a>
   <nav aria-label="Primary navigation">
     <a href="#how-it-works">How it works</a>
     <a href="#spectrum-key">The 10 profiles</a>
@@ -160,17 +163,12 @@
   <section class="classifier-intro" id="classifier">
     <div class="section-number">03 / CLASSIFY A COA</div>
     <h2>From lab panel to <em>shelf language.</em></h2>
-    <p>Upload a PDF COA, paste its terpene table, or import a Flower Spectrum CSV. Flower Spectrum reads text-layer PDFs and scans image-only pages with private in-browser OCR, then lets you verify every mapped value against the source.</p>
+    <p>Upload the original PDF certificate or provide the public lab-results link. Flower Spectrum identifies the terpene page, preserves every detected laboratory row, reconciles the extracted sum to the lab-reported total, and blocks classification when those values do not agree.</p>
   </section>
 
-  <div class="topbar tool-bar"><span class="dot"></span><span class="brand">Flower Spectrum Engine</span><span class="ver">Classifier · v2.3.2 · 07_20_2026</span></div>
+  <div class="topbar tool-bar"><span class="spectrum-mini" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="brand">Flower Spectrum Engine</span><span class="ver">Classifier · v2.4.0 · 07_20_2026</span></div>
 
-  <div class="tabs">
-    <button class="tab on" id="tabPaste" onclick="switchTab('paste')">Paste COA</button>
-    <button class="tab" id="tabCsv" onclick="switchTab('csv')">Import CSV</button>
-  </div>
-
-  <!-- ============ PASTE COA ============ -->
+  <!-- ============ PDF / LAB LINK COA ============ -->
   <div id="panePaste">
     <div class="panel">
       <span class="lbl">Strain metadata <span class="muted">(name required; the rest optional &mdash; carried into the export)</span></span>
@@ -185,12 +183,12 @@
         <div><span class="lbl">Harvest date</span><input type="text" id="mHarvest" placeholder="MM/DD/YYYY"></div>
       </div>
       <div class="grid g3" style="margin-top:10px">
-        <div><span class="lbl">THC % <span class="muted">(auto from COA)</span></span><input type="text" id="mThc" placeholder="auto"></div>
-        <div><span class="lbl">Total cannabinoids %</span><input type="text" id="mCann" placeholder="optional"></div>
-        <div><span class="lbl">CBD %</span><input type="text" id="mCbd" placeholder="optional"></div>
+        <div><span class="lbl">THC % <span class="muted">(lab-sourced)</span></span><input type="text" id="mThc" placeholder="from COA" readonly></div>
+        <div><span class="lbl">Total cannabinoids % <span class="muted">(lab-sourced)</span></span><input type="text" id="mCann" placeholder="from COA" readonly></div>
+        <div><span class="lbl">CBD % <span class="muted">(lab-sourced)</span></span><input type="text" id="mCbd" placeholder="from COA" readonly></div>
       </div>
       <div class="grid g3" style="margin-top:10px">
-        <div><span class="lbl">Total terpenes % <span class="muted">(auto from COA)</span></span><input type="text" id="mTerps" placeholder="auto"></div>
+        <div><span class="lbl">Total terpenes % <span class="muted">(reported by lab)</span></span><input type="text" id="mTerps" placeholder="from COA" readonly></div>
         <div><span class="lbl">Quantity available</span><input type="text" id="mQuantity" placeholder="e.g. 12 lb"></div>
         <div><span class="lbl">Buyer contact</span><input type="text" id="mContact" placeholder="email, phone, or handle"></div>
       </div>
@@ -210,54 +208,35 @@
     </div>
 
     <div class="panel">
-      <span class="lbl">Upload a COA <span class="muted">(.pdf, .txt, or .csv &mdash; text layer + OCR fallback)</span></span>
-      <div class="coa-source-actions"><button class="btn btn-primary" type="button" onclick="loadJohnnyGlazeDemo()">Load Johnny Glaze demo COA</button><span>or upload your own certificate</span></div>
-      <label class="file-drop" for="coaFile"><input type="file" id="coaFile" accept=".pdf,.txt,.csv,text/plain,text/csv,application/pdf" onchange="loadCoaFile(event)"><span class="file-icon">&uarr;</span><b>Choose a COA file</b><small id="fileStatus">or paste the terpene table below</small></label>
-      <div class="coa-url-row"><div><span class="lbl">COA link</span><input type="url" id="coaUrl" placeholder="https://lab.example.com/certificates/sample.pdf"></div><button class="btn" type="button" onclick="loadCoaUrl()">Read COA link</button></div>
-      <div class="pdf-review" id="pdfReview" hidden>
-        <div class="pdf-review-head"><div><span class="lbl">COA document review</span><strong id="pdfFileName">Uploaded PDF</strong></div><div class="pdf-badges"><span id="pdfPageCount">0 pages</span><span id="pdfExtractMode">Reading</span></div></div>
+      <span class="lbl">Laboratory source <span class="muted">(original PDF or public results-page link)</span></span>
+      <div class="coa-source-actions"><button class="btn btn-primary" type="button" onclick="loadJohnnyGlazeDemo()">Run verified Johnny Glaze fixture</button><span>known result: 16 source rows · 4.06% total</span></div>
+      <label class="file-drop" for="coaFile"><input type="file" id="coaFile" accept=".pdf,application/pdf" onchange="loadCoaFile(event)"><span class="file-icon">&uarr;</span><b>Choose the original COA PDF</b><small id="fileStatus">No certificate loaded</small></label>
+      <div class="coa-url-row"><div><span class="lbl">Lab result link</span><input type="url" id="coaUrl" placeholder="https://lab.example.com/results/sample-or-certificate.pdf"></div><button class="btn" type="button" onclick="loadCoaUrl()">Read lab link</button></div>
+      <div class="accuracy-gate idle" id="accuracyGate"><span>Accuracy gate</span><strong>Waiting for a laboratory source</strong><p>Classification and exports remain locked until the extracted source rows reconcile to the lab-reported terpene total.</p></div>
+      <details class="pdf-review" id="pdfReview" hidden>
+        <summary class="pdf-review-head"><div><span class="lbl">COA document review</span><strong id="pdfFileName">Uploaded PDF</strong></div><div class="pdf-badges"><span id="pdfPageCount">0 pages</span><span id="pdfExtractMode">Reading</span></div></summary>
         <iframe id="pdfViewer" title="Uploaded COA PDF preview"></iframe>
-        <p class="note" id="pdfReviewNote">The original document stays visible while Flower Spectrum reconstructs its terpene table. Review the extracted values against the PDF before adding the result.</p>
-      </div>
-      <details class="manual-fallback"><summary>Advanced fallback: paste raw COA text</summary><textarea id="coaText" rows="9" placeholder="Paste the terpene section only when a PDF or link is unavailable."></textarea></details>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="doParse()">Parse &amp; classify</button>
-        <button class="btn" onclick="insertExample()">Insert example COA</button>
-        <button class="btn" onclick="document.getElementById('coaText').value='';document.getElementById('parseOut').innerHTML='';">Clear</button>
-      </div>
-      <p class="note">Mapping is explicit, not fuzzy: an analyte the engine doesn&rsquo;t recognize is listed in an <span class="accent">Unmapped</span> panel with a reason, so nothing disappears quietly. Parsed values are <b>editable</b> before you commit &mdash; you are the final check on column choice.</p>
+        <p class="note" id="pdfReviewNote">The original document stays visible while Flower Spectrum reconstructs and reconciles its terpene table.</p>
+      </details>
+      <textarea id="coaText" hidden aria-hidden="true"></textarea>
+      <p class="note">No fuzzy matching and no silent omissions. Every positive source row remains visible with its original lab label. Isomers may share an internal engine key for classification, but the buyer-facing COA table never collapses or relabels those source results.</p>
     </div>
 
     <div id="parseOut"></div>
   </div>
 
-  <!-- ============ IMPORT CSV ============ -->
-  <div id="paneCsv" style="display:none">
-    <div class="panel">
-      <span class="lbl">Import CSV <span class="muted">(matches this tool&rsquo;s export &mdash; 27 buyer/menu columns + a raw 38-terpene block)</span></span>
-      <input type="file" id="csvFile" accept=".csv,text/csv" style="margin-bottom:10px" onchange="loadCsvFile(event)">
-      <textarea id="csvText" rows="7" placeholder="…or paste CSV here. Minimum viable CSV: a header row containing 'Strain' plus one column per terpene (using the terpene's full name, e.g. β-Caryophyllene). Buyer fields such as harvest date, quantity, contact, cannabinoids, pricing, and aroma are read when present. Classification is recomputed from the terpene columns on import."></textarea>
-      <div class="btn-row">
-        <button class="btn btn-primary" onclick="doParseCsv()">Parse CSV</button>
-        <button class="btn" onclick="document.getElementById('csvText').value='';document.getElementById('csvOut').innerHTML='';">Clear</button>
-      </div>
-      <p class="note">Re-importing a file this tool exported round-trips exactly &mdash; the raw terpene block reconstructs the input vector and the engine re-classifies it identically.</p>
-    </div>
-    <div id="csvOut"></div>
-  </div>
-
   <!-- ============ DIAGNOSTICS ============ -->
   <div class="panel">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px">
-      <span class="lbl" style="margin:0">Parser coverage self-test</span>
-      <button class="btn" style="margin-left:auto" onclick="runSelfTest()">Run self-test</button>
+      <span class="lbl" style="margin:0">Accuracy regression suite</span>
+      <button class="btn" style="margin-left:auto" onclick="runSelfTest()">Run format tests</button>
     </div>
-    <p class="note" style="margin-top:0">Runs the parser against a battery of real-world COA <b>layout shapes</b> (aligned LOD/LOQ/Result tables, mg/g columns, multi-word and comma-bearing analyte names, isomer peaks, ND/&lt;LOQ, cannabinoid filtering). Values in these fixtures are synthetic format tests, not COA data &mdash; they verify the parser <i>structure</i>, so a real paste from your lab is low-risk.</p>
+    <p class="note" style="margin-top:0">Runs deterministic table-layout tests. The real Johnny Glaze PDF fixture is validated separately against 16 positive source rows and the laboratory&rsquo;s reported 4.06% total.</p>
     <div id="stOut"></div>
   </div>
 
   <!-- ============ DATASET ============ -->
-  <div class="panel">
+  <div class="panel" id="datasetPanel">
     <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px">
       <span class="lbl" style="margin:0">Dataset</span>
       <span class="count" id="dsCount">0 strains</span>
@@ -265,12 +244,12 @@
         <button class="btn" onclick="clearDataset()">Clear all</button>
       </span>
     </div>
-    <div id="dsWrap"><div class="empty">No strains yet. Parse a COA or import a CSV to begin.</div></div>
+    <div id="dsWrap"><div class="empty">No validated strains yet. Upload a COA PDF or provide a lab link to begin.</div></div>
     <div id="exportOut" style="margin-top:14px"></div>
   </div>
 
   <div class="foot">
-    Flower Spectrum · Terpene Fingerprint Classifier · v2.3.2 · build 07_20_2026<br>
+    Flower Spectrum · Terpene Fingerprint Classifier · v2.4.0 · build 07_20_2026<br>
     Aroma classification, not effects or medical claims · Engine byte-faithful to Chemovar Classifier v1.3 (38 terpenes)<br>
     Built by <a href="https://cannacre8ive.com" target="_blank" rel="dofollow">CannaCre8ive</a>
   </div>
@@ -281,7 +260,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
 <script>
 "use strict";
-const VERSION = "v2.3.2", BUILD = "07_20_2026";
+const VERSION = "v2.4.0", BUILD = "07_20_2026";
 
 /* =================== CANONICAL ENGINE (verbatim, Classifier v1.3) =================== */
 const PROFILES = [
@@ -797,72 +776,39 @@ function parseCOA(text){
            guessedCount: matched.filter(m=>m.guess).length };
 }
 
-// ── CSV round-trip ── original 20 Explorer-compatible menu columns, seven
-// buyer-sale fields, and a raw 38-terpene block for lossless reclassification.
+const RECONCILIATION_TOLERANCE = 0.02;
+let CURRENT_EXTRACTION_METHOD = "text-layer";
+function validateCOA(p,method){
+  const sourceRows=p.matched.concat(p.unmapped.filter(row=>Number(row.value)>0));
+  const sourceSum=+sourceRows.reduce((sum,row)=>sum+Number(row.value||0),0).toFixed(4);
+  const reported=p.reportedTotal==null?null:+Number(p.reportedTotal).toFixed(4);
+  const delta=reported==null?null:+Math.abs(reported-sourceSum).toFixed(4);
+  const issues=[];
+  if(reported==null)issues.push("The lab-reported Total Terpenes value was not found.");
+  if(p.matched.length<2)issues.push("Fewer than two positive terpene rows were extracted.");
+  const positiveUnmapped=p.unmapped.filter(row=>Number(row.value)>0);
+  if(positiveUnmapped.length)issues.push(positiveUnmapped.length+" positive source row"+(positiveUnmapped.length===1?" is":"s are")+" not mapped to the classifier.");
+  if(p.guessedCount)issues.push(p.guessedCount+" result value"+(p.guessedCount===1?" was":"s were")+" inferred instead of read from an explicit result column.");
+  if(delta!=null&&delta>RECONCILIATION_TOLERANCE)issues.push("Extracted rows differ from the lab total by "+delta.toFixed(2)+"%. Maximum allowed difference is "+RECONCILIATION_TOLERANCE.toFixed(2)+"%.");
+  if(method==="ocr")issues.push("OCR-derived values require human verification and cannot be classified automatically.");
+  return {status:issues.length?"blocked":"passed",issues,sourceRows:p.matched.slice(),sourceSum,reported,delta,tolerance:RECONCILIATION_TOLERANCE,sourceCount:p.matched.length,engineKeyCount:Object.keys(p.values).length,method};
+}
+
+function updateAccuracyGate(validation){
+  const gate=document.getElementById("accuracyGate"); if(!gate)return;
+  gate.className="accuracy-gate "+validation.status;
+  if(validation.status==="passed"){
+    gate.innerHTML="<span>Accuracy gate · passed</span><strong>"+validation.sourceCount+" source rows reconcile to "+validation.reported.toFixed(2)+"%</strong><p>Difference "+validation.delta.toFixed(2)+"% · "+validation.engineKeyCount+" internal classifier keys · exports unlocked.</p>";
+  }else{
+    gate.innerHTML="<span>Accuracy gate · blocked</span><strong>Classification and exports are locked</strong><p>"+esc(validation.issues.join(" "))+"</p>";
+  }
+}
+
+// ── Dataset export ── original Explorer-compatible menu columns, buyer-sale
+// fields, and the canonical 38-terpene block. CSV is an output, never a COA input.
 const META_COLS = ["Strain","Grower","Lineage","Primary Profile","Profile %","Secondary","Secondary %","Blend Name","Confidence","THC %","Total Terpenes %","Top Terps","Aroma","Tier","Price 1g","Price 1/8","Staff Pick","Picked By","Pick Note","Notes"];
 const BUYER_COLS = ["Lot","Sample ID","Harvest Date","Quantity Available","Buyer Contact","Total Cannabinoids %","CBD %"];
 const TERP_COLS = TERPENES.map(t => t.label);
-
-function rowToValues(headerKeys, cells){
-  // headerKeys: array of canon(header); cells: array of strings
-  const values = {};
-  headerKeys.forEach((hk, i) => {
-    const key = LOOKUP[hk]; if(!key) return;
-    const v = parseFloat((cells[i]||"").toString().replace(/[%\s]/g,""));
-    if(!isNaN(v) && v>0) values[key] = (values[key]||0) + v;
-  });
-  return values;
-}
-function csvParse(text){
-  // minimal RFC-ish CSV: handles quoted fields w/ commas + escaped quotes
-  const rows=[]; let row=[], cur="", q=false;
-  for(let i=0;i<text.length;i++){
-    const c=text[i];
-    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
-    else if(c==='"') q=true;
-    else if(c===','){ row.push(cur); cur=""; }
-    else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
-    else if(c==='\r'){}
-    else cur+=c;
-  }
-  if(cur.length||row.length){ row.push(cur); rows.push(row); }
-  return rows;
-}
-function importCSV(text){
-  const rows = csvParse(text).filter(r => r.some(c => (c||"").trim()!==""));
-  if(!rows.length) return { strains:[], error:"empty CSV" };
-  // find the header row: the row that contains "Strain" (case-insensitive)
-  let hi = rows.findIndex(r => r.some(c => /^strain$/i.test((c||"").trim())));
-  if(hi<0) hi = 0;
-  const header = rows[hi].map(c => (c||"").trim());
-  const hkeys = header.map(canon);
-  const idx = name => header.findIndex(h => canon(h)===canon(name));
-  const out = [];
-  for(let i=hi+1;i<rows.length;i++){
-    const cells = rows[i];
-    const get = name => { const j=idx(name); return j>=0 ? (cells[j]||"").trim() : ""; };
-    const values = rowToValues(hkeys, cells);
-    const nm = get("Strain");
-    if(!nm && Object.keys(values).length===0) continue;
-    out.push({
-      name: nm || "(unnamed)",
-      grower: get("Grower"),
-      lineage: get("Lineage"),
-      lot: get("Lot"), sample:get("Sample ID"), harvest:get("Harvest Date"), quantity:get("Quantity Available"), contact:get("Buyer Contact"),
-      thc: get("THC %"),
-      cannabinoids:get("Total Cannabinoids %"), cbd:get("CBD %"), totalTerpenes:get("Total Terpenes %"),
-      tier: get("Tier"),
-      aroma: get("Aroma"),
-      notes: get("Notes"),
-      price: { g:get("Price 1g"), eighth:get("Price 1/8") },
-      staffPick: get("Staff Pick"),
-      pickedBy: get("Picked By"),
-      pickNote: get("Pick Note"),
-      values
-    });
-  }
-  return { strains: out };
-}
 
 function strainsToCSV(list){
   const esc = v => { const t=String(v==null?"":v).replace(/"/g,'""'); return /[",\n]/.test(t)?'"'+t+'"':t; };
@@ -902,6 +848,13 @@ const FORMAT_FIXTURES = [
  { id:"Ambiguous flagged",         text:"Terpinene 0.02 %\nMyrcene 0.20 %", expect:{myrcene:0.20}, ambiguous:1 },
  { id:"Cannabinoids filtered",     text:"Total THC 24.8 %\nTHCA 28.1 %\nCBD ND\n\u03b2-Caryophyllene 0.50 %\nTotal Terpenes 2.10 %", expect:{caryophyllene:0.50}, thc:24.8 },
 ];
+const JOHNNY_ACCURACY_FIXTURE="Valencene 0.05 %\nδ-Limonene 0.87 %\nα-Humulene 0.08 %\n(-)-β-Pinene 0.13 %\nα-Pinene 0.08 %\n(-)-α-Bisabolol 0.03 %\nTerpinolene 0.09 %\nEndo-Fenchyl Alcohol 0.09 %\nα-Terpineol 0.07 %\nLinalool 0.44 %\nβ-Myrcene 0.14 %\nβ-Caryophyllene 0.31 %\ntrans-Nerolidol 0.14 %\nβ-Farnesene 0.43 %\ncis-β-Farnesene 0.99 %\nα-Farnesene 0.12 %\nTotal Terpenes 4.06 %";
+function johnnyAccuracyRegression(){
+  const p=parseCOA(JOHNNY_ACCURACY_FIXTURE),v=validateCOA(p,"text-layer");
+  const farneseneRows=p.matched.filter(row=>/farnesene/i.test(row.raw));
+  const pass=v.status==="passed"&&v.sourceCount===16&&v.engineKeyCount===15&&v.sourceSum===4.06&&v.reported===4.06&&v.delta===0&&farneseneRows.length===3;
+  return {id:"Johnny Glaze source truth",pass,detail:"16 rows · 15 keys · 4.06% source · 4.06% lab · 0.00% difference · 3 distinct farnesene rows"};
+}
 function selfTest(){
   const near=(a,b)=>Math.abs(a-b)<1e-6;
   return FORMAT_FIXTURES.map(f=>{
@@ -917,8 +870,7 @@ function selfTest(){
 
 /* =================== UI =================== */
 let DATASET = [];
-let CUR = null;            // current parse result for the Paste tab
-let CSVROWS = null;        // current parsed CSV rows
+let CUR = null;            // current verified laboratory parse result
 let CURRENT_FLOWER_IMAGE = "assets/johnny-glaze-flower.jpeg";
 
 function setFlowerImage(src){
@@ -932,14 +884,6 @@ function loadFlowerImage(ev){
   if(!/^image\/(png|jpeg|webp)$/i.test(file.type)){ alert("Please choose a PNG, JPG, or WEBP image."); return; }
   if(file.size>12*1024*1024){ alert("Please choose an image smaller than 12 MB."); return; }
   const reader=new FileReader(); reader.onload=()=>setFlowerImage(String(reader.result||"")); reader.readAsDataURL(file);
-}
-
-function switchTab(t){
-  const p = t==="paste";
-  document.getElementById("panePaste").style.display = p?"":"none";
-  document.getElementById("paneCsv").style.display = p?"none":"";
-  document.getElementById("tabPaste").classList.toggle("on",p);
-  document.getElementById("tabCsv").classList.toggle("on",!p);
 }
 
 function bandHTML(c){
@@ -1021,6 +965,7 @@ function valOf(id){ const el=document.getElementById(id); return el?el.value.tri
 function displayPct(v){ const n=parseFloat(String(v||"").replace(/[^0-9.]/g,"")); return isNaN(n)?"—":n.toFixed(2)+"%"; }
 function buyerData(values){
   const c=classify(values), ranked=c.ranked, top=topTerpenes(values,99);
+  const sourcePanel=(CUR&&CUR.validation&&CUR.validation.status==="passed"?CUR.validation.sourceRows:[]).slice().sort((a,b)=>b.value-a.value);
   const summed=Object.values(values).reduce((a,b)=>a+b,0);
   const lead=PROFILE_LANGUAGE[ranked[0].key],second=PROFILE_LANGUAGE[ranked[1].key],third=PROFILE_LANGUAGE[ranked[2].key];
   const leadPhrase=lead.noun.charAt(0).toUpperCase()+lead.noun.slice(1);
@@ -1029,18 +974,18 @@ function buyerData(values){
   // The full COA panel is intentionally never clipped. This conservative
   // content-height model leaves room for the photo, scores, purchase details,
   // narrative, and one complete table row for every reported terpene.
-  const buyerBodyHeight=Math.max(1500,1120+top.length*38);
+  const buyerBodyHeight=Math.max(1500,1120+sourcePanel.length*38);
   return {
     name:valOf("mName")||"Untitled Flower",grower:valOf("mGrower")||"Craft Cultivator",lineage:valOf("mLineage")||"Lineage not provided",
     lot:valOf("mLot")||"—",sample:valOf("mSample")||"—",harvest:valOf("mHarvest")||"—",quantity:valOf("mQuantity")||"Contact for availability",
     contact:valOf("mContact")||"Buyer contact not provided",image:CURRENT_FLOWER_IMAGE,thc:displayPct(valOf("mThc")),cannabinoids:displayPct(valOf("mCann")),cbd:displayPct(valOf("mCbd")),
     terps:displayPct(valOf("mTerps")||summed),tier:valOf("mTier")||"—",priceG:valOf("mPriceG"),priceE:valOf("mPriceE"),aroma,c,values,buyerBodyHeight,buyerHeight:buyerBodyHeight+408,
     blend:blendName(c),confidence:c.confidence,segments:bandSegments(c),scores:ranked.filter(x=>x.pct>0).slice(0,6),
-    topTerps:top.slice(0,4).map(x=>({label:x.t.label,value:x.v})),panel:top.map(x=>({label:x.t.label,value:x.v,tier:x.t.tier})),
+    topTerps:sourcePanel.slice(0,4).map(x=>({label:x.raw,value:x.value})),panel:sourcePanel.map(x=>({label:x.raw,value:x.value,key:x.key})),
     sensory:{top:lead.top,middle:second.mid,base:third.base},
     copy:[
       (valOf("mName")||"This flower")+" reads as "+lead.noun+" over "+second.noun+", with "+third.noun+" supporting the finish.",
-      top.slice(0,3).map(x=>x.t.label).join(", ")+" lead the measured panel. The Flower Spectrum engine weights aromatic impact, keeps the raw COA visible, and treats Gas as an emergent balance rather than a single terpene."
+      sourcePanel.slice(0,3).map(x=>x.raw).join(", ")+" lead the measured panel. Flower Spectrum preserves each lab-reported source row, then uses canonical mappings only inside the aroma classifier."
     ]
   };
 }
@@ -1137,58 +1082,35 @@ function downloadReactComponent(){
 
 function doParse(){
   const text = document.getElementById("coaText").value;
-  if(!text.trim()){ document.getElementById("parseOut").innerHTML = '<div class="panel"><div class="empty">Paste some COA text first.</div></div>'; return; }
+  if(!text.trim()){ document.getElementById("parseOut").innerHTML = '<div class="panel"><div class="empty">Upload a laboratory PDF or provide a public test-result link.</div></div>'; return; }
   const p = parseCOA(text);
+  p.validation=validateCOA(p,CURRENT_EXTRACTION_METHOD);
   CUR = p;
+  updateAccuracyGate(p.validation);
   if(Object.keys(p.values).length===0){
-    document.getElementById("parseOut").innerHTML = '<div class="panel"><div class="empty">No recognizable terpene rows found. Check the format — one analyte per line with a value.</div></div>'+unmappedHTML(p);
+    document.getElementById("parseOut").innerHTML = '<div class="panel"><div class="empty">No trustworthy terpene result rows were found in this laboratory source.</div></div>'+unmappedHTML(p);
     return;
   }
-  // auto-fill THC if found and field blank
-  if(p.thc!=null){ const f=document.getElementById("mThc"); if(!f.value.trim()) f.value = p.thc + (p.thcEstimated?" (est)":""); }
-  if(p.cbd!=null){ const f=document.getElementById("mCbd"); if(!f.value.trim()) f.value = p.cbd; }
-  if(p.totalCannabinoids!=null){ const f=document.getElementById("mCann"); if(!f.value.trim()) f.value = p.totalCannabinoids; }
-  if(p.reportedTotal!=null){ const f=document.getElementById("mTerps"); if(!f.value.trim()) f.value = (+p.reportedTotal).toFixed(2); }
+  document.getElementById("mThc").value=p.thc!=null?p.thc+(p.thcEstimated?" (est)":""):"";
+  document.getElementById("mCbd").value=p.cbd!=null?p.cbd:"";
+  document.getElementById("mCann").value=p.totalCannabinoids!=null?p.totalCannabinoids:"";
+  document.getElementById("mTerps").value=p.reportedTotal!=null?(+p.reportedTotal).toFixed(2):"";
   const adminMap={mName:p.meta.product,mGrower:p.meta.grower,mLot:p.meta.lot,mSample:p.meta.sample,mHarvest:p.meta.harvest};
-  Object.entries(adminMap).forEach(([id,v])=>{ const f=document.getElementById(id); if(v&&!f.value.trim()) f.value=v; });
+  Object.entries(adminMap).forEach(([id,v])=>{ document.getElementById(id).value=v||""; });
   renderParse();
 }
 
 function renderParse(){
   const p = CUR;
-  const c = classify(p.values);
-  // stats line: reported vs summed terpene total
-  const summed = Object.values(p.values).reduce((a,b)=>a+b,0);
-  let stat = '<div class="stat" style="margin-top:10px">Summed terpenes <b>'+summed.toFixed(2)+'%</b>';
-  if(p.reportedTotal!=null){
-    const d = Math.abs(p.reportedTotal - summed);
-    stat += ' · COA-reported total <b>'+(+p.reportedTotal).toFixed(2)+'%</b>';
-    stat += d>0.5 ? ' · <span style="color:var(--amber)">Δ '+d.toFixed(2)+'% (some analytes untracked)</span>' : ' · <span class="accent">✓ aligned</span>';
-  }
-  if(p.thc!=null) stat += ' · THC <b>'+p.thc+'%</b>'+(p.thcEstimated?' <span class="muted">(decarb est.)</span>':'');
-  stat += '</div>';
-
-  // matched (editable) table
-  const rows = topTerpenes(p.values, 99).map(({t,v}) => {
-    const m = p.matched.find(x=>x.key===t.key);
-    return '<tr><td class="sm">'+esc(t.label)+' <span class="keytag">'+t.key+'</span> '+
-      (m&&m.summed?'<span class="badge sum">summed</span>':'')+(m&&m.guess?' <span class="badge sum">check</span>':'')+'</td>'+
-      '<td><input class="tv" type="number" step="0.001" value="'+v.toFixed(3)+'" oninput="editVal(\''+t.key+'\',this.value)"></td>'+
-      '<td class="sm muted">'+t.tier+'</td>'+
-      '<td class="x" title="remove" onclick="editVal(\''+t.key+'\',\'\')">×</td></tr>';
-  }).join("");
-
-  const html =
-    '<div class="panel">'+
-      classCardHTML(p.values, {extra: stat})+
-      '<hr class="hr">'+
-      '<span class="lbl">Matched analytes ('+Object.keys(p.values).length+') — editable</span>'+
-      '<table><thead><tr><th>Terpene</th><th>%</th><th>Tier</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'+
-      unmappedHTML(p)+
-      '<div class="btn-row"><button class="btn btn-primary" onclick="addCurrent()">Add to dataset ↓</button></div>'+
-    '</div>'+generatedAssetsHTML(p.values);
+  const v=p.validation;
+  const summary='<div class="accuracy-summary"><div><b>Source rows</b><strong>'+v.sourceCount+'</strong></div><div><b>Engine keys</b><strong>'+v.engineKeyCount+'</strong></div><div><b>Source sum</b><strong>'+v.sourceSum.toFixed(2)+'%</strong></div><div><b>Lab total</b><strong>'+(v.reported==null?'—':v.reported.toFixed(2)+'%')+'</strong></div><div><b>Difference</b><strong>'+(v.delta==null?'—':v.delta.toFixed(2)+'%')+'</strong></div></div>';
+  const rows=p.matched.slice().sort((a,b)=>b.value-a.value).map(m=>'<tr><td>'+esc(m.raw)+'</td><td>'+m.value.toFixed(2)+'%</td><td>'+(m.value*10).toFixed(1)+'</td><td class="engine-map">'+esc(m.label)+(m.summed?' · internal aggregate':'')+'</td></tr>').join("");
+  const sourceTable='<span class="lbl">Laboratory source rows · preserved exactly</span><table class="source-truth-table"><thead><tr><th>Source analyte</th><th>%</th><th>mg/g</th><th>Internal mapping</th></tr></thead><tbody>'+rows+'</tbody></table>';
+  const blocked='<div class="classification-blocked"><h3>Result withheld until the source reconciles.</h3><p class="note">Flower Spectrum does not generate a fingerprint, buyer sheet, social card, or dataset row from an unverified extraction.</p><ul>'+v.issues.map(issue=>'<li>'+esc(issue)+'</li>').join("")+'</ul></div>';
+  const passed=classCardHTML(p.values,{extra:'<div class="stat" style="margin-top:10px">Accuracy gate passed · source rows <b>'+v.sourceSum.toFixed(2)+'%</b> · lab total <b>'+v.reported.toFixed(2)+'%</b></div>'});
+  const html='<div class="panel">'+(v.status==="passed"?passed:blocked)+summary+'<hr class="hr">'+sourceTable+unmappedHTML(p)+(v.status==="passed"?'<div class="btn-row"><button class="btn btn-primary" onclick="addCurrent()">Add verified result to dataset ↓</button></div>':'')+'</div>'+(v.status==="passed"?generatedAssetsHTML(p.values):'');
   document.getElementById("parseOut").innerHTML = html;
-  requestAnimationFrame(layoutGeneratedAssets);
+  if(v.status==="passed")requestAnimationFrame(layoutGeneratedAssets);
 }
 
 function unmappedHTML(p){
@@ -1201,16 +1123,8 @@ function unmappedHTML(p){
     '<p class="note">These did not match a tracked terpene. Cannabinoids and totals are filtered automatically; an entry here is usually an untracked minor terpene or an ambiguous isomer name.</p></div>';
 }
 
-function editVal(key, val){
-  if(!CUR) return;
-  const v = parseFloat(val);
-  if(val==="" || isNaN(v) || v<=0){ delete CUR.values[key]; }
-  else { CUR.values[key] = v; }
-  renderParse();
-}
-
 function addCurrent(){
-  if(!CUR || Object.keys(CUR.values).length===0) return;
+  if(!CUR || !CUR.validation || CUR.validation.status!=="passed" || Object.keys(CUR.values).length===0) return;
   const g = id => document.getElementById(id).value.trim();
   const name = g("mName") || "(unnamed COA)";
   DATASET.push({
@@ -1230,38 +1144,12 @@ function addCurrent(){
   renderDataset();
 }
 
-function insertExample(){
-  document.getElementById("coaText").value =
-"# ILLUSTRATIVE EXAMPLE — not a real COA\n"+
-"Total THC, 26.4 %\n"+
-"THCA  30.1 %\n"+
-"CBD  ND\n"+
-"β-Caryophyllene   0.74 %\n"+
-"D-Limonene        0.61 %\n"+
-"β-Myrcene         0.42 %\n"+
-"α-Humulene        0.24 %\n"+
-"Linalool          0.18 %\n"+
-"(E)-β-Ocimene     0.09 %\n"+
-"trans-Nerolidol   0.07 %\n"+
-"1,8-Cineole       0.05 %\n"+
-"Caryophyllene Oxide  0.04 %\n"+
-"Total Terpenes    3.04 %";
-  document.getElementById("mName").value = "Example Flower (illustrative)";
-  document.getElementById("mGrower").value = "Example Craft Farm";
-  document.getElementById("mLineage").value = "Illustrative Cross A × Cross B";
-  document.getElementById("mLot").value = "EX-0719";
-  document.getElementById("mSample").value = "FS-PDF-001";
-  document.getElementById("mHarvest").value = "07/01/2026";
-  document.getElementById("mQuantity").value = "12 lb";
-  document.getElementById("mContact").value = "sales@example.farm";
-  document.getElementById("mCann").value = "29.10";
-  document.getElementById("mCbd").value = "0.06";
-  document.getElementById("mTerps").value = "3.04";
-}
-
 function pdfColumnLines(items,width,side){
   const mid=width/2,subset=(items||[]).filter(item=>{ const x=Number(item.transform&&item.transform[4])||0; return side==="left"?x<mid:x>=mid; });
   return pdfItemsToLines(subset);
+}
+function cleanPdfAnalyteLabel(value){
+  return String(value||"").replace(/^[-–—•\s]+/,"").replace(/\s*-\s*/g,"-").replace(/\s+/g," ").trim();
 }
 function pdfTerpeneRows(items,width){
   const out=[];
@@ -1269,7 +1157,7 @@ function pdfTerpeneRows(items,width){
     pdfColumnLines(items,width,side).split(/\r?\n/).forEach(line=>{
       const cells=line.split(/\t+/).map(x=>x.trim()).filter(Boolean);
       if(cells.length<2)return;
-      const rawName=cells[0].replace(/^[-–—•\s]+/,"").trim(),cn=canon(rawName);
+      const rawName=cleanPdfAnalyteLabel(cells[0]),cn=canon(rawName);
       if(!LOOKUP[cn]&&!AMBIGUOUS[cn])return;
       const result=cells[1],value=numFrom(result);
       if(value!=null&&value>0)out.push(rawName+"\t"+value+" %");
@@ -1339,12 +1227,13 @@ async function loadJohnnyGlazeDemo(){
 }
 async function loadCoaUrl(){
   const input=document.getElementById("coaUrl"),url=input.value.trim(),status=document.getElementById("fileStatus");
-  if(!/^https?:\/\//i.test(url)){ status.textContent="Enter a complete HTTP or HTTPS PDF link."; return; }
+  if(!/^https?:\/\//i.test(url)){ status.textContent="Enter a complete public laboratory result or PDF link."; return; }
   status.textContent="Retrieving linked COA…";
   try{
     const response=await fetch("/api/fetch-coa?url="+encodeURIComponent(url));
     if(!response.ok)throw new Error((await response.text())||"The linked COA could not be retrieved.");
-    const name=(new URL(url).pathname.split("/").pop()||"linked-coa.pdf").replace(/[^a-zA-Z0-9._-]/g,"-");
+    const resolved=response.headers.get("x-flower-spectrum-pdf-url")||url;
+    const name=(new URL(resolved).pathname.split("/").pop()||"linked-coa.pdf").replace(/[^a-zA-Z0-9._-]/g,"-").replace(/\.html?$/i,".pdf");
     await processCoaFile(new File([await response.blob()],name,{type:"application/pdf"}));
   }catch(err){ status.textContent=err.message||"The linked COA could not be retrieved."; }
 }
@@ -1352,8 +1241,12 @@ async function processCoaFile(file){
   const status = document.getElementById("fileStatus");
   status.textContent = "Reading "+file.name+"…";
   try {
+    if(!(file.type==="application/pdf" || /\.pdf$/i.test(file.name)))throw new Error("Only original laboratory PDF certificates are accepted.");
+    ["mName","mGrower","mLot","mSample","mHarvest","mThc","mCann","mCbd","mTerps"].forEach(id=>document.getElementById(id).value="");
+    document.getElementById("parseOut").innerHTML="";
+    CURRENT_EXTRACTION_METHOD="text-layer";
     let text="";
-    if(file.type==="application/pdf" || /\.pdf$/i.test(file.name)){
+    {
       showPdfReview(file);
       if(!window.pdfjsLib) throw new Error("The PDF reader could not load. The document is visible below, but automatic extraction is unavailable.");
       window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
@@ -1369,26 +1262,25 @@ async function processCoaFile(file){
         status.textContent="No usable text layer found · running private in-browser OCR…";
         const ocrText=await ocrPdf(pdf,status);
         if(ocrText.trim()) text=ocrText;
+        CURRENT_EXTRACTION_METHOD="ocr";
         probe=parseCOA(text); mapped=Object.keys(probe.values).length;
-        document.getElementById("pdfExtractMode").textContent="OCR · "+mapped+" mapped";
+        document.getElementById("pdfExtractMode").textContent="OCR · verification required";
       } else {
         document.getElementById("pdfExtractMode").textContent="Page "+extracted.page+" · "+mapped+" mapped";
         document.getElementById("pdfViewer").src=CURRENT_PDF_URL+"#page="+extracted.page+"&view=FitH";
         document.getElementById("pdfReviewNote").textContent="Flower Spectrum identified page "+extracted.page+" as the terpene analysis and extracted its two-column table by position. Verify the mapped values against the highlighted source page.";
       }
-    } else {
-      hidePdfReview();
-      text=await file.text();
     }
     document.getElementById("coaText").value=text;
     status.textContent=file.name+" · "+Math.max(1,Math.round(file.size/1024))+" KB · extracted";
     doParse();
+    if(CUR&&CUR.validation&&CUR.validation.status==="passed")document.getElementById("pdfReview").open=false;
     const name=document.getElementById("mName");
     if(!name.value.trim()) name.value=file.name.replace(/\.[^.]+$/,"");
   } catch(err){
     status.textContent=err.message || "Could not read this file.";
     const note=document.getElementById("pdfReviewNote");
-    if(note) note.textContent=(err.message||"Automatic extraction failed.")+" You can still inspect the PDF and paste its terpene table manually.";
+    if(note) note.textContent=(err.message||"Automatic extraction failed.")+" Flower Spectrum has withheld classification and exports.";
   }
 }
 
@@ -1397,6 +1289,7 @@ function showPdfReview(file){
   if(CURRENT_PDF_URL) URL.revokeObjectURL(CURRENT_PDF_URL);
   CURRENT_PDF_URL=URL.createObjectURL(file);
   document.getElementById("pdfReview").hidden=false;
+  document.getElementById("pdfReview").open=true;
   document.getElementById("pdfViewer").src=CURRENT_PDF_URL+"#view=FitH";
   document.getElementById("pdfFileName").textContent=file.name;
   document.getElementById("pdfPageCount").textContent="Loading pages";
@@ -1462,47 +1355,11 @@ async function ocrPdf(pdf,status){
   return out.join("\n\n");
 }
 
-/* ---------- CSV import ---------- */
-function loadCsvFile(ev){
-  const f = ev.target.files && ev.target.files[0]; if(!f) return;
-  const rd = new FileReader();
-  rd.onload = () => { document.getElementById("csvText").value = rd.result; };
-  rd.readAsText(f);
-}
-function doParseCsv(){
-  const text = document.getElementById("csvText").value;
-  if(!text.trim()){ document.getElementById("csvOut").innerHTML='<div class="panel"><div class="empty">Paste or load a CSV first.</div></div>'; return; }
-  const res = importCSV(text);
-  CSVROWS = res.strains;
-  if(!res.strains.length){ document.getElementById("csvOut").innerHTML='<div class="panel"><div class="empty">No data rows found. A header row containing "Strain" plus terpene columns is required.</div></div>'; return; }
-  const rows = res.strains.map((s,i)=>{
-    const c = classify(s.values);
-    const nT = Object.keys(s.values).length;
-    return '<tr><td class="sm">'+esc(s.name)+'</td>'+
-      '<td>'+(c?bandHTML(c):'<span class="muted sm">no terpenes</span>')+'</td>'+
-      '<td class="sm">'+(c?esc(blendName(c)):'—')+'</td>'+
-      '<td>'+(c?confPill(c.confidence):'')+'</td>'+
-      '<td class="sm muted">'+nT+' terps</td></tr>';
-  }).join("");
-  document.getElementById("csvOut").innerHTML =
-    '<div class="panel"><span class="lbl">Parsed '+res.strains.length+' row(s) — classified preview</span>'+
-    '<table><thead><tr><th>Strain</th><th>Spectrum</th><th>Blend</th><th>Conf</th><th>Terps</th></tr></thead><tbody>'+rows+'</tbody></table>'+
-    '<div class="btn-row"><button class="btn btn-primary" onclick="addCsvRows()">Add all to dataset ↓</button></div></div>';
-}
-function addCsvRows(){
-  if(!CSVROWS) return;
-  CSVROWS.forEach(s=>DATASET.push(s));
-  CSVROWS=null;
-  document.getElementById("csvText").value="";
-  document.getElementById("csvOut").innerHTML="";
-  renderDataset();
-}
-
 /* ---------- dataset render + export ---------- */
 function renderDataset(){
   document.getElementById("dsCount").textContent = DATASET.length + (DATASET.length===1?" strain":" strains");
   const wrap = document.getElementById("dsWrap");
-  if(!DATASET.length){ wrap.innerHTML='<div class="empty">No strains yet. Parse a COA or import a CSV to begin.</div>'; document.getElementById("exportOut").innerHTML=""; return; }
+  if(!DATASET.length){ wrap.innerHTML='<div class="empty">No verified strains yet. Upload a COA PDF or laboratory result link to begin.</div>'; document.getElementById("exportOut").innerHTML=""; return; }
   const rows = DATASET.map((s,i)=>{
     const c = classify(s.values);
     const tops = topTerpenes(s.values,3).map(t=>t.t.label).join(" · ");
@@ -1532,11 +1389,11 @@ function renderExport(){
 }
 
 function runSelfTest(){
-  const res = selfTest();
+  const res = selfTest().concat(johnnyAccuracyRegression());
   const pass = res.filter(r=>r.pass).length;
   const rows = res.map(r=>'<tr><td>'+(r.pass?'<span class="badge">pass</span>':'<span class="badge sum">fail</span>')+'</td><td class="sm">'+esc(r.id)+'</td><td class="sm muted">'+esc(r.detail)+'</td></tr>').join("");
   document.getElementById("stOut").innerHTML =
-    '<div class="count" style="margin:4px 0 8px">'+pass+'/'+res.length+' layout fixtures pass</div>'+
+    '<div class="count" style="margin:4px 0 8px">'+pass+'/'+res.length+' parser and accuracy regressions pass</div>'+
     '<table><tbody>'+rows+'</tbody></table>';
 }
 
@@ -1572,7 +1429,6 @@ function renderBrandEducation(){
 }
 
 renderDataset();
-switchTab("paste");
 renderBrandEducation();
 let metaRefreshTimer;
 ["mName","mGrower","mLineage","mLot","mSample","mHarvest","mThc","mCann","mCbd","mTerps","mQuantity","mContact","mTier","mPriceG","mPriceE","mAroma"].forEach(id=>{

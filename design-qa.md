@@ -1,30 +1,36 @@
-# Design QA — Flower Spectrum COA classifier v2.3
+# Design QA — Flower Spectrum COA classifier v2.4
 
 ## Evidence
 
-- Final Johnny Glaze buyer export: `documentation/assets/johnny-glaze-buyer-sheet.png`
-- Final Johnny Glaze social export: `documentation/assets/johnny-glaze-social-card.png`
-- Combined supplied-reference/implementation comparison: `documentation/assets/buyer-sheet-reference-comparison.png`
-- Release interface screenshot: `documentation/assets/flower-spectrum-classifier.png`
+- Brand/header implementation: `documentation/assets/flower-spectrum-v2-4-top.png`
+- Johnny Glaze reconciliation state: `documentation/assets/flower-spectrum-v2-4-accuracy.png`
+- Supplied parser screenshot beside final implementation: `documentation/assets/flower-spectrum-reference-vs-v2-4.png`
 - Social link preview: `documentation/assets/social-preview.jpg` (1200 × 630)
+- Johnny Glaze buyer export: `documentation/assets/johnny-glaze-buyer-sheet.png`
+- Johnny Glaze social export: `documentation/assets/johnny-glaze-social-card.png`
 - Production URL: `https://flower-spectrum-coa-classifier.vercel.app`
-- Output dimensions: buyer sheet 1600 × 2098; social card 1080 × 1350
-- Fixture state: Johnny Glaze, Ideal Cannabis, six-page COA, selected terpene page 3, 15 mapped analytes
 
-The supplied Sunday Driver report and the generated Johnny Glaze buyer sheet were reviewed together in one side-by-side image. The implementation intentionally uses a taller canvas because the Johnny Glaze certificate contains a longer validated terpene panel; the visual comparison evaluates the shared report architecture, hierarchy, typography, fingerprint, strip, rules, and content fit.
+The user-supplied parser screenshot and the final classifier were normalized and inspected together at the same 960 × 540 panel size. The comparison specifically evaluates the brand lockup, spectrum use, PDF workflow, source provenance, and visibility of the validation state.
 
-## Findings and resolution
+## Accuracy findings
 
-1. The final buyer sheet matches the reference’s dark editorial system, serif display hierarchy, mono labels, fine rules, four-cell identity header, spectrum strip, left metric rail, and right aroma/chemistry narrative.
-2. The Johnny Glaze photograph is contain-fit on black and remains intact. The same uploaded image appears in the buyer sheet, social card, and React payload.
-3. The fingerprint retains the fixed circular donut hole and ten equal-angle bands. Each radial band grows with profile influence; the strip retains the top proportional profiles.
-4. Buyer-sheet content height expands to 2098 px for the complete 15-row panel. The content region reports equal client and scroll heights (1690 px), and neither purchase details nor the final table rows overlap the footer.
-5. The 4:5 social asset keeps the title, image, fingerprint, spectrum strip, aroma sentence, top terpenes, THC, total terpenes, harvest, availability, farm, lot/sample, and contact inside 1080 × 1350 without clipping.
-6. Generated Johnny Glaze copy reads “Bright citrus oil leads into soft florals, finishing over ripe fruit.” with no duplicated adjective or broken wrapping.
-7. Profile-lab selection changes the illustrative fingerprint and driver copy. Result-band selection reveals only measured contributing terpenes with values and relative contribution bars.
-8. Real PDF upload and public-link import both identify page 3 and map 15 analytes. Metadata resolves Johnny Glaze, `2108CH0442.1887`, `JG 060821`, `06/08/2021`, 34.00% total cannabinoids, 0.08% CBD, and 4.06% total terpenes.
-9. The parser regression suite passes 12/12 fixtures. Final production browser logs contain zero errors or warnings.
-10. The social preview is a center-safe production screengrab with the product promise and fingerprint visible at 1200 × 630; metadata supplies the short title and description separately for accessible link unfurls.
+1. The real six-page Johnny Glaze PDF selects page 3 and extracts 16 positive laboratory source rows.
+2. Source rows total 4.06%, matching the laboratory&rsquo;s printed Total Terpenes value of 4.06% with a 0.00% difference.
+3. Sixteen source rows map to 15 internal keys because β-Farnesene 0.43% and cis-β-Farnesene 0.99% intentionally share one classifier key. Buyer-facing output keeps both rows distinct and also preserves α-Farnesene 0.12%.
+4. The automatic gate blocks missing totals, positive unmapped rows, guessed result columns, OCR-derived values, and source-total differences above 0.02%.
+5. A deliberate 4.09% fixture total produces a 0.03% difference and a blocked result. No fingerprint, buyer sheet, social card, React component, or dataset action is rendered.
+6. Loading a new PDF clears and repopulates all lab-sourced metadata, preventing values from a prior certificate from carrying forward.
+7. The in-app regression suite passes 13/13 checks: 12 parser layouts plus the Johnny Glaze source-truth regression.
+
+## Visual findings
+
+1. The wordmark is Newsreader 600 in off-white, with no teal recoloring. The ten-color spectrum rule sits directly beneath it as specified by the supplied brand guidelines.
+2. The canonical spectrum now carries interface emphasis: Gas/gold for editorial markers, Citrus for active controls, Earthy green for passed reconciliation, and Fruity red for blocked states. Teal is no longer the dominant brand signal.
+3. The reference comparison shows the earlier ambiguous PDF-first state replaced by a visible, plain-language accuracy gate while keeping the original certificate one click away in a collapsible review panel.
+4. The classifier accepts only an original PDF or public lab result link. CSV/TXT/paste controls are absent.
+5. The fixed donut-hole fingerprint, equal-angle segments, and radius-by-influence behavior remain unchanged.
+6. Buyer and social outputs use the preserved source rows, complete purchase information, Johnny Glaze image, and content-aware buyer-sheet height without footer clipping.
+7. The 1200 × 630 social preview is a real current-interface capture with the Flower Spectrum name, spectrum rule, core promise, and fingerprint inside the center-safe frame.
 
 ## Severity review
 

@@ -2,6 +2,28 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.4.0] - 2026-07-20
+
+### Added
+
+- Fail-closed reconciliation gate requiring positive source-row mass to match the laboratory-reported Total Terpenes value within 0.02% before classification or export.
+- Source-truth audit summary showing source rows, internal engine keys, extracted sum, lab total, and difference.
+- Public laboratory result-page resolution that discovers and retrieves the original linked PDF certificate while retaining private-network and size protections.
+- Versioned brand and accuracy screenshots for the current release.
+
+### Changed
+
+- Limited COA ingestion to original PDFs and public laboratory result/PDF links; CSV, TXT, and manual-paste ingestion were removed.
+- Kept OCR as a review-only fallback that cannot pass the automatic accuracy gate.
+- Reworked the header wordmark to the approved off-white treatment with the ten-color spectrum rule and shifted interface emphasis away from teal.
+- Buyer-facing terpene tables and loudest-terpene callouts now use the laboratory&rsquo;s original row labels and values; canonical aggregation is internal only.
+- Lab-derived metadata fields are cleared and repopulated for every new certificate so stale values cannot carry across uploads.
+
+### Fixed
+
+- Corrected the Johnny Glaze panel to preserve β-Farnesene 0.43%, cis-β-Farnesene 0.99%, and α-Farnesene 0.12% as separate laboratory rows instead of presenting a collapsed β-Farnesene result.
+- Prevented fingerprints, buyer sheets, social cards, React exports, and dataset insertion whenever extraction does not reconcile.
+
 ## [2.3.2] - 2026-07-20
 
 ### Added
