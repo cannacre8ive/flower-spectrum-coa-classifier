@@ -1,0 +1,12 @@
+# ILLUSTRATIVE FORMAT FIXTURE — not a real COA
+Analyte              LOD      LOQ      Result (%)
+β-Caryophyllene      0.003    0.010    0.740
+D-Limonene           0.003    0.010    0.610
+β-Myrcene            0.003    0.010    0.420
+α-Humulene           0.003    0.010    0.240
+Linalool             0.003    0.010    0.180
+(E)-β-Ocimene        0.003    0.010    0.090
+trans-Nerolidol      0.003    0.010    0.070
+1,8-Cineole          0.003    0.010    0.050
+Caryophyllene Oxide  0.003    0.010    0.040
+Total Terpenes                         3.040

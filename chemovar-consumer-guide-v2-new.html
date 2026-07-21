@@ -1,0 +1,2783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0A0A0A" />
+<title>The Chemovar Guide — How Your Flower Will Actually Feel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0A0A0A;
+  --surface: #131613;
+  --elevated: #1A1E1A;
+  --border: #252B22;
+  --border-hi: #3A4535;
+  --sage: #7FA688;
+  --sage-bright: #9BC4A5;
+  --sage-dim: #4A6353;
+  --cream: #EDE8DC;
+  --cream-dim: #A09A8E;
+  --muted: #585E52;
+  --terra: #C8845C;
+
+  --ignite: #D4845C;
+  --focus:  #B8D4A8;
+  --flow:   #8AAEB2;
+  --ease:   #7FA688;
+  --unwind: #6B7D6B;
+  --rest:   #4A5A6A;
+
+  --font-head: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+*:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.65;
+  font-size: 16px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ============ NAV ============ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--sage);
+  text-transform: uppercase;
+}
+
+.nav-brand .ver {
+  color: var(--cream-dim);
+  margin-left: 8px;
+}
+
+.nav-cta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--cream);
+  text-transform: uppercase;
+  background: transparent;
+  border: 1px solid var(--sage);
+  padding: 10px 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-block;
+  min-height: 44px;
+  line-height: 1.4;
+}
+
+.nav-cta:hover, .nav-cta:focus-visible {
+  background: var(--sage);
+  color: var(--bg);
+}
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+  padding: 80px 0 120px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 64px;
+  align-items: center;
+  width: 100%;
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--sage);
+}
+
+.hero-title {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: clamp(40px, 6.5vw, 80px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin-bottom: 28px;
+}
+
+.hero-title em { font-style: italic; color: var(--sage); }
+
+.hero-sub {
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.6;
+  color: var(--cream-dim);
+  margin-bottom: 40px;
+  max-width: 520px;
+}
+
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  padding: 16px 28px;
+  border: 1px solid var(--sage);
+  background: transparent;
+  color: var(--cream);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+}
+
+.btn-primary {
+  background: var(--sage);
+  color: var(--bg);
+  border-color: var(--sage);
+  font-weight: 500;
+}
+
+.btn-primary:hover, .btn-primary:focus-visible {
+  background: var(--sage-bright);
+  border-color: var(--sage-bright);
+  transform: translateY(-1px);
+}
+
+.btn-ghost:hover, .btn-ghost:focus-visible { background: var(--surface); }
+
+.btn .arrow { transition: transform 0.25s ease; }
+.btn:hover .arrow { transform: translateX(4px); }
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.hero-fp {
+  width: 100%;
+  max-width: 440px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+
+.hero-fp svg {
+  width: 100%;
+  height: 100%;
+  animation: gentle-spin 80s linear infinite;
+}
+
+.hero-fp-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  pointer-events: none;
+}
+
+.hero-fp-label-eye {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.hero-fp-label-name {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--sage);
+}
+
+@keyframes gentle-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============ SECTIONS ============ */
+.section {
+  padding: 100px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  max-width: 200px;
+}
+
+.section-title {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: clamp(32px, 4.2vw, 52px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
+  max-width: 880px;
+}
+
+.section-title em { font-style: italic; color: var(--sage); }
+
+.section-lede {
+  font-size: clamp(17px, 1.4vw, 20px);
+  line-height: 1.6;
+  color: var(--cream-dim);
+  max-width: 720px;
+  margin-bottom: 56px;
+}
+
+.section-lede strong { color: var(--cream); font-weight: 400; }
+.section-lede em { color: var(--sage); font-style: italic; }
+
+/* ============ PREMISE ============ */
+.premise-card {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 48px;
+  max-width: 800px;
+  margin: 48px auto 0;
+}
+
+.premise-myth {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.5;
+  color: var(--cream-dim);
+  text-decoration: line-through;
+  text-decoration-color: var(--terra);
+  text-decoration-thickness: 1px;
+  margin-bottom: 28px;
+}
+
+.premise-reveal {
+  font-family: var(--font-head);
+  font-size: clamp(22px, 2.4vw, 30px);
+  line-height: 1.4;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+
+.premise-reveal em { color: var(--sage); font-style: italic; }
+
+.premise-detail {
+  font-size: 16px;
+  color: var(--cream-dim);
+  line-height: 1.7;
+}
+
+/* ============ CATEGORY TABS ============ */
+.cat-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.cat-tab {
+  flex: 1;
+  min-width: 110px;
+  background: var(--bg);
+  border: none;
+  color: var(--cream-dim);
+  padding: 24px 12px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  position: relative;
+  text-align: center;
+  min-height: 80px;
+}
+
+.cat-tab::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--catcolor);
+  opacity: 0.3;
+  transition: opacity 0.25s ease;
+}
+
+.cat-tab-name {
+  font-family: var(--font-head);
+  font-size: 20px;
+  color: var(--cream);
+  margin-bottom: 4px;
+  display: block;
+}
+
+.cat-tab-time {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+}
+
+.cat-tab:hover, .cat-tab:focus-visible { background: var(--surface); }
+
+.cat-tab.active { background: var(--surface); }
+.cat-tab.active::before { opacity: 1; height: 4px; }
+.cat-tab.active .cat-tab-name { color: var(--catcolor); }
+
+.cat-panel {
+  display: none;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 48px;
+  animation: panel-fade 0.4s ease;
+}
+
+@keyframes panel-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.cat-panel.active {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.cat-panel-text h3 {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--catcolor);
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.cat-panel-text .big-feel {
+  font-family: var(--font-head);
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.2;
+  margin-bottom: 24px;
+  color: var(--cream);
+}
+
+.cat-panel-text p {
+  font-size: 16px;
+  color: var(--cream-dim);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.cat-good-for {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+  margin-top: 24px;
+}
+
+.cat-good-for-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.cat-good-for-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cat-good-for-pill {
+  font-size: 13px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-hi);
+  background: var(--bg);
+  color: var(--cream);
+}
+
+.cat-panel-fp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.cat-panel-fp-strain {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  text-align: center;
+}
+
+.cat-panel-fp-strain .name {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 16px;
+  color: var(--cream);
+  display: block;
+  margin-top: 4px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ============ INTERACTIVE FINGERPRINT ============ */
+.fp-explainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.fp-interactive {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.fp-interactive svg {
+  width: 100%;
+  height: 100%;
+}
+
+.fp-spoke-target {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fp-spoke-target circle.dot {
+  transition: r 0.2s ease, fill 0.2s ease;
+}
+
+.fp-spoke-target.primary circle.dot { fill: var(--sage); r: 4; }
+.fp-spoke-target.secondary circle.dot { fill: var(--cream-dim); r: 3; }
+
+.fp-spoke-target:hover circle.dot,
+.fp-spoke-target.active circle.dot {
+  r: 8;
+  fill: var(--sage-bright);
+}
+
+.fp-spoke-target text {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  fill: var(--cream-dim);
+  text-transform: uppercase;
+  transition: fill 0.2s ease;
+}
+
+.fp-spoke-target.primary text {
+  font-size: 9px;
+  fill: var(--cream);
+  letter-spacing: 0.12em;
+}
+
+.fp-spoke-target:hover text,
+.fp-spoke-target.active text {
+  fill: var(--sage);
+}
+
+.fp-readout {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 36px;
+  min-height: 320px;
+}
+
+.fp-readout-empty {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--cream-dim);
+  line-height: 1.4;
+}
+
+.fp-readout-empty .hint {
+  display: block;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--sage);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
+.fp-readout-content { display: none; }
+.fp-readout-content.active { display: block; animation: panel-fade 0.3s ease; }
+
+.fp-readout-eye {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.fp-readout-tier {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  margin-left: 8px;
+  border: 1px solid var(--border-hi);
+}
+
+.fp-readout-tier.primary { border-color: var(--sage); color: var(--sage); }
+.fp-readout-tier.secondary { border-color: var(--cream-dim); color: var(--cream-dim); }
+
+.fp-readout-name {
+  font-family: var(--font-head);
+  font-size: 32px;
+  margin-bottom: 8px;
+  color: var(--cream);
+}
+
+.fp-readout-aka {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--sage);
+  margin-bottom: 20px;
+}
+
+.fp-readout-desc {
+  font-size: 15px;
+  color: var(--cream);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.fp-readout-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  font-size: 13px;
+}
+
+.fp-readout-meta .label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.fp-readout-meta .val { color: var(--cream); font-size: 13px; }
+
+/* ============ FIND YOUR MATCH ============ */
+.match {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 56px 40px;
+  margin-top: 40px;
+  position: relative;
+}
+
+.match-step { display: none; animation: panel-fade 0.4s ease; }
+.match-step.active { display: block; }
+
+.match-q {
+  font-family: var(--font-head);
+  font-size: clamp(26px, 3vw, 36px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+  color: var(--cream);
+  text-align: center;
+}
+
+.match-q em { color: var(--sage); font-style: italic; }
+
+.match-sub {
+  font-size: 15px;
+  color: var(--cream-dim);
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.match-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.match-option {
+  background: var(--bg);
+  border: none;
+  color: var(--cream);
+  padding: 28px 20px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  text-align: left;
+  transition: all 0.25s ease;
+  min-height: 132px;
+}
+
+.match-option:hover, .match-option:focus-visible { background: var(--surface); }
+
+.match-option-emoji {
+  font-size: 24px;
+  margin-bottom: 12px;
+  display: block;
+  filter: saturate(0.7);
+}
+
+.match-option-name {
+  font-family: var(--font-head);
+  font-size: 19px;
+  margin-bottom: 6px;
+  color: var(--cream);
+}
+
+.match-option-sub {
+  font-size: 12px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+}
+
+.match-result { text-align: center; }
+
+.match-result-eye {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.match-result-name {
+  font-family: var(--font-head);
+  font-size: clamp(48px, 7vw, 80px);
+  line-height: 1;
+  margin-bottom: 12px;
+  color: var(--catcolor);
+}
+
+.match-result-tag {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--cream);
+  margin-bottom: 32px;
+}
+
+.match-result-desc {
+  max-width: 540px;
+  margin: 0 auto 40px;
+  font-size: 16px;
+  color: var(--cream-dim);
+  line-height: 1.7;
+}
+
+.match-result-strains {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 680px;
+  margin: 0 auto 32px;
+}
+
+.match-result-strain {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-family: var(--font-body);
+  color: var(--cream);
+  transition: background 0.25s ease;
+}
+
+.match-result-strain:hover { background: var(--surface); }
+.match-result-strain svg { width: 90px; height: 90px; margin-bottom: 12px; }
+
+.match-result-strain-name {
+  font-family: var(--font-head);
+  font-size: 15px;
+  color: var(--cream);
+}
+
+.match-reset {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 12px 20px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.match-reset:hover { color: var(--sage); }
+
+/* ============ PROFILE BUILDER ============ */
+.builder {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 48px;
+  margin-top: 32px;
+  align-items: start;
+}
+
+.builder-pick {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 32px;
+}
+
+.builder-pick-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.builder-pick-title {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  text-transform: uppercase;
+}
+
+.builder-pick-counter {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cream-dim);
+}
+
+.builder-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.builder-terp {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 12px 10px;
+  text-align: center;
+  cursor: pointer;
+  font-family: var(--font-body);
+  color: var(--cream);
+  transition: all 0.2s ease;
+  position: relative;
+  min-height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.builder-terp:hover, .builder-terp:focus-visible {
+  border-color: var(--sage);
+  background: var(--elevated);
+}
+
+.builder-terp.selected {
+  border-color: var(--sage);
+  background: var(--sage);
+  color: var(--bg);
+}
+
+.builder-terp.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.builder-terp-name {
+  font-family: var(--font-head);
+  font-size: 13px;
+  line-height: 1.2;
+  margin-bottom: 2px;
+}
+
+.builder-terp-tier {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.builder-terp.selected .builder-terp-tier { color: rgba(10,10,10,0.7); }
+
+.builder-terp-order {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 18px;
+  height: 18px;
+  background: var(--cream);
+  color: var(--sage);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.builder-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.builder-clear, .builder-read {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 20px;
+  border: 1px solid;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex: 1;
+  min-height: 44px;
+}
+
+.builder-clear { border-color: var(--border-hi); color: var(--cream-dim); }
+.builder-clear:hover:not(:disabled) { border-color: var(--cream-dim); color: var(--cream); }
+.builder-clear:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.builder-read {
+  border-color: var(--sage);
+  color: var(--sage);
+}
+.builder-read:hover:not(:disabled) {
+  background: var(--sage);
+  color: var(--bg);
+}
+.builder-read:disabled { opacity: 0.3; cursor: not-allowed; }
+
+.builder-result {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 36px 32px;
+  min-height: 400px;
+  position: relative;
+  overflow: hidden;
+}
+
+.builder-result-empty {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--cream-dim);
+  line-height: 1.45;
+}
+
+.builder-result-empty .hint {
+  display: block;
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
+.builder-result-content { display: none; }
+.builder-result-content.active { display: block; animation: panel-fade 0.35s ease; }
+
+.builder-result-eye {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.builder-result-cat {
+  font-family: var(--font-head);
+  font-size: clamp(36px, 4.5vw, 52px);
+  line-height: 1;
+  margin-bottom: 8px;
+  color: var(--catcolor);
+}
+
+.builder-result-tag {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--cream);
+  margin-bottom: 20px;
+}
+
+.builder-result-feel {
+  font-size: 14px;
+  color: var(--cream-dim);
+  line-height: 1.7;
+  margin-bottom: 24px;
+}
+
+.builder-result-notes {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+  margin-bottom: 24px;
+}
+
+.builder-result-notes-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.builder-result-note {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.5;
+}
+
+.builder-result-note:last-child { border-bottom: none; }
+
+.builder-result-note-terp {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+  text-transform: uppercase;
+  flex-shrink: 0;
+  width: 88px;
+  padding-top: 2px;
+}
+
+.builder-result-similar {
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.builder-result-similar-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.builder-result-similar-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.builder-result-similar-pill {
+  background: var(--bg);
+  border: 1px solid var(--border-hi);
+  padding: 8px 14px;
+  font-size: 13px;
+  color: var(--cream);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.builder-result-similar-pill:hover {
+  border-color: var(--sage);
+  color: var(--sage);
+}
+
+/* ============ STRAIN EXPLORER ============ */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-pill {
+  font-family: var(--font-body);
+  font-size: 13px;
+  padding: 10px 18px;
+  border: 1px solid var(--border-hi);
+  background: transparent;
+  color: var(--cream-dim);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.filter-pill:hover, .filter-pill:focus-visible {
+  border-color: var(--sage);
+  color: var(--cream);
+}
+
+.filter-pill.active {
+  background: var(--sage);
+  border-color: var(--sage);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+.strain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.strain-tile {
+  background: var(--bg);
+  border: none;
+  padding: 32px 24px;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-body);
+  color: inherit;
+  min-height: 300px;
+}
+
+.strain-tile:hover, .strain-tile:focus-visible { background: var(--surface); }
+
+.strain-tile-cat {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--catcolor);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.strain-tile-fp {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.strain-tile-name {
+  font-family: var(--font-head);
+  font-size: 20px;
+  margin-bottom: 4px;
+  color: var(--cream);
+}
+
+.strain-tile-feel {
+  font-size: 12px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+}
+
+/* ============ MODAL ============ */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  animation: panel-fade 0.25s ease;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: var(--bg);
+  border: 1px solid var(--border-hi);
+  max-width: 720px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 48px;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: transparent;
+  border: 1px solid var(--border-hi);
+  color: var(--cream);
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  transition: all 0.2s ease;
+}
+
+.modal-close:hover, .modal-close:focus-visible {
+  background: var(--surface);
+  border-color: var(--sage);
+}
+
+.modal-cat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.1;
+  margin-bottom: 8px;
+  color: var(--cream);
+}
+
+.modal-lineage {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 32px;
+}
+
+.modal-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+.modal-fp { display: flex; justify-content: center; align-items: center; }
+
+.modal-feel {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 20px;
+  color: var(--cream);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.modal-desc {
+  font-size: 14px;
+  color: var(--cream-dim);
+  line-height: 1.7;
+}
+
+.modal-profile {
+  border-top: 1px solid var(--border);
+  padding-top: 24px;
+}
+
+.modal-profile-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.modal-profile-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-bar {
+  display: grid;
+  grid-template-columns: 130px 1fr 50px 50px;
+  gap: 12px;
+  align-items: center;
+  font-size: 12px;
+}
+
+.profile-bar-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--cream);
+  text-transform: uppercase;
+}
+
+.profile-bar-track {
+  height: 6px;
+  background: var(--surface);
+  position: relative;
+  border: 1px solid var(--border);
+}
+
+.profile-bar-fill {
+  height: 100%;
+  background: var(--catcolor);
+  transition: width 0.6s ease;
+}
+
+.profile-bar-pct {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cream);
+  text-align: right;
+}
+
+.profile-bar-tier {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-align: right;
+}
+
+/* ============ TERPENE CARDS ============ */
+.terp-intro {
+  background: var(--surface);
+  border-left: 2px solid var(--sage);
+  padding: 28px 36px;
+  margin: 32px 0 48px;
+  max-width: 800px;
+}
+
+.terp-intro p {
+  font-size: 16px;
+  color: var(--cream);
+  line-height: 1.7;
+}
+
+.terp-intro em { color: var(--sage); font-style: italic; }
+
+.terp-tier-divider {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin: 48px 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.terp-tier-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.terp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+}
+
+.terp-card {
+  background: var(--bg);
+  padding: 28px 22px;
+  cursor: pointer;
+  border: none;
+  text-align: left;
+  font-family: var(--font-body);
+  color: inherit;
+  transition: background 0.25s ease;
+  min-height: 200px;
+  position: relative;
+}
+
+.terp-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--sage);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.terp-card.secondary::before { background: var(--cream-dim); }
+
+.terp-card:hover, .terp-card:focus-visible {
+  background: var(--surface);
+}
+
+.terp-card:hover::before, .terp-card:focus-visible::before { opacity: 1; }
+
+.terp-card-emoji {
+  font-size: 28px;
+  margin-bottom: 16px;
+  display: block;
+  filter: saturate(0.65);
+}
+
+.terp-card-name {
+  font-family: var(--font-head);
+  font-size: 19px;
+  margin-bottom: 4px;
+  color: var(--cream);
+}
+
+.terp-card-aka {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.terp-card.secondary .terp-card-aka { color: var(--cream-dim); }
+
+.terp-card-hook {
+  font-size: 13px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+}
+
+/* ============ CTA BLOCK ============ */
+.cta-block {
+  text-align: center;
+  padding: 80px 24px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 48px;
+}
+
+.cta-title {
+  font-family: var(--font-head);
+  font-size: clamp(28px, 3.5vw, 44px);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+
+.cta-title em { color: var(--sage); font-style: italic; }
+
+.cta-sub {
+  font-size: 16px;
+  color: var(--cream-dim);
+  margin-bottom: 32px;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============ FOOTER ============ */
+.footer { padding: 48px 0 40px; }
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.footer-inner .sage { color: var(--sage); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 960px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; text-align: left; }
+  .hero-visual { order: -1; max-width: 280px; margin: 0 auto; }
+  .cat-panel.active { grid-template-columns: 1fr; }
+  .fp-explainer { grid-template-columns: 1fr; gap: 32px; }
+  .builder { grid-template-columns: 1fr; gap: 32px; }
+  .strain-grid { grid-template-columns: repeat(2, 1fr); }
+  .terp-grid { grid-template-columns: repeat(2, 1fr); }
+  .match-options { grid-template-columns: repeat(2, 1fr); }
+  .modal-body { grid-template-columns: 1fr; gap: 24px; }
+  .builder-grid { grid-template-columns: repeat(4, 1fr); }
+  .profile-bar { grid-template-columns: 100px 1fr 42px 36px; }
+}
+
+@media (max-width: 600px) {
+  .container { padding: 0 18px; }
+  .section { padding: 72px 0; }
+  .hero { padding: 56px 0 80px; min-height: auto; }
+  .cat-tab { padding: 18px 8px; min-height: 70px; min-width: 88px; }
+  .cat-tab-name { font-size: 17px; }
+  .cat-panel { padding: 28px; }
+  .premise-card { padding: 32px 24px; }
+  .strain-grid { grid-template-columns: 1fr; }
+  .terp-grid { grid-template-columns: 1fr; }
+  .match { padding: 36px 20px; }
+  .match-options { grid-template-columns: 1fr; }
+  .match-result-strains { grid-template-columns: 1fr; gap: 12px; }
+  .builder-grid { grid-template-columns: repeat(2, 1fr); }
+  .builder-terp { min-height: 70px; padding: 10px 8px; }
+  .builder-terp-name { font-size: 12px; }
+  .builder-pick, .builder-result { padding: 24px 20px; }
+  .modal-content { padding: 32px 24px; }
+  .strain-tile { padding: 24px 18px; min-height: 260px; }
+  .profile-bar { grid-template-columns: 80px 1fr 36px 32px; gap: 8px; }
+  .profile-bar-name { font-size: 9px; }
+  .cta-block { padding: 56px 24px; }
+  .nav-cta { padding: 10px 12px; font-size: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .hero-fp svg { animation: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <div class="nav-brand">The Chemovar Guide <span class="ver">v2.0</span></div>
+    <a href="#match" class="nav-cta">Find My Match →</a>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container hero-inner">
+    <div class="hero-text">
+      <div class="hero-eyebrow">A Plain-Language Guide</div>
+      <h1 class="hero-title">
+        Stop guessing.<br/>
+        Start with <em>how you want to feel</em>.
+      </h1>
+      <p class="hero-sub">
+        "Indica makes you sleepy. Sativa makes you wired." It's the rule everyone repeats — and it's been quietly wrong for decades. Here's what actually shapes the way a flower feels, and how to pick one that matches your day.
+      </p>
+      <div class="hero-cta-row">
+        <a href="#match" class="btn btn-primary">Find Your Match <span class="arrow">→</span></a>
+        <a href="#premise" class="btn btn-ghost">How It Works</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-fp">
+        <svg viewBox="0 0 200 200" id="hero-svg" aria-hidden="true"></svg>
+        <div class="hero-fp-label">
+          <div class="hero-fp-label-eye">Sample Fingerprint</div>
+          <div class="hero-fp-label-name">Wedding Cake · Ease</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ §01 PREMISE ============ -->
+<section class="section" id="premise">
+  <div class="container">
+    <div class="section-id">01 — The Premise</div>
+    <h2 class="section-title">
+      The old labels don't tell you <em>how it'll feel</em>.
+    </h2>
+    <p class="section-lede">
+      Sativa and indica describe what the plant <em>looks like</em>, not what the flower does to you. After 50+ years of crossbreeding, those old shelf labels have almost nothing to do with your actual experience. Two flowers labeled "indica" can land you in completely different headspaces.
+    </p>
+
+    <div class="premise-card">
+      <div class="premise-myth">"Indica means sleepy, sativa means awake, hybrid is somewhere in between."</div>
+      <div class="premise-reveal">What actually shapes how it feels is the <em>terpene fingerprint</em> — the unique mix of aromatic compounds in every batch.</div>
+      <div class="premise-detail">
+        Terpenes are the molecules behind the smell. They're also the molecules behind the feel. The same terpenes that make lemon peel smell bright are the ones that lift your mood. The ones that make lavender smell calming are the ones that help you wind down. There are <em>sixteen</em> we track on every flower — eight that drive most of the experience, eight more that fine-tune it. Together they form a chemical signature you can read at a glance.
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §02 CATEGORIES ============ -->
+<section class="section" id="categories">
+  <div class="container">
+    <div class="section-id">02 — Meet the Six</div>
+    <h2 class="section-title">
+      Six clear vibes, anchored to the <em>actual chemistry</em>.
+    </h2>
+    <p class="section-lede">
+      Instead of two vague buckets, six honest categories — running from the brightest morning lift to the deepest end-of-day rest. Pick a vibe, find your flower.
+    </p>
+
+    <div class="cat-tabs" role="tablist" aria-label="Chemovar categories"></div>
+    <div id="cat-panels"></div>
+  </div>
+</section>
+
+<!-- ============ §03 INTERACTIVE FINGERPRINT ============ -->
+<section class="section" id="how-to-read">
+  <div class="container">
+    <div class="section-id">03 — Read the Fingerprint</div>
+    <h2 class="section-title">
+      Every flower has a <em>chemical signature</em> you can see.
+    </h2>
+    <p class="section-lede">
+      The fingerprint maps a flower's terpene profile across <strong>sixteen molecules</strong> — the eight primary terpenes plus the eight minor terpenes that add nuance. The further out each spoke pokes, the more of that terpene the flower contains. Tap any point to learn what it does.
+    </p>
+
+    <div class="fp-explainer">
+      <div class="fp-interactive">
+        <svg viewBox="0 0 200 200" id="fp-interactive-svg"></svg>
+      </div>
+
+      <div class="fp-readout" id="fp-readout">
+        <div class="fp-readout-empty" id="fp-readout-empty">
+          Tap any point on the fingerprint to learn about that terpene.
+          <span class="hint">The longest spokes are the dominant ones →</span>
+        </div>
+        <div class="fp-readout-content" id="fp-readout-content"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §04 FIND YOUR MATCH ============ -->
+<section class="section" id="match">
+  <div class="container">
+    <div class="section-id">04 — Find Your Match</div>
+    <h2 class="section-title">
+      Tell us how you want to feel. <em>We'll do the rest.</em>
+    </h2>
+    <p class="section-lede">
+      One question, and you'll get a category and three flowers worth asking your budtender about.
+    </p>
+
+    <div class="match">
+      <div class="match-step active" id="match-q">
+        <div class="match-q">How do you want to <em>feel</em>?</div>
+        <div class="match-sub">Pick the one closest to what your day calls for.</div>
+        <div class="match-options" id="match-options"></div>
+      </div>
+      <div class="match-step" id="match-r"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §05 PROFILE BUILDER ============ -->
+<section class="section" id="builder">
+  <div class="container">
+    <div class="section-id">05 — Build a Profile</div>
+    <h2 class="section-title">
+      Already know what's <em>in your jar?</em> Build the profile.
+    </h2>
+    <p class="section-lede">
+      Pick up to four terpenes in order of dominance — exactly the way they're listed on your COA. We'll show you which category that profile lands in, what to expect from the experience, and which flowers in our catalog match it closely.
+    </p>
+
+    <div class="builder">
+      <div class="builder-pick">
+        <div class="builder-pick-head">
+          <div class="builder-pick-title">Select 1–4 Terpenes</div>
+          <div class="builder-pick-counter" id="builder-counter">0 of 4 selected</div>
+        </div>
+        <div class="builder-grid" id="builder-grid"></div>
+        <div class="builder-actions">
+          <button class="builder-clear" id="builder-clear" disabled>Clear</button>
+          <button class="builder-read" id="builder-read" disabled>Read Profile →</button>
+        </div>
+      </div>
+
+      <div class="builder-result" id="builder-result">
+        <div class="builder-result-empty" id="builder-result-empty">
+          Tap a terpene to start. We'll match your profile to one of the six categories.
+          <span class="hint">Tap them in order of dominance — biggest first.</span>
+        </div>
+        <div class="builder-result-content" id="builder-result-content"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §06 STRAIN EXPLORER ============ -->
+<section class="section" id="explorer">
+  <div class="container">
+    <div class="section-id">06 — Browse Flowers</div>
+    <h2 class="section-title">
+      Tap any flower for the <em>full picture</em>.
+    </h2>
+    <p class="section-lede">
+      All eighteen flowers in this guide, grouped by category. Tap any tile for its full fingerprint, the complete terpene breakdown, and what it actually feels like.
+    </p>
+
+    <div class="filter-bar" role="tablist" id="filter-bar"></div>
+    <div class="strain-grid" id="strain-grid"></div>
+  </div>
+</section>
+
+<!-- ============ §07 TERPENES ============ -->
+<section class="section" id="terpenes">
+  <div class="container">
+    <div class="section-id">07 — The Sixteen Molecules</div>
+    <h2 class="section-title">
+      The smell <em>is</em> the feel.
+    </h2>
+    <p class="section-lede">
+      Terpenes are the aromatic compounds plants make to attract pollinators and ward off pests. They're also the molecules that shape how flowers feel. The first eight do most of the work; the second eight are the fine-tuning that makes one Caryophyllene-led flower feel different from the next.
+    </p>
+
+    <div class="terp-intro">
+      <p>If you've ever felt awake from peeling an orange, calm from cutting fresh lavender, or grounded from walking through pine trees — you've already experienced terpenes. <em>The same molecules that make those smells are doing real work in your flower.</em></p>
+    </div>
+
+    <div class="terp-tier-divider">Tier 1 · The Primary Eight</div>
+    <div class="terp-grid" id="terp-grid-primary"></div>
+
+    <div class="terp-tier-divider">Tier 2 · The Secondary Eight</div>
+    <div class="terp-grid" id="terp-grid-secondary"></div>
+  </div>
+</section>
+
+<!-- ============ §08 CTA ============ -->
+<section class="section" id="next" style="border-bottom:none; padding-bottom: 32px;">
+  <div class="container">
+    <div class="cta-block">
+      <h2 class="cta-title">Now you know what to <em>ask for</em>.</h2>
+      <p class="cta-sub">
+        Walk up to the counter and skip the sativa/indica question. Ask which category fits your day, then ask to see the fingerprint. Your budtender will love you.
+      </p>
+      <a href="#match" class="btn btn-primary">Try the Match Tool <span class="arrow">↑</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>The Chemovar Guide · v2.0</div>
+    <div class="sage">Now reading 16 terpenes per flower.</div>
+    <div>Built by CannaCre8ive</div>
+  </div>
+</footer>
+
+<!-- ============ MODAL ============ -->
+<div class="modal" id="strain-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title-el">
+  <div class="modal-content" id="modal-content"></div>
+</div>
+
+<script>
+/* ===================================================================
+   DATA — 16 TERPENES (8 primary + 8 secondary)
+   Order matters — defines spoke positions on the fingerprint wheel.
+   =================================================================== */
+const TERPENES = [
+  'myrcene', 'farnesene', 'limonene', 'valencene',
+  'caryophyllene', 'fenchone', 'pinene', 'guaiol',
+  'linalool', 'bisabolol', 'terpinolene', 'nerolidol',
+  'ocimene', 'geranylAcetate', 'humulene', 'eucalyptol'
+];
+
+const TERPENE_TIER = {
+  myrcene: 'primary', limonene: 'primary', caryophyllene: 'primary', pinene: 'primary',
+  linalool: 'primary', terpinolene: 'primary', ocimene: 'primary', humulene: 'primary',
+  farnesene: 'secondary', valencene: 'secondary', fenchone: 'secondary', guaiol: 'secondary',
+  bisabolol: 'secondary', nerolidol: 'secondary', geranylAcetate: 'secondary', eucalyptol: 'secondary'
+};
+
+const TERPENE_LABEL_SHORT = {
+  myrcene: 'MYR', farnesene: 'FAR', limonene: 'LIM', valencene: 'VAL',
+  caryophyllene: 'CAR', fenchone: 'FEN', pinene: 'PIN', guaiol: 'GUA',
+  linalool: 'LIN', bisabolol: 'BIS', terpinolene: 'TRP', nerolidol: 'NER',
+  ocimene: 'OCI', geranylAcetate: 'GER', humulene: 'HUM', eucalyptol: 'EUC'
+};
+
+const TERPENE_LABEL_FULL = {
+  myrcene: 'Myrcene', farnesene: 'Farnesene', limonene: 'Limonene', valencene: 'Valencene',
+  caryophyllene: 'Caryophyllene', fenchone: 'Fenchone', pinene: 'Pinene', guaiol: 'Guaiol',
+  linalool: 'Linalool', bisabolol: 'Bisabolol', terpinolene: 'Terpinolene', nerolidol: 'Trans-Nerolidol',
+  ocimene: 'Ocimene', geranylAcetate: 'Geranyl Acetate', humulene: 'Humulene', eucalyptol: 'Eucalyptol'
+};
+
+const CATEGORIES = [
+  {
+    key: 'ignite', num: '01', name: 'Ignite', color: '#D4845C',
+    emoji: '☀', time: 'Morning',
+    tag: 'The morning spark.',
+    bigFeel: 'Bright, social, ready to go.',
+    desc: "Citrus-forward and uplifting — the chemovar for sunny starts, conversation, creativity, and the kind of clear energy that pairs with coffee. If you want to feel awake and approachable without the racing-thoughts edge of strong sativas, this is the door to open.",
+    goodFor: ['Morning walks', 'Brunch with friends', 'Starting a project', 'Light socializing'],
+    dominantTerps: ['limonene', 'terpinolene'],
+    matchOption: { emoji: '☀', name: 'Lift me up', sub: 'I want bright energy and a good mood.' }
+  },
+  {
+    key: 'focus', num: '02', name: 'Focus', color: '#B8D4A8',
+    emoji: '◐', time: 'Daytime',
+    tag: 'The clear lane.',
+    bigFeel: 'Sharp, awake, head clear.',
+    desc: "Pine-forward and clear-headed — the chemovar for getting things done. Where heavy sativas can spin you out, Focus profiles support sustained attention without the noise. Think long work sessions, deep reading, careful conversations, and outdoor activities that need your wits.",
+    goodFor: ['Studio time', 'Long sessions', 'Hikes', 'Reading'],
+    dominantTerps: ['pinene', 'limonene'],
+    matchOption: { emoji: '◐', name: 'Help me focus', sub: 'I want to be sharp and get stuff done.' }
+  },
+  {
+    key: 'flow', num: '03', name: 'Flow', color: '#8AAEB2',
+    emoji: '∿', time: 'Afternoon',
+    tag: 'The drift.',
+    bigFeel: 'Loose, creative, lightly euphoric.',
+    desc: "Terpinolene-led and gently lifting — the chemovar for art-making, music, and the kind of relaxed attention that produces unexpected ideas. Not heady like a strong sativa, not body-heavy like an indica. Just a soft, exploratory mode that lets ideas connect on their own.",
+    goodFor: ['Painting or making', 'Listening to music', 'Long walks', 'Light hangs'],
+    dominantTerps: ['terpinolene', 'ocimene'],
+    matchOption: { emoji: '∿', name: 'Get creative', sub: 'I want a loose, exploratory headspace.' }
+  },
+  {
+    key: 'ease', num: '04', name: 'Ease', color: '#7FA688',
+    emoji: '◯', time: 'Anytime',
+    tag: 'The exhale.',
+    bigFeel: 'Body softens, head stays clear.',
+    desc: "Caryophyllene-led and grounding — physical relief without the mental cloud. Caryophyllene is unique among cannabis compounds in that it works directly on inflammation. The chemovar for recovery days, post-workout, dinners that run long, and pain that needs to quiet without sedation.",
+    goodFor: ['Post-workout', 'Slow dinners', 'Pain relief', 'Recovery'],
+    dominantTerps: ['caryophyllene', 'myrcene'],
+    matchOption: { emoji: '◯', name: 'Ease my body', sub: 'I want physical relief but a clear head.' }
+  },
+  {
+    key: 'unwind', num: '05', name: 'Unwind', color: '#6B7D6B',
+    emoji: '◑', time: 'Evening',
+    tag: 'The descent.',
+    bigFeel: 'Soft, heavy, edges blur.',
+    desc: "Myrcene and linalool — the chemovar for ending the day without yet closing it. The same molecules in mango (myrcene) and lavender (linalool) layered together. Softens stress, eases the body, brings you down gently from whatever the day asked of you. Not yet sleep, but on the way.",
+    goodFor: ['After dinner', 'Long baths', 'Decompressing', 'A movie'],
+    dominantTerps: ['myrcene', 'linalool'],
+    matchOption: { emoji: '◑', name: 'Wind me down', sub: 'I want to soften the edges of a long day.' }
+  },
+  {
+    key: 'rest', num: '06', name: 'Rest', color: '#4A5A6A',
+    emoji: '●', time: 'Night',
+    tag: 'The night cap.',
+    bigFeel: 'Deep, slow, ready for sleep.',
+    desc: "Heavy myrcene with linalool and caryophyllene — the deepest sedative chemovar in the system. Reserved for night, for sleep, for the day already finished. These are the flowers that turn off the noise so you can rest. Not for daytime use unless you mean it.",
+    goodFor: ['Before bed', 'Insomnia nights', 'Total decompression', 'After hard days'],
+    dominantTerps: ['myrcene', 'linalool', 'caryophyllene'],
+    matchOption: { emoji: '●', name: 'Help me sleep', sub: 'I want depth, quiet, and a full stop.' }
+  }
+];
+
+/* Terpene → category affinity. Each terpene leans toward a primary category
+   (and optionally a secondary). Used as a fallback signal in the profile
+   builder so minor-terpene-led selections still produce an honest, sensible
+   prediction instead of defaulting to the first category. The dominant-pair
+   matching remains the primary driver when a real pairing is present. */
+const TERPENE_AFFINITY = {
+  myrcene:        { primary: 'unwind', secondary: 'rest' },
+  limonene:       { primary: 'ignite', secondary: 'focus' },
+  caryophyllene:  { primary: 'ease',   secondary: 'rest' },
+  pinene:         { primary: 'focus' },
+  linalool:       { primary: 'unwind', secondary: 'rest' },
+  terpinolene:    { primary: 'flow',   secondary: 'ignite' },
+  ocimene:        { primary: 'flow' },
+  humulene:       { primary: 'ease',   secondary: 'rest' },
+  farnesene:      { primary: 'unwind' },
+  valencene:      { primary: 'ignite' },
+  fenchone:       { primary: 'ease',   secondary: 'focus' },
+  guaiol:         { primary: 'focus' },
+  bisabolol:      { primary: 'unwind', secondary: 'ease' },
+  nerolidol:      { primary: 'rest' },
+  geranylAcetate: { primary: 'flow',   secondary: 'ignite' },
+  eucalyptol:     { primary: 'focus' }
+};
+
+/* Strain profiles — 16 terpene values per strain in TERPENES order.
+   Illustrative; production data must come from actual COA exports. */
+const STRAINS = [
+  // Ignite — limonene + terpinolene dominant
+  { slug: 'super-lemon-haze', cat: 'ignite', name: 'Super Lemon Haze', lineage: 'Lemon Skunk × Super Silver Haze',
+    profile: [10, 2, 35, 4, 12, 1, 8, 1, 5, 2, 25, 1, 3, 2, 2, 1],
+    feel: 'Bright citrus, conversational, daytime-ready.' },
+  { slug: 'tangie', cat: 'ignite', name: 'Tangie', lineage: 'California Orange × Skunk-1',
+    profile: [15, 2, 38, 5, 10, 1, 7, 1, 4, 2, 22, 1, 2, 2, 2, 1],
+    feel: 'Orange-peel sweet, sociable, uplifting.' },
+  { slug: 'lemon-skunk', cat: 'ignite', name: 'Lemon Skunk', lineage: 'Skunk #1 phenotypes',
+    profile: [12, 2, 32, 3, 14, 1, 10, 2, 6, 2, 20, 1, 3, 2, 3, 1],
+    feel: 'Classic lemon zip with a steady lift.' },
+  // Focus — pinene + limonene dominant
+  { slug: 'jack-herer', cat: 'focus', name: 'Jack Herer', lineage: 'Haze × NL5 × Shiva Skunk',
+    profile: [18, 1, 22, 2, 8, 2, 28, 3, 4, 1, 15, 1, 3, 1, 2, 2],
+    feel: 'Pine-and-citrus alert, the daytime classic.' },
+  { slug: 'harlequin', cat: 'focus', name: 'Harlequin', lineage: 'Colombian Gold × Thai × Swiss',
+    profile: [22, 1, 18, 1, 10, 2, 30, 2, 6, 2, 8, 1, 4, 1, 2, 2],
+    feel: 'Clear-headed and gentle, low ceiling.' },
+  { slug: 'sour-diesel', cat: 'focus', name: 'Sour Diesel', lineage: 'Chemdog 91 × Super Skunk',
+    profile: [15, 1, 28, 2, 12, 2, 25, 2, 5, 1, 10, 1, 3, 1, 2, 2],
+    feel: 'Sharp, fuel-bright, motivated.' },
+  // Flow — terpinolene + ocimene dominant
+  { slug: 'durban-poison', cat: 'flow', name: 'Durban Poison', lineage: 'South African landrace',
+    profile: [12, 1, 14, 1, 8, 1, 12, 2, 4, 1, 38, 1, 10, 1, 2, 1],
+    feel: 'Pure terpinolene, drifty and creative.' },
+  { slug: 'trainwreck', cat: 'flow', name: 'Trainwreck', lineage: 'Mexican × Thai × Afghani',
+    profile: [16, 1, 12, 1, 10, 2, 15, 2, 5, 1, 30, 1, 10, 1, 2, 2],
+    feel: 'Loose euphoria, hands move easily.' },
+  { slug: 'dutch-treat', cat: 'flow', name: 'Dutch Treat', lineage: 'Northern Lights × Haze',
+    profile: [14, 1, 16, 1, 9, 1, 10, 1, 6, 1, 32, 1, 11, 1, 2, 1],
+    feel: 'Soft, exploratory, music-friendly.' },
+  // Ease — caryophyllene + myrcene dominant
+  { slug: 'gsc', cat: 'ease', name: 'GSC', lineage: 'OG Kush × Durban Poison',
+    profile: [22, 1, 18, 2, 28, 2, 8, 1, 8, 4, 8, 2, 6, 1, 2, 1],
+    feel: 'Sweet earth, body settles, head stays clear.' },
+  { slug: 'og-kush', cat: 'ease', name: 'OG Kush', lineage: 'Chemdawg × Hindu Kush',
+    profile: [28, 3, 14, 1, 30, 2, 6, 1, 10, 2, 4, 2, 6, 1, 2, 1],
+    feel: 'Classic peppery grounding, relief-forward.' },
+  { slug: 'wedding-cake', cat: 'ease', name: 'Wedding Cake', lineage: 'Triangle Kush × Animal Mints',
+    profile: [20, 2, 16, 1, 32, 2, 8, 1, 12, 4, 4, 3, 6, 1, 2, 1],
+    feel: 'Smooth and rich, balanced everywhere.' },
+  // Unwind — myrcene + linalool dominant
+  { slug: 'granddaddy-purple', cat: 'unwind', name: 'Granddaddy Purple', lineage: 'Purple Urkle × Big Bud',
+    profile: [35, 2, 10, 1, 18, 1, 5, 1, 22, 3, 4, 3, 4, 2, 2, 1],
+    feel: 'Berry-floral, body settles deep.' },
+  { slug: 'bubba-kush', cat: 'unwind', name: 'Bubba Kush', lineage: 'OG Kush × Northern Lights',
+    profile: [38, 3, 8, 1, 20, 2, 6, 1, 20, 2, 3, 3, 3, 1, 2, 1],
+    feel: 'Earthy and heavy, end-of-day mellow.' },
+  { slug: 'skywalker-og', cat: 'unwind', name: 'Skywalker OG', lineage: 'Skywalker × OG Kush',
+    profile: [32, 2, 10, 1, 20, 1, 6, 1, 24, 3, 3, 3, 3, 1, 2, 1],
+    feel: 'Lavender-leaning calm, deep decompression.' },
+  // Rest — myrcene-heavy with linalool + caryophyllene
+  { slug: 'northern-lights', cat: 'rest', name: 'Northern Lights', lineage: 'Afghani × Thai',
+    profile: [42, 3, 6, 1, 18, 1, 4, 1, 22, 3, 3, 3, 3, 1, 2, 1],
+    feel: 'The classic sleep flower, slow and quiet.' },
+  { slug: 'purple-punch', cat: 'rest', name: 'Purple Punch', lineage: 'Larry OG × GDP',
+    profile: [40, 2, 8, 1, 16, 1, 5, 1, 24, 4, 3, 3, 2, 2, 2, 1],
+    feel: 'Sweet-floral knockout, pillows feel better.' },
+  { slug: 'tahoe-og', cat: 'rest', name: 'Tahoe OG', lineage: 'SFV OG × OG Kush',
+    profile: [38, 3, 8, 1, 20, 2, 6, 1, 22, 2, 2, 4, 2, 1, 2, 1],
+    feel: 'Deep body softening, no more screens.' }
+];
+
+/* Detailed terpene info — primary + secondary */
+const TERPENE_INFO = {
+  myrcene: {
+    name: 'Myrcene', aka: 'The Couch Anchor', emoji: '🥭', tier: 'primary',
+    hook: 'The sleep-and-soften molecule. Also in mango, hops, and lemongrass.',
+    desc: "The most common terpene in cannabis and the one most responsible for that 'sinking into the couch' feeling. Earthy, musky, slightly herbal. If your flower is doing heavy lifting on relaxation, myrcene is doing most of the work.",
+    aroma: 'Earth · musk · ripe mango',
+    feel: 'Heavy body · sleepy · sedating',
+    entourage: 'Deepens body relaxation; amplifies the sedative effects of other terpenes.',
+    foundIn: 'Mango, hops, lemongrass, thyme'
+  },
+  limonene: {
+    name: 'Limonene', aka: 'The Mood Lifter', emoji: '🍋', tier: 'primary',
+    hook: "That citrus rush from peeling a lemon — that's limonene at work.",
+    desc: 'Bright and citrusy. Associated with elevated mood, stress relief, and that sociable-lifted feeling without too much head fog. If a flower smells like lemon peel or grapefruit, limonene is the reason.',
+    aroma: 'Lemon · orange peel · grapefruit',
+    feel: 'Uplifted · social · stress relief',
+    entourage: 'Counteracts anxiety; amplifies uplifting cannabinoid effects.',
+    foundIn: 'Citrus rinds, juniper, peppermint'
+  },
+  caryophyllene: {
+    name: 'Caryophyllene', aka: 'The Body Worker', emoji: '🌶', tier: 'primary',
+    hook: 'The peppery one. The only terpene your body treats like a cannabinoid.',
+    desc: "Unique among terpenes — it binds to your body's CB2 receptors, which deal with inflammation and pain. That means it works directly on physical relief without needing to touch your head. Pepper, clove, cedar.",
+    aroma: 'Black pepper · clove · cedar',
+    feel: 'Body relief · anti-inflammatory · grounding',
+    entourage: 'Direct CB2 binding amplifies anti-inflammatory and analgesic effects.',
+    foundIn: 'Black pepper, cloves, hops, basil'
+  },
+  pinene: {
+    name: 'Pinene', aka: 'The Clear Lens', emoji: '🌲', tier: 'primary',
+    hook: 'That crisp, awake feeling on a forest walk. Same molecule.',
+    desc: 'Pine-needle fresh. Associated with alertness, sharper memory, and counteracting some of the cognitive fog that comes with high-THC flower. The "I can still think clearly" terpene.',
+    aroma: 'Pine forest · rosemary · basil',
+    feel: 'Alert · focused · clear-headed',
+    entourage: 'Counteracts short-term memory impairment from THC; supports cognitive clarity.',
+    foundIn: 'Pine, rosemary, sage, dill'
+  },
+  linalool: {
+    name: 'Linalool', aka: 'The Soft Landing', emoji: '🌸', tier: 'primary',
+    hook: 'The lavender molecule. You already know what it does.',
+    desc: "The calming compound in lavender. Floral, mildly anesthetic, soothing. In cannabis it pairs with myrcene to deepen relaxation — and it's why some flowers feel like the day just got quieter.",
+    aroma: 'Lavender · light spice · floral',
+    feel: 'Calming · soothing · mildly anesthetic',
+    entourage: 'Deepens the sedative and anxiolytic effects of other terpenes.',
+    foundIn: 'Lavender, mint, cinnamon, birch'
+  },
+  terpinolene: {
+    name: 'Terpinolene', aka: 'The Creative Drift', emoji: '🍎', tier: 'primary',
+    hook: "The under-studied one. Complex, slightly fruity, often very lifting.",
+    desc: "Harder to describe than the others — herbaceous, slightly fruity, slightly piney all at once. Less studied than the big terpenes but consistently linked to uplifting, cerebral, exploratory effects.",
+    aroma: 'Apple · herbs · soft pine',
+    feel: 'Cerebral · uplifting · creative',
+    entourage: 'Drives the cerebral, exploratory quality of Flow chemovars.',
+    foundIn: 'Apples, lilacs, cumin, tea tree'
+  },
+  ocimene: {
+    name: 'Ocimene', aka: 'The Lift Assist', emoji: '🌿', tier: 'primary',
+    hook: 'A supporting player that adds brightness and lift.',
+    desc: 'Sweet, woody, with a hint of mint. Usually shows up as a secondary terpene and tends to amplify uplifting, energetic profiles. The high-note in many Flow-category flowers.',
+    aroma: 'Sweet herbs · woody · mint',
+    feel: 'Light · energetic · uplifting',
+    entourage: 'Brightens and lifts the terpinolene-driven Flow profile.',
+    foundIn: 'Basil, mint, parsley, orchids'
+  },
+  humulene: {
+    name: 'Humulene', aka: 'The Grounding Hop', emoji: '🍺', tier: 'primary',
+    hook: "The hops molecule. Earthy, woody, often present in calming flowers.",
+    desc: 'The terpene that gives beer its hoppy character. Earthy, woody, anti-inflammatory. Usually a smaller player but adds depth and groundedness to Ease and Rest profiles.',
+    aroma: 'Hops · wood · sage',
+    feel: 'Earthy · grounding · appetite-balancing',
+    entourage: 'Anti-inflammatory; subtly modulates appetite.',
+    foundIn: 'Hops, sage, ginseng, ginger'
+  },
+  /* Secondary tier */
+  farnesene: {
+    name: 'Farnesene', aka: 'The Apple Skin', emoji: '🍏', tier: 'secondary',
+    hook: 'The fresh green-apple top note. Subtly calming.',
+    desc: "Light, green, fruity — the molecule that gives green apples their characteristic skin-smell. Less studied than the big terpenes but associated with calming, anti-anxiety effects and a soft sedative quality.",
+    aroma: 'Green apple · sweet wood',
+    feel: 'Calming · anti-anxious · soft',
+    entourage: 'Adds anti-anxiety nuance to myrcene-led calming profiles.',
+    foundIn: 'Apple skins, ginger, hops, chamomile'
+  },
+  valencene: {
+    name: 'Valencene', aka: 'The Orange Bright', emoji: '🍊', tier: 'secondary',
+    hook: "Named for Valencia oranges. Pure citrus brightness.",
+    desc: 'The terpene that gives Valencia oranges their characteristic sweetness. In cannabis, it amplifies uplifting profiles and contributes the sweet-orange note to many Ignite chemovars.',
+    aroma: 'Sweet orange · valencia citrus',
+    feel: 'Uplifting · energetic · sweet',
+    entourage: 'Sweetens and lifts limonene-led citrus profiles.',
+    foundIn: 'Oranges, tangerines, mangoes'
+  },
+  fenchone: {
+    name: 'Fenchone', aka: 'The Cool Camphor', emoji: '❄', tier: 'secondary',
+    hook: 'Camphor-fresh, slightly minty. Cleansing.',
+    desc: 'Sharp, camphor-like, with a cooling quality. Less common in cannabis but when present adds a clarifying, almost mentholated dimension to caryophyllene-dominant flowers.',
+    aroma: 'Camphor · fennel · mint',
+    feel: 'Cooling · clarifying · cleansing',
+    entourage: 'Adds a cooling, clarifying edge to caryophyllene-led body profiles.',
+    foundIn: 'Fennel, anise, camphor'
+  },
+  guaiol: {
+    name: 'Guaiol', aka: 'The Woody Focus', emoji: '🌳', tier: 'secondary',
+    hook: 'Pine-and-rose woody warmth.',
+    desc: 'A liquid alcohol-class terpene with a woody, slightly floral character. Often pairs with pinene in Focus-category flowers — adds depth and a softer focus quality.',
+    aroma: 'Pine · rose · cedar wood',
+    feel: 'Focused · clear · grounded',
+    entourage: 'Reinforces and softens pinene-driven mental clarity.',
+    foundIn: 'Cypress, conifers, guaiacum'
+  },
+  bisabolol: {
+    name: 'Bisabolol', aka: 'The Chamomile Calm', emoji: '🌼', tier: 'secondary',
+    hook: 'The chamomile molecule. Sweet and floral and very calming.',
+    desc: "The primary terpene in chamomile — sweet, slightly floral, and gently calming. Anti-inflammatory and skin-soothing. Notable in modern indica-leaning hybrids like the GSC and Wedding Cake lines.",
+    aroma: 'Chamomile · soft floral · honey',
+    feel: 'Calming · anti-inflammatory · gentle',
+    entourage: 'Amplifies the soothing quality of linalool and caryophyllene.',
+    foundIn: 'Chamomile, candeia tree, sage'
+  },
+  nerolidol: {
+    name: 'Trans-Nerolidol', aka: 'The Deep Sleep', emoji: '🌙', tier: 'secondary',
+    hook: 'Apple-bark and jasmine. Notable sedative power.',
+    desc: 'Woody, slightly floral, with a hint of apple and citrus. Known for strong sedative effects — when nerolidol is elevated in a flower, expect noticeably deeper sleep-leaning experiences. Common in heavy Rest-category profiles.',
+    aroma: 'Apple bark · jasmine · soft wood',
+    feel: 'Sedative · deepening · sleep-leaning',
+    entourage: 'A primary driver of the deepest sedative profiles when present above trace.',
+    foundIn: 'Jasmine, ginger, tea tree, lavender'
+  },
+  geranylAcetate: {
+    name: 'Geranyl Acetate', aka: 'The Rose Sweet', emoji: '🌹', tier: 'secondary',
+    hook: 'Sweet rose-floral with a fruity edge.',
+    desc: 'Soft, rosy, with a fruity-floral top note. Less studied but contributes to the sweet, perfumed quality of certain Ignite and Flow flowers and is associated with gentle mood lift.',
+    aroma: 'Rose · sweet floral · fruity',
+    feel: 'Lifting · sweet · gentle',
+    entourage: 'Sweetens and softens ocimene-led uplifting profiles.',
+    foundIn: 'Rose, geranium, lemongrass'
+  },
+  eucalyptol: {
+    name: 'Eucalyptol', aka: 'The Open Breath', emoji: '🌬', tier: 'secondary',
+    hook: 'Mentholated freshness. Opens the airways.',
+    desc: 'Also called 1,8-cineole. The minty-eucalyptus molecule. Cooling, slightly camphorous, with respiratory-opening qualities. When present, adds a fresh, opened-up dimension to humulene-led grounding profiles.',
+    aroma: 'Eucalyptus · menthol · spice',
+    feel: 'Cooling · breath-opening · refreshing',
+    entourage: 'Adds clarity and freshness to humulene-driven grounding.',
+    foundIn: 'Eucalyptus, rosemary, bay laurel, sage'
+  }
+};
+
+/* ===================================================================
+   FINGERPRINT GEOMETRY — 16-spoke wheel
+   =================================================================== */
+function generateFingerprint(profile) {
+  // 16 spokes at 22.5° intervals starting from 0° (top), clockwise
+  const center = 100, minR = 8, maxR = 82, scaleMax = 45;
+  return profile.map((pct, i) => {
+    const angle = i * 22.5;
+    const r = minR + (Math.min(pct, scaleMax) / scaleMax) * (maxR - minR);
+    const rad = (angle - 90) * Math.PI / 180;
+    const x = center + r * Math.cos(rad);
+    const y = center + r * Math.sin(rad);
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(' ');
+}
+
+function fpSVG(profile, color, size = 200, showGrid = true) {
+  const points = generateFingerprint(profile);
+
+  // Build grid: 4 concentric circles + 16 spokes (8 strong, 8 light)
+  let grid = '';
+  if (showGrid) {
+    grid += `<g stroke="#252B22" stroke-width="0.6" fill="none">`;
+    grid += `<circle cx="100" cy="100" r="82"/>`;
+    grid += `<circle cx="100" cy="100" r="60"/>`;
+    grid += `<circle cx="100" cy="100" r="38"/>`;
+    grid += `<circle cx="100" cy="100" r="16"/>`;
+    grid += `</g>`;
+    // Spokes — primary (every 45°) stronger, secondary lighter
+    grid += `<g stroke="#252B22" fill="none">`;
+    for (let i = 0; i < 16; i++) {
+      const angle = i * 22.5;
+      const rad = (angle - 90) * Math.PI / 180;
+      const x = 100 + 82 * Math.cos(rad);
+      const y = 100 + 82 * Math.sin(rad);
+      const isPrimary = i % 2 === 0;
+      const sw = isPrimary ? 0.75 : 0.4;
+      grid += `<line x1="100" y1="100" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke-width="${sw}"/>`;
+    }
+    grid += `</g>`;
+  }
+
+  return `
+    <svg viewBox="0 0 200 200" width="${size}" height="${size}" aria-hidden="true">
+      ${grid}
+      <polygon points="${points}" fill="${color}" fill-opacity="0.2" stroke="${color}" stroke-width="1.4" stroke-linejoin="round"/>
+      <circle cx="100" cy="100" r="2" fill="${color}"/>
+    </svg>`;
+}
+
+const getCat = key => CATEGORIES.find(c => c.key === key);
+const getStrainsByCat = key => STRAINS.filter(s => s.cat === key);
+
+/* ===================================================================
+   HERO FINGERPRINT
+   =================================================================== */
+function renderHeroFingerprint() {
+  // Wedding Cake — shows good multi-terpene character
+  const wc = STRAINS.find(s => s.slug === 'wedding-cake');
+  const svg = document.getElementById('hero-svg');
+  svg.innerHTML = fpSVG(wc.profile, '#7FA688', 200, true)
+    .replace(/<svg[^>]*>/, '').replace('</svg>', '');
+}
+
+/* ===================================================================
+   CATEGORY TABS + PANELS
+   =================================================================== */
+function renderCategoryTabs() {
+  const tabsEl = document.querySelector('.cat-tabs');
+  const panelsEl = document.getElementById('cat-panels');
+
+  tabsEl.innerHTML = CATEGORIES.map((c, i) => `
+    <button class="cat-tab ${i === 0 ? 'active' : ''}" role="tab" aria-selected="${i === 0}"
+            data-cat="${c.key}" style="--catcolor:${c.color};">
+      <span class="cat-tab-name">${c.name}</span>
+      <span class="cat-tab-time">${c.time}</span>
+    </button>
+  `).join('');
+
+  panelsEl.innerHTML = CATEGORIES.map((c, i) => {
+    const strain = getStrainsByCat(c.key)[0];
+    return `
+      <div class="cat-panel ${i === 0 ? 'active' : ''}" data-cat="${c.key}" style="--catcolor:${c.color};">
+        <div class="cat-panel-text">
+          <h3>${c.tag}</h3>
+          <div class="big-feel">${c.bigFeel}</div>
+          <p>${c.desc}</p>
+          <div class="cat-good-for">
+            <div class="cat-good-for-label">Good for</div>
+            <div class="cat-good-for-list">
+              ${c.goodFor.map(g => `<span class="cat-good-for-pill">${g}</span>`).join('')}
+            </div>
+          </div>
+        </div>
+        <div class="cat-panel-fp">
+          ${fpSVG(strain.profile, c.color, 240)}
+          <div class="cat-panel-fp-strain">
+            Featured flower
+            <span class="name">${strain.name}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  tabsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.cat-tab');
+    if (!btn) return;
+    const key = btn.dataset.cat;
+    tabsEl.querySelectorAll('.cat-tab').forEach(t => {
+      t.classList.toggle('active', t.dataset.cat === key);
+      t.setAttribute('aria-selected', t.dataset.cat === key);
+    });
+    panelsEl.querySelectorAll('.cat-panel').forEach(p => {
+      p.classList.toggle('active', p.dataset.cat === key);
+    });
+  });
+}
+
+/* ===================================================================
+   INTERACTIVE FINGERPRINT — annotated with tappable spokes
+   =================================================================== */
+function renderInteractiveFingerprint() {
+  // Demo with Wedding Cake — good multi-terpene character
+  const wc = STRAINS.find(s => s.slug === 'wedding-cake');
+  const profile = wc.profile;
+  const svg = document.getElementById('fp-interactive-svg');
+
+  // Build the SVG content
+  let content = '';
+
+  // Grid
+  content += `<g stroke="#252B22" stroke-width="0.6" fill="none">
+    <circle cx="100" cy="100" r="82"/>
+    <circle cx="100" cy="100" r="60"/>
+    <circle cx="100" cy="100" r="38"/>
+    <circle cx="100" cy="100" r="16"/>
+  </g>`;
+
+  // Spokes
+  content += `<g stroke="#252B22" fill="none">`;
+  for (let i = 0; i < 16; i++) {
+    const angle = i * 22.5;
+    const rad = (angle - 90) * Math.PI / 180;
+    const x = 100 + 82 * Math.cos(rad);
+    const y = 100 + 82 * Math.sin(rad);
+    const sw = i % 2 === 0 ? 0.75 : 0.4;
+    content += `<line x1="100" y1="100" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke-width="${sw}"/>`;
+  }
+  content += `</g>`;
+
+  // Polygon
+  const points = generateFingerprint(profile);
+  content += `<polygon points="${points}" fill="#7FA688" fill-opacity="0.18" stroke="#7FA688" stroke-width="1.4" stroke-linejoin="round"/>`;
+  content += `<circle cx="100" cy="100" r="2" fill="#7FA688"/>`;
+
+  // Spoke targets — clickable dots at each vertex with labels just outside
+  content += `<g>`;
+  for (let i = 0; i < 16; i++) {
+    const angle = i * 22.5;
+    const rad = (angle - 90) * Math.PI / 180;
+    const pct = profile[i];
+    const r = 8 + (Math.min(pct, 45) / 45) * (82 - 8);
+    const x = 100 + r * Math.cos(rad);
+    const y = 100 + r * Math.sin(rad);
+    // Label position — just outside the outer ring
+    const labelR = 94;
+    const lx = 100 + labelR * Math.cos(rad);
+    const ly = 100 + labelR * Math.sin(rad);
+    const terp = TERPENES[i];
+    const tier = TERPENE_TIER[terp];
+
+    // Compute text anchor based on angle
+    let anchor;
+    if (Math.abs(Math.cos(rad)) < 0.05) anchor = 'middle';
+    else if (Math.cos(rad) > 0) anchor = 'start';
+    else anchor = 'end';
+
+    // Slight y nudge depending on top/bottom
+    const dy = Math.sin(rad) > 0.5 ? 4 : (Math.sin(rad) < -0.5 ? -2 : 3);
+
+    content += `<g class="fp-spoke-target ${tier}" data-terp="${terp}" tabindex="0" role="button" aria-label="Learn about ${TERPENE_LABEL_FULL[terp]}">`;
+    content += `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="14" fill="transparent"/>`;
+    content += `<circle class="dot" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}"/>`;
+    content += `<text x="${lx.toFixed(2)}" y="${(ly + dy).toFixed(2)}" text-anchor="${anchor}">${TERPENE_LABEL_SHORT[terp]}</text>`;
+    content += `</g>`;
+  }
+  content += `</g>`;
+
+  svg.innerHTML = content;
+
+  // Wire up interaction
+  svg.querySelectorAll('.fp-spoke-target').forEach(el => {
+    const open = () => showTerpReadout(el.dataset.terp, profile);
+    el.addEventListener('click', open);
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        open();
+      }
+    });
+  });
+}
+
+function showTerpReadout(terpKey, profile) {
+  const info = TERPENE_INFO[terpKey];
+  if (!info) return;
+  document.querySelectorAll('.fp-spoke-target').forEach(el => {
+    el.classList.toggle('active', el.dataset.terp === terpKey);
+  });
+  const pct = profile[TERPENES.indexOf(terpKey)];
+  document.getElementById('fp-readout-empty').style.display = 'none';
+  const content = document.getElementById('fp-readout-content');
+  content.classList.add('active');
+  content.innerHTML = `
+    <div class="fp-readout-eye">
+      In this flower · ${pct}%
+      <span class="fp-readout-tier ${info.tier}">${info.tier === 'primary' ? 'Primary' : 'Secondary'}</span>
+    </div>
+    <div class="fp-readout-name">${info.name}</div>
+    <div class="fp-readout-aka">${info.aka}</div>
+    <div class="fp-readout-desc">${info.desc}</div>
+    <div class="fp-readout-meta">
+      <div>
+        <span class="label">Smells like</span>
+        <span class="val">${info.aroma}</span>
+      </div>
+      <div>
+        <span class="label">Feels like</span>
+        <span class="val">${info.feel}</span>
+      </div>
+    </div>
+  `;
+}
+
+/* ===================================================================
+   FIND YOUR MATCH
+   =================================================================== */
+function renderMatch() {
+  const optionsEl = document.getElementById('match-options');
+  optionsEl.innerHTML = CATEGORIES.map(c => `
+    <button class="match-option" data-cat="${c.key}">
+      <span class="match-option-emoji">${c.matchOption.emoji}</span>
+      <div class="match-option-name">${c.matchOption.name}</div>
+      <div class="match-option-sub">${c.matchOption.sub}</div>
+    </button>
+  `).join('');
+
+  optionsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.match-option');
+    if (!btn) return;
+    showMatchResult(btn.dataset.cat);
+  });
+}
+
+function showMatchResult(catKey) {
+  const cat = getCat(catKey);
+  const strains = getStrainsByCat(catKey);
+  const r = document.getElementById('match-r');
+  r.innerHTML = `
+    <div class="match-result" style="--catcolor:${cat.color};">
+      <div class="match-result-eye">Your match · ${cat.time}</div>
+      <div class="match-result-name">${cat.name}</div>
+      <div class="match-result-tag">${cat.tag}</div>
+      <div class="match-result-desc">${cat.bigFeel} ${cat.desc}</div>
+      <div class="match-result-strains">
+        ${strains.map(s => `
+          <button class="match-result-strain" data-slug="${s.slug}">
+            ${fpSVG(s.profile, cat.color, 90, false)}
+            <div class="match-result-strain-name">${s.name}</div>
+          </button>
+        `).join('')}
+      </div>
+      <button class="match-reset">← Try a different feeling</button>
+    </div>
+  `;
+  document.getElementById('match-q').classList.remove('active');
+  r.classList.add('active');
+  r.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+  r.querySelectorAll('.match-result-strain').forEach(btn => {
+    btn.addEventListener('click', () => openStrainModal(btn.dataset.slug));
+  });
+  r.querySelector('.match-reset').addEventListener('click', () => {
+    r.classList.remove('active');
+    document.getElementById('match-q').classList.add('active');
+    document.getElementById('match-q').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+}
+
+/* ===================================================================
+   PROFILE BUILDER
+   =================================================================== */
+let builderSelection = []; // ordered list of terpene keys
+
+function renderBuilder() {
+  const gridEl = document.getElementById('builder-grid');
+  // Sort terpenes by tier (primary first) then by their wheel order
+  const ordered = TERPENES.slice().sort((a, b) => {
+    const ta = TERPENE_TIER[a] === 'primary' ? 0 : 1;
+    const tb = TERPENE_TIER[b] === 'primary' ? 0 : 1;
+    if (ta !== tb) return ta - tb;
+    return TERPENES.indexOf(a) - TERPENES.indexOf(b);
+  });
+
+  gridEl.innerHTML = ordered.map(t => `
+    <button class="builder-terp" data-terp="${t}">
+      <div class="builder-terp-name">${TERPENE_INFO[t].name.replace('Trans-', '')}</div>
+      <div class="builder-terp-tier">${TERPENE_TIER[t] === 'primary' ? 'Primary' : 'Secondary'}</div>
+    </button>
+  `).join('');
+
+  gridEl.addEventListener('click', e => {
+    const btn = e.target.closest('.builder-terp');
+    if (!btn || btn.classList.contains('disabled')) return;
+    const terp = btn.dataset.terp;
+    if (builderSelection.includes(terp)) {
+      // Tapping a selected terpene removes it; remaining picks renumber.
+      const idx = builderSelection.indexOf(terp);
+      builderSelection.splice(idx, 1);
+    } else {
+      if (builderSelection.length >= 4) return;
+      builderSelection.push(terp);
+    }
+    updateBuilderUI();
+    // If a result is already on screen, keep it in sync with the new selection
+    // (or retire it to the empty state if everything's been cleared).
+    const resultShown = document.getElementById('builder-result-content').classList.contains('active');
+    if (resultShown) {
+      if (builderSelection.length === 0) {
+        document.getElementById('builder-result-empty').style.display = '';
+        document.getElementById('builder-result-content').classList.remove('active');
+      } else {
+        showBuilderResult();
+      }
+    }
+  });
+
+  document.getElementById('builder-clear').addEventListener('click', () => {
+    builderSelection = [];
+    updateBuilderUI();
+    document.getElementById('builder-result-empty').style.display = '';
+    document.getElementById('builder-result-content').classList.remove('active');
+  });
+
+  document.getElementById('builder-read').addEventListener('click', () => {
+    if (builderSelection.length === 0) return;
+    showBuilderResult();
+  });
+}
+
+function updateBuilderUI() {
+  document.querySelectorAll('.builder-terp').forEach(btn => {
+    const terp = btn.dataset.terp;
+    const order = builderSelection.indexOf(terp);
+    btn.classList.toggle('selected', order >= 0);
+    btn.classList.toggle('disabled', order < 0 && builderSelection.length >= 4);
+    // Remove any existing order badge
+    const existingBadge = btn.querySelector('.builder-terp-order');
+    if (existingBadge) existingBadge.remove();
+    if (order >= 0) {
+      const badge = document.createElement('div');
+      badge.className = 'builder-terp-order';
+      badge.textContent = order + 1;
+      btn.appendChild(badge);
+    }
+  });
+  document.getElementById('builder-counter').textContent = `${builderSelection.length} of 4 selected`;
+  document.getElementById('builder-clear').disabled = builderSelection.length === 0;
+  document.getElementById('builder-read').disabled = builderSelection.length === 0;
+}
+
+function predictCategoryFromSelection(selection) {
+  // Two-layer scoring:
+  //   1. Dominant-pair matching (primary signal) — does the pick match a
+  //      category's defining terpene pair, and in the right order?
+  //   2. Terpene affinity (fallback signal) — every terpene leans somewhere,
+  //      so minor-led selections still resolve sensibly instead of defaulting.
+  const pairScores = {};
+  const affScores = {};
+  CATEGORIES.forEach(c => { pairScores[c.key] = 0; affScores[c.key] = 0; });
+
+  selection.forEach((terp, i) => {
+    const weight = (4 - i); // 4, 3, 2, 1 by order of dominance
+
+    // Layer 1 — dominant-pair match
+    CATEGORIES.forEach(c => {
+      const idx = c.dominantTerps.indexOf(terp);
+      if (idx >= 0) {
+        const orderBonus = idx === i ? 2 : 1; // exact position match doubles
+        pairScores[c.key] += weight * orderBonus;
+      }
+    });
+
+    // Layer 2 — affinity lean (smaller magnitude so pairing dominates)
+    const aff = TERPENE_AFFINITY[terp];
+    if (aff) {
+      affScores[aff.primary] += weight * 0.5;
+      if (aff.secondary) affScores[aff.secondary] += weight * 0.25;
+    }
+  });
+
+  // Total score blends both; pairScore tracked separately for confidence.
+  let best = CATEGORIES[0];
+  let bestTotal = -1;
+  let bestPair = 0;
+  CATEGORIES.forEach(c => {
+    const total = pairScores[c.key] + affScores[c.key];
+    if (total > bestTotal) {
+      best = c;
+      bestTotal = total;
+      bestPair = pairScores[c.key];
+    }
+  });
+
+  return { category: best, score: bestTotal, pairScore: bestPair };
+}
+
+function findSimilarStrains(selection) {
+  // For each strain, score how well its top 4 terpenes overlap with selection
+  const scored = STRAINS.map(s => {
+    const ranked = s.profile
+      .map((pct, i) => ({ terp: TERPENES[i], pct }))
+      .sort((a, b) => b.pct - a.pct)
+      .slice(0, 4)
+      .map(x => x.terp);
+
+    let score = 0;
+    selection.forEach((terp, i) => {
+      const strainIdx = ranked.indexOf(terp);
+      if (strainIdx >= 0) {
+        const positionMatch = strainIdx === i ? 3 : (Math.abs(strainIdx - i) === 1 ? 2 : 1);
+        const weight = (4 - i);
+        score += weight * positionMatch;
+      }
+    });
+    return { strain: s, score };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored.filter(x => x.score > 0).slice(0, 4).map(x => x.strain);
+}
+
+function showBuilderResult() {
+  const pred = predictCategoryFromSelection(builderSelection);
+  const similar = findSimilarStrains(builderSelection);
+  const cat = pred.category;
+
+  document.getElementById('builder-result-empty').style.display = 'none';
+  const content = document.getElementById('builder-result-content');
+  content.classList.add('active');
+
+  // Build entourage notes — one per selected terpene
+  const notes = builderSelection.map(terp => ({
+    terp,
+    name: TERPENE_LABEL_FULL[terp],
+    note: TERPENE_INFO[terp].entourage
+  }));
+
+  // Compose feel description — confidence keyed to real dominant-pair matches,
+  // not the affinity fallback, so we never overstate certainty.
+  let feelLine;
+  if (pred.pairScore >= 6) {
+    feelLine = `Strong fit. ${cat.bigFeel} ${cat.desc.split('.')[0]}.`;
+  } else if (pred.pairScore >= 3) {
+    feelLine = `Leans ${cat.name}. ${cat.bigFeel}`;
+  } else {
+    feelLine = `These terpenes lean ${cat.name} — ${cat.bigFeel.toLowerCase()} But none of them is a category-defining terpene on its own, so the experience could shade in a few directions. Worth talking through with a budtender.`;
+  }
+
+  content.style.setProperty('--catcolor', cat.color);
+
+  content.innerHTML = `
+    <div class="builder-result-eye">Predicted category</div>
+    <div class="builder-result-cat" style="color: ${cat.color}">${cat.name}</div>
+    <div class="builder-result-tag">${cat.tag}</div>
+    <div class="builder-result-feel">${feelLine}</div>
+
+    <div class="builder-result-notes">
+      <div class="builder-result-notes-label">What each terpene brings</div>
+      ${notes.map(n => `
+        <div class="builder-result-note">
+          <div class="builder-result-note-terp">${n.name}</div>
+          <div>${n.note}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    ${similar.length > 0 ? `
+      <div class="builder-result-similar">
+        <div class="builder-result-similar-label">Flowers that match this profile</div>
+        <div class="builder-result-similar-list">
+          ${similar.map(s => `<button class="builder-result-similar-pill" data-slug="${s.slug}">${s.name} →</button>`).join('')}
+        </div>
+      </div>
+    ` : ''}
+  `;
+
+  content.querySelectorAll('.builder-result-similar-pill').forEach(btn => {
+    btn.addEventListener('click', () => openStrainModal(btn.dataset.slug));
+  });
+}
+
+/* ===================================================================
+   STRAIN EXPLORER
+   =================================================================== */
+let currentFilter = 'all';
+
+function renderStrainExplorer() {
+  const bar = document.getElementById('filter-bar');
+  const filters = [{ key: 'all', label: 'All Flowers' }, ...CATEGORIES.map(c => ({ key: c.key, label: c.name }))];
+  bar.innerHTML = filters.map(f => `
+    <button class="filter-pill ${f.key === 'all' ? 'active' : ''}" data-filter="${f.key}">${f.label}</button>
+  `).join('');
+  bar.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-pill');
+    if (!btn) return;
+    currentFilter = btn.dataset.filter;
+    bar.querySelectorAll('.filter-pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.filter === currentFilter);
+    });
+    renderStrainGrid();
+  });
+  renderStrainGrid();
+}
+
+function renderStrainGrid() {
+  const grid = document.getElementById('strain-grid');
+  const filtered = currentFilter === 'all' ? STRAINS : STRAINS.filter(s => s.cat === currentFilter);
+  grid.innerHTML = filtered.map(s => {
+    const cat = getCat(s.cat);
+    return `
+      <button class="strain-tile" data-slug="${s.slug}" style="--catcolor:${cat.color};">
+        <div class="strain-tile-cat">${cat.name}</div>
+        <div class="strain-tile-fp">${fpSVG(s.profile, cat.color, 140, false)}</div>
+        <div class="strain-tile-name">${s.name}</div>
+        <div class="strain-tile-feel">${s.feel}</div>
+      </button>
+    `;
+  }).join('');
+  grid.querySelectorAll('.strain-tile').forEach(btn => {
+    btn.addEventListener('click', () => openStrainModal(btn.dataset.slug));
+  });
+}
+
+/* ===================================================================
+   STRAIN MODAL
+   =================================================================== */
+function openStrainModal(slug) {
+  const s = STRAINS.find(st => st.slug === slug);
+  if (!s) return;
+  const cat = getCat(s.cat);
+  const modal = document.getElementById('strain-modal');
+
+  const ranked = s.profile
+    .map((pct, i) => ({ name: TERPENES[i], label: TERPENE_LABEL_FULL[TERPENES[i]], tier: TERPENE_TIER[TERPENES[i]], pct }))
+    .sort((a, b) => b.pct - a.pct);
+
+  document.getElementById('modal-content').innerHTML = `
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-cat" style="color: ${cat.color};">${cat.name} · ${cat.dominantTerps.map(t => TERPENE_LABEL_FULL[t]).join(' + ')}</div>
+    <h3 class="modal-title" id="modal-title-el">${s.name}</h3>
+    <div class="modal-lineage">${s.lineage}</div>
+    <div class="modal-body">
+      <div class="modal-fp">${fpSVG(s.profile, cat.color, 220)}</div>
+      <div>
+        <div class="modal-feel">${s.feel}</div>
+        <p class="modal-desc">${cat.bigFeel} ${cat.desc.split('.').slice(0, 2).join('.')}.</p>
+      </div>
+    </div>
+    <div class="modal-profile" style="--catcolor:${cat.color};">
+      <div class="modal-profile-label">Full terpene profile · sixteen molecules, highest to lowest</div>
+      <div class="modal-profile-bars">
+        ${ranked.map(t => `
+          <div class="profile-bar">
+            <div class="profile-bar-name">${t.label}</div>
+            <div class="profile-bar-track"><div class="profile-bar-fill" style="width: ${Math.min(t.pct / 45 * 100, 100)}%"></div></div>
+            <div class="profile-bar-pct">${t.pct}%</div>
+            <div class="profile-bar-tier">${t.tier === 'primary' ? '1°' : '2°'}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+}
+
+function openTerpModal(terpKey) {
+  const t = TERPENE_INFO[terpKey];
+  if (!t) return;
+  const modal = document.getElementById('strain-modal');
+  document.getElementById('modal-content').innerHTML = `
+    <button class="modal-close" aria-label="Close">×</button>
+    <div class="modal-cat" style="color: var(--sage);">${t.tier === 'primary' ? 'Primary' : 'Secondary'} Terpene · ${t.aka}</div>
+    <h3 class="modal-title" id="modal-title-el">${t.name}</h3>
+    <div class="modal-lineage">${t.hook}</div>
+    <p class="modal-desc" style="font-size:15px; margin-bottom: 24px; color: var(--cream);">${t.desc}</p>
+    <div class="modal-profile">
+      <div class="modal-profile-label">Quick reference</div>
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-top: 8px;">
+        <div>
+          <div class="profile-bar-name" style="margin-bottom: 4px;">Smells Like</div>
+          <div style="font-size: 13px; color: var(--cream-dim);">${t.aroma}</div>
+        </div>
+        <div>
+          <div class="profile-bar-name" style="margin-bottom: 4px;">Feels Like</div>
+          <div style="font-size: 13px; color: var(--cream-dim);">${t.feel}</div>
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <div class="profile-bar-name" style="margin-bottom: 4px;">Entourage Role</div>
+          <div style="font-size: 13px; color: var(--cream-dim);">${t.entourage}</div>
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <div class="profile-bar-name" style="margin-bottom: 4px;">Also Found In</div>
+          <div style="font-size: 13px; color: var(--cream-dim);">${t.foundIn}</div>
+        </div>
+      </div>
+    </div>
+  `;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+  modal.querySelector('.modal-close').addEventListener('click', closeModal);
+}
+
+function closeModal() {
+  const modal = document.getElementById('strain-modal');
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('strain-modal').addEventListener('click', e => {
+  if (e.target.id === 'strain-modal') closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+});
+
+/* ===================================================================
+   TERPENE GRID — split into primary + secondary
+   =================================================================== */
+function renderTerpenes() {
+  const primary = TERPENES.filter(t => TERPENE_TIER[t] === 'primary');
+  const secondary = TERPENES.filter(t => TERPENE_TIER[t] === 'secondary');
+
+  const cardHTML = (key) => {
+    const t = TERPENE_INFO[key];
+    return `
+      <button class="terp-card ${t.tier}" data-terp="${key}">
+        <span class="terp-card-emoji">${t.emoji}</span>
+        <div class="terp-card-name">${t.name}</div>
+        <div class="terp-card-aka">${t.aka}</div>
+        <div class="terp-card-hook">${t.hook}</div>
+      </button>
+    `;
+  };
+
+  document.getElementById('terp-grid-primary').innerHTML = primary.map(cardHTML).join('');
+  document.getElementById('terp-grid-secondary').innerHTML = secondary.map(cardHTML).join('');
+
+  document.querySelectorAll('.terp-card').forEach(btn => {
+    btn.addEventListener('click', () => openTerpModal(btn.dataset.terp));
+  });
+}
+
+/* ===================================================================
+   INIT
+   =================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  renderHeroFingerprint();
+  renderCategoryTabs();
+  renderInteractiveFingerprint();
+  renderMatch();
+  renderBuilder();
+  renderStrainExplorer();
+  renderTerpenes();
+});
+</script>
+</body>
+</html>

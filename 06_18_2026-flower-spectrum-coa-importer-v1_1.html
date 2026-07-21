@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flower Spectrum · Terpene Fingerprint Classifier</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2212%22 fill=%22%230e0e0c%22/><circle cx=%2232%22 cy=%2232%22 r=%2218%22 fill=%22none%22 stroke=%22%236AAFA0%22 stroke-width=%226%22/><circle cx=%2232%22 cy=%2232%22 r=%225%22 fill=%22%23e8e3d9%22/></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --bg:#0e0e0c; --surface:#181715; --border:#2a2824; --fg:#e8e3d9; --fg-dim:#a8a092; --muted:#6e675b; --accent:#6AAFA0;
+    --amber:#C9A84C; --amber-dim:#7a6a38; --display:"Newsreader",Georgia,serif; --body:"DM Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace; }
+  *{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--body);-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:22px 18px 60px}
+  .topbar{display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:18px;flex-wrap:wrap}
+  .dot{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+  .brand{font-family:var(--mono);font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--fg-dim)}
+  .ver{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:1px;margin-left:auto}
+  h1{font-family:var(--display);font-size:clamp(25px,4vw,36px);font-weight:600;margin:0 0 4px;line-height:1.08}
+  .kick{font-family:var(--mono);font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .sub{font-size:14px;color:var(--fg-dim);line-height:1.55;margin:0 0 20px;max-width:680px}
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:16px}
+  .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;display:block}
+  input[type=text],input[type=number],textarea,select{background:var(--bg);border:1px solid var(--border);color:var(--fg);font-family:var(--mono);font-size:12px;padding:9px 10px;border-radius:7px;width:100%}
+  textarea{font-size:12px;line-height:1.5;resize:vertical}
+  input:focus,textarea:focus,select:focus{outline:none;border-color:var(--accent)}
+  .grid{display:grid;gap:10px}
+  .g3{grid-template-columns:1fr 1fr 1fr}.g2{grid-template-columns:1fr 1fr}
+  @media(max-width:640px){.g3,.g2{grid-template-columns:1fr}}
+  .tabs{display:flex;gap:6px;margin-bottom:14px}
+  .tab{flex:1;background:transparent;border:1px solid var(--border);color:var(--fg-dim);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:11px;border-radius:8px;cursor:pointer}
+  .tab.on{background:var(--accent);color:#0e0e0c;border-color:var(--accent)}
+  .tab:not(.on):hover{border-color:var(--accent);color:var(--fg)}
+  .btn{font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:11px 16px;border-radius:8px;cursor:pointer;border:1px solid var(--border);background:transparent;color:var(--fg-dim)}
+  .btn:hover{border-color:var(--accent);color:var(--fg)}
+  .btn-primary{background:var(--accent);color:#0e0e0c;border-color:var(--accent)}.btn-primary:hover{filter:brightness(1.08);color:#0e0e0c}
+  .btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .muted{color:var(--muted)} .accent{color:var(--accent)}
+  .note{font-size:11px;color:var(--muted);line-height:1.55;margin-top:10px}
+  .hr{height:1px;background:var(--border);border:0;margin:16px 0}
+  .band{display:flex;height:30px;border-radius:6px;overflow:hidden;border:1px solid var(--border)}
+  .band span{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:8.5px;font-weight:700;letter-spacing:.5px;color:#0e0e0c;text-transform:uppercase;min-width:0;overflow:hidden;white-space:nowrap}
+  .result-h{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin:12px 0 6px}
+  .result-h .pri{font-family:var(--display);font-size:24px;font-weight:600}
+  .pill{font-family:var(--mono);font-size:9px;letter-spacing:.5px;padding:3px 7px;border-radius:4px;border:1px solid var(--border);color:var(--fg-dim);text-transform:uppercase}
+  .pill.def{border-color:#4F7A5B;color:#8FBFA9}.pill.lean{border-color:var(--amber-dim);color:var(--amber)}.pill.blend{border-color:#7a5a4a;color:#c79a86}
+  .modtag{font-family:var(--mono);font-size:9px;letter-spacing:.5px;padding:3px 7px;border-radius:4px;background:#23323a;color:#88A9B2;text-transform:uppercase}
+  table{width:100%;border-collapse:collapse;font-size:12px}
+  th{font-family:var(--mono);font-size:8.5px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);font-weight:500}
+  td{padding:6px 8px;border-bottom:1px solid #211f1c;vertical-align:middle}
+  tr:hover td{background:#1d1c19}
+  td .tv{width:78px;font-size:11px;padding:5px 7px}
+  .sm{font-family:var(--mono);font-size:10px;color:var(--fg-dim)}
+  .keytag{font-family:var(--mono);font-size:8px;color:var(--muted);letter-spacing:.5px}
+  .badge{font-family:var(--mono);font-size:7.5px;letter-spacing:.5px;padding:2px 5px;border-radius:3px;background:#2e3a33;color:#8FBFA9;text-transform:uppercase}
+  .badge.sum{background:#3a3320;color:var(--amber)}
+  .amberbox{background:#1f1b12;border:1px solid var(--amber-dim);border-radius:8px;padding:10px 12px;margin-top:10px}
+  .amberbox .lbl{color:var(--amber)}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--fg)}
+  .swatch{width:10px;height:10px;border-radius:2px;flex:0 0 auto}
+  .count{font-family:var(--mono);font-size:11px;color:var(--accent);letter-spacing:.5px}
+  .empty{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.5px;text-align:center;padding:26px}
+  .x{cursor:pointer;color:var(--muted);font-family:var(--mono);font-size:14px;padding:2px 6px;border-radius:4px}
+  .x:hover{color:#c98a7a;background:#2a1f1c}
+  .foot{font-family:var(--mono);font-size:9px;color:var(--muted);letter-spacing:1px;text-align:center;padding:22px 10px;border-top:1px solid var(--border);margin-top:24px;line-height:1.8}
+  .foot a{color:var(--accent);text-decoration:none}
+  .stat{font-family:var(--mono);font-size:10px;color:var(--fg-dim)}
+  .stat b{color:var(--fg);font-weight:700}
+  a.dl{display:inline-block;padding:11px 18px;background:var(--accent);color:#0e0e0c;border-radius:8px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;text-decoration:none}
+  a.dl:hover{filter:brightness(1.08)}
+</style>
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<header class="site-nav">
+  <a class="wordmark" href="#top" aria-label="Flower Spectrum home">Flower <em>Spectrum</em></a>
+  <nav aria-label="Primary navigation">
+    <a href="#how-it-works">How it works</a>
+    <a href="#spectrum-key">The 10 profiles</a>
+    <a class="nav-cta" href="#classifier">Classify a COA</a>
+  </nav>
+</header>
+<div class="wrap">
+  <main id="top">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <div class="eyebrow"><span></span>A new language for flower</div>
+      <h1 id="hero-title">Every flower has a <em>spectrum.</em></h1>
+      <p class="hero-lede">Stop choosing by THC alone. Flower Spectrum translates a lab-tested terpene panel into one unmistakable aroma fingerprint&mdash;so shoppers know what they&rsquo;re reaching for, retailers can build a balanced shelf, and growers can make the craft inside every jar visible.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#classifier">Classify your COA</a>
+        <a class="button button-quiet" href="#how-it-works">Read the fingerprint <span>&darr;</span></a>
+      </div>
+      <p class="micro-proof"><span>38</span> tracked terpenes <i></i><span>10</span> aroma profiles <i></i><span>1</span> repeatable system</p>
+    </div>
+    <div class="hero-visual">
+      <div class="visual-meta"><span>Live fingerprint</span><span>Illustrative COA</span></div>
+      <div id="heroFingerprint" class="hero-fingerprint" aria-label="Illustrative Flower Spectrum fingerprint"></div>
+      <div class="visual-caption"><strong>Gas&ndash;Spicy</strong><span>Caryophyllene + limonene + myrcene in balance</span></div>
+    </div>
+  </section>
+
+  <div class="full-spectrum" aria-label="The ten Flower Spectrum aroma profile colors">
+    <span style="background:#C9A84C"></span><span style="background:#6B8E5A"></span><span style="background:#D4A843"></span><span style="background:#B75F4A"></span><span style="background:#B98BBE"></span><span style="background:#D6B58A"></span><span style="background:#9E6B4A"></span><span style="background:#4F7A5B"></span><span style="background:#7FA688"></span><span style="background:#D28B49"></span>
+  </div>
+
+  <section class="story-section" id="how-it-works">
+    <div class="section-number">01 / READ THE SYSTEM</div>
+    <div class="story-grid">
+      <div>
+        <h2>A fingerprint built from aroma, <em>not mythology.</em></h2>
+        <p class="section-lede">The ring is divided into ten fixed aroma families. Each colored segment grows outward as that family&rsquo;s share of the measured aroma signal increases. Together, those ten radial bands form a batch-specific fingerprint that stays circular, readable, and easy to compare.</p>
+      </div>
+      <div class="principles">
+        <article><b>01</b><div><h3>Each color is an aroma family</h3><p>It is not usually one terpene. Each hue gathers multiple molecules that the nose reads as a related sensory direction.</p></div></article>
+        <article><b>02</b><div><h3>Mass is weighted by aromatic impact</h3><p>Measured COA values are adjusted by explicit potency weights, so a quiet compound cannot overpower a more aromatic one simply because there is more of it.</p></div></article>
+        <article><b>03</b><div><h3>The shape is reproducible</h3><p>The same analyte values run through the same 38-terpene engine and deterministic scoring rules every time.</p></div></article>
+      </div>
+    </div>
+    <aside class="why-ten">
+      <span class="why-mark">Why only ten segments?</span>
+      <p>Cannabis contains hundreds of volatile compounds, while commercial labs quantify different subsets. A ring segment for every molecule would be dense, lab-dependent, and impossible to compare at the shelf. Flower Spectrum keeps the complete 38-terpene data underneath, then compresses those signals into ten stable aroma dimensions. <strong>The fingerprint is the readable summary; the COA remains the source of truth.</strong></p>
+    </aside>
+  </section>
+
+  <section class="profile-section" id="spectrum-key">
+    <div class="section-number">02 / THE SPECTRUM KEY</div>
+    <div class="section-heading-row"><h2>Ten aromas. <em>One shared language.</em></h2><p>Every color means the same thing on the wheel, the shelf strip, the menu, and the label.</p></div>
+    <div class="profile-key" id="profileKey"></div>
+    <div class="profile-lab" id="profileLab">
+      <div class="profile-lab-copy"><span class="section-number">INTERACTIVE PROFILE LAB</span><h3>See how each aroma family changes the signature.</h3><p>Select one of the ten profiles to view an illustrative fingerprint and the terpene families that usually create that spike.</p><div class="profile-lab-tabs" id="profileLabTabs"></div></div>
+      <div class="profile-lab-visual"><div id="profileExampleFingerprint"></div><div id="profileExampleDetail"></div></div>
+    </div>
+  </section>
+
+  <section class="audience-section">
+    <div class="audience-card retail"><span>FOR RETAILERS</span><h2>Build a shelf with range.</h2><p>See where the menu is crowded and where it is quiet. Stock something distinct for every profile instead of another row of products competing on THC alone.</p><a href="#classifier">Map a COA &rarr;</a></div>
+    <div class="audience-card grow"><span>FOR GROWERS</span><h2>Make your craft visible.</h2><p>Let the flower&rsquo;s chemistry join the story of the cultivar, the room, the cure, and the care behind it. A fingerprint gives buyers something meaningful to compare.</p><a href="#classifier">Create a fingerprint &rarr;</a></div>
+  </section>
+
+  <section class="classifier-intro" id="classifier">
+    <div class="section-number">03 / CLASSIFY A COA</div>
+    <h2>From lab panel to <em>shelf language.</em></h2>
+    <p>Upload a PDF COA, paste its terpene table, or import a Flower Spectrum CSV. Flower Spectrum reads text-layer PDFs and scans image-only pages with private in-browser OCR, then lets you verify every mapped value against the source.</p>
+  </section>
+
+  <div class="topbar tool-bar"><span class="dot"></span><span class="brand">Flower Spectrum Engine</span><span class="ver">Classifier · v2.3 · 07_20_2026</span></div>
+
+  <div class="tabs">
+    <button class="tab on" id="tabPaste" onclick="switchTab('paste')">Paste COA</button>
+    <button class="tab" id="tabCsv" onclick="switchTab('csv')">Import CSV</button>
+  </div>
+
+  <!-- ============ PASTE COA ============ -->
+  <div id="panePaste">
+    <div class="panel">
+      <span class="lbl">Strain metadata <span class="muted">(name required; the rest optional &mdash; carried into the export)</span></span>
+      <div class="grid g3">
+        <div><span class="lbl">Strain name</span><input type="text" id="mName" placeholder="e.g. Sour Strawberry"></div>
+        <div><span class="lbl">Grower / Farm</span><input type="text" id="mGrower" placeholder="e.g. Ideal Cannabis"></div>
+        <div><span class="lbl">Lineage</span><input type="text" id="mLineage" placeholder="e.g. Strawberry Banana × Sour D"></div>
+      </div>
+      <div class="grid g3" style="margin-top:10px">
+        <div><span class="lbl">Lot / batch</span><input type="text" id="mLot" placeholder="e.g. SD-0719"></div>
+        <div><span class="lbl">Sample ID</span><input type="text" id="mSample" placeholder="e.g. 26-00184"></div>
+        <div><span class="lbl">Harvest date</span><input type="text" id="mHarvest" placeholder="MM/DD/YYYY"></div>
+      </div>
+      <div class="grid g3" style="margin-top:10px">
+        <div><span class="lbl">THC % <span class="muted">(auto from COA)</span></span><input type="text" id="mThc" placeholder="auto"></div>
+        <div><span class="lbl">Total cannabinoids %</span><input type="text" id="mCann" placeholder="optional"></div>
+        <div><span class="lbl">CBD %</span><input type="text" id="mCbd" placeholder="optional"></div>
+      </div>
+      <div class="grid g3" style="margin-top:10px">
+        <div><span class="lbl">Total terpenes % <span class="muted">(auto from COA)</span></span><input type="text" id="mTerps" placeholder="auto"></div>
+        <div><span class="lbl">Quantity available</span><input type="text" id="mQuantity" placeholder="e.g. 12 lb"></div>
+        <div><span class="lbl">Buyer contact</span><input type="text" id="mContact" placeholder="email, phone, or handle"></div>
+      </div>
+      <div class="grid g3" style="margin-top:10px">
+        <div><span class="lbl">Tier</span>
+          <select id="mTier"><option value="">—</option><option value="top">top</option><option value="mid">mid</option><option value="value">value</option></select></div>
+        <div class="grid g2" style="gap:8px">
+          <div><span class="lbl">$ / 1g</span><input type="number" id="mPriceG" placeholder="0"></div>
+          <div><span class="lbl">$ / 1/8</span><input type="number" id="mPriceE" placeholder="0"></div>
+        </div>
+      </div>
+      <div style="margin-top:10px"><span class="lbl">Aroma sentence <span class="muted">(layman, for menus &mdash; optional)</span></span><input type="text" id="mAroma" placeholder="e.g. Ripe strawberry over a sour diesel edge."></div>
+      <div class="photo-input-row" style="margin-top:10px">
+        <div><span class="lbl">Flower image <span class="muted">(used in buyer sheet + social card)</span></span><label class="photo-drop" for="mPhoto"><input type="file" id="mPhoto" accept="image/png,image/jpeg,image/webp" onchange="loadFlowerImage(event)"><span>Choose flower image</span><small>PNG, JPG, or WEBP</small></label></div>
+        <div class="photo-preview"><img id="mPhotoPreview" src="assets/johnny-glaze-flower.jpeg" alt="Selected flower preview"><button class="btn" type="button" onclick="useJohnnyGlazeImage()">Use Johnny Glaze demo image</button></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <span class="lbl">Upload a COA <span class="muted">(.pdf, .txt, or .csv &mdash; text layer + OCR fallback)</span></span>
+      <div class="coa-source-actions"><button class="btn btn-primary" type="button" onclick="loadJohnnyGlazeDemo()">Load Johnny Glaze demo COA</button><span>or upload your own certificate</span></div>
+      <label class="file-drop" for="coaFile"><input type="file" id="coaFile" accept=".pdf,.txt,.csv,text/plain,text/csv,application/pdf" onchange="loadCoaFile(event)"><span class="file-icon">&uarr;</span><b>Choose a COA file</b><small id="fileStatus">or paste the terpene table below</small></label>
+      <div class="coa-url-row"><div><span class="lbl">COA link</span><input type="url" id="coaUrl" placeholder="https://lab.example.com/certificates/sample.pdf"></div><button class="btn" type="button" onclick="loadCoaUrl()">Read COA link</button></div>
+      <div class="pdf-review" id="pdfReview" hidden>
+        <div class="pdf-review-head"><div><span class="lbl">COA document review</span><strong id="pdfFileName">Uploaded PDF</strong></div><div class="pdf-badges"><span id="pdfPageCount">0 pages</span><span id="pdfExtractMode">Reading</span></div></div>
+        <iframe id="pdfViewer" title="Uploaded COA PDF preview"></iframe>
+        <p class="note" id="pdfReviewNote">The original document stays visible while Flower Spectrum reconstructs its terpene table. Review the extracted values against the PDF before adding the result.</p>
+      </div>
+      <details class="manual-fallback"><summary>Advanced fallback: paste raw COA text</summary><textarea id="coaText" rows="9" placeholder="Paste the terpene section only when a PDF or link is unavailable."></textarea></details>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="doParse()">Parse &amp; classify</button>
+        <button class="btn" onclick="insertExample()">Insert example COA</button>
+        <button class="btn" onclick="document.getElementById('coaText').value='';document.getElementById('parseOut').innerHTML='';">Clear</button>
+      </div>
+      <p class="note">Mapping is explicit, not fuzzy: an analyte the engine doesn&rsquo;t recognize is listed in an <span class="accent">Unmapped</span> panel with a reason, so nothing disappears quietly. Parsed values are <b>editable</b> before you commit &mdash; you are the final check on column choice.</p>
+    </div>
+
+    <div id="parseOut"></div>
+  </div>
+
+  <!-- ============ IMPORT CSV ============ -->
+  <div id="paneCsv" style="display:none">
+    <div class="panel">
+      <span class="lbl">Import CSV <span class="muted">(matches this tool&rsquo;s export &mdash; 27 buyer/menu columns + a raw 38-terpene block)</span></span>
+      <input type="file" id="csvFile" accept=".csv,text/csv" style="margin-bottom:10px" onchange="loadCsvFile(event)">
+      <textarea id="csvText" rows="7" placeholder="…or paste CSV here. Minimum viable CSV: a header row containing 'Strain' plus one column per terpene (using the terpene's full name, e.g. β-Caryophyllene). Buyer fields such as harvest date, quantity, contact, cannabinoids, pricing, and aroma are read when present. Classification is recomputed from the terpene columns on import."></textarea>
+      <div class="btn-row">
+        <button class="btn btn-primary" onclick="doParseCsv()">Parse CSV</button>
+        <button class="btn" onclick="document.getElementById('csvText').value='';document.getElementById('csvOut').innerHTML='';">Clear</button>
+      </div>
+      <p class="note">Re-importing a file this tool exported round-trips exactly &mdash; the raw terpene block reconstructs the input vector and the engine re-classifies it identically.</p>
+    </div>
+    <div id="csvOut"></div>
+  </div>
+
+  <!-- ============ DIAGNOSTICS ============ -->
+  <div class="panel">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px">
+      <span class="lbl" style="margin:0">Parser coverage self-test</span>
+      <button class="btn" style="margin-left:auto" onclick="runSelfTest()">Run self-test</button>
+    </div>
+    <p class="note" style="margin-top:0">Runs the parser against a battery of real-world COA <b>layout shapes</b> (aligned LOD/LOQ/Result tables, mg/g columns, multi-word and comma-bearing analyte names, isomer peaks, ND/&lt;LOQ, cannabinoid filtering). Values in these fixtures are synthetic format tests, not COA data &mdash; they verify the parser <i>structure</i>, so a real paste from your lab is low-risk.</p>
+    <div id="stOut"></div>
+  </div>
+
+  <!-- ============ DATASET ============ -->
+  <div class="panel">
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px">
+      <span class="lbl" style="margin:0">Dataset</span>
+      <span class="count" id="dsCount">0 strains</span>
+      <span style="margin-left:auto;display:flex;gap:8px">
+        <button class="btn" onclick="clearDataset()">Clear all</button>
+      </span>
+    </div>
+    <div id="dsWrap"><div class="empty">No strains yet. Parse a COA or import a CSV to begin.</div></div>
+    <div id="exportOut" style="margin-top:14px"></div>
+  </div>
+
+  <div class="foot">
+    Flower Spectrum · Terpene Fingerprint Classifier · v2.3 · build 07_20_2026<br>
+    Aroma classification, not effects or medical claims · Engine byte-faithful to Chemovar Classifier v1.3 (38 terpenes)<br>
+    Built by <a href="https://cannacre8ive.com" target="_blank" rel="dofollow">CannaCre8ive</a>
+  </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
+<script>
+"use strict";
+const VERSION = "v2.3", BUILD = "07_20_2026";
+
+/* =================== CANONICAL ENGINE (verbatim, Classifier v1.3) =================== */
+const PROFILES = [
+  { key:"gas_fuel",      label:"Gas / Fuel",      color:"#C9A84C", desc:"Loud, pungent diesel & chemical funk — gassy, skunky, dank" },
+  { key:"earthy_dank",   label:"Earthy / Dank",   color:"#6B8E5A", desc:"Deep, musky, soil, heavy body" },
+  { key:"citrus_bright", label:"Citrus / Bright", color:"#D4A843", desc:"Zesty lemon-orange, uplifting" },
+  { key:"fruity_sweet",  label:"Fruity / Sweet",  color:"#B75F4A", desc:"Juicy, candy, ripe stone fruit" },
+  { key:"floral_soft",   label:"Floral / Soft",   color:"#B98BBE", desc:"Lavender, rose, perfume, soft" },
+  { key:"dessert_creamy",label:"Dessert / Creamy",color:"#D6B58A", desc:"Vanilla, cake, rich, smooth" },
+  { key:"spicy_warm",    label:"Spicy / Warm",    color:"#9E6B4A", desc:"Pepper, clove, warm spice" },
+  { key:"piney_fresh",   label:"Piney / Fresh",   color:"#4F7A5B", desc:"Pine, fir, crisp, resinous" },
+  { key:"herbal_woody",  label:"Herbal / Woody",  color:"#7FA688", desc:"Tea, sage, dry wood, hops" },
+  { key:"tropical_tangy",label:"Tropical / Tangy",color:"#D28B49", desc:"Mango, guava, exotic, tangy" },
+];
+const PROFILE_BY_KEY = Object.fromEntries(PROFILES.map(p => [p.key, p]));
+const profileIndex = k => PROFILES.findIndex(p => p.key === k);
+const PROFILE_DETAILS = {
+  gas_fuel:       { code:"GAS",     copy:"Pungent diesel, solvent, and skunk. An emergent profile created by a balanced combination rather than a single molecule.", drivers:"β-Caryophyllene + D-Limonene + Myrcene / α-Humulene" },
+  earthy_dank:    { code:"EARTH",   copy:"Damp soil, musk, forest floor, and deep earth. A grounded aromatic base that often gives flower its dense, dank character.", drivers:"Myrcene + α-Humulene + Fenchol" },
+  citrus_bright:  { code:"CITRUS",  copy:"Fresh lemon rind, ripe orange, and grapefruit zest. Sharp top notes that read quickly and clearly to the nose.", drivers:"D-Limonene + Valencene + α/γ-Terpinene" },
+  fruity_sweet:   { code:"FRUIT",   copy:"Berry, candy, apple skin, and stone fruit. A sweet, juicy family often built from several bright secondary notes.", drivers:"Terpinolene + β-Ocimene + β-Farnesene" },
+  floral_soft:    { code:"FLORAL",  copy:"Lavender, rose petal, chamomile, and soft perfume. Delicate compounds can shape this profile even at modest measured levels.", drivers:"Linalool + α-Bisabolol + Geraniol + Nerolidol" },
+  dessert_creamy: { code:"DESSERT", copy:"Vanilla, cake batter, sweet cream, and smooth spice. A combination profile formed when soft florals sit over a warm, sweet base.", drivers:"Linalool + α-Bisabolol over sweet / spicy signals" },
+  spicy_warm:     { code:"SPICE",   copy:"Cracked black pepper, clove, and baking spice. Warm, assertive, and frequently led by an aromatic heavyweight.", drivers:"β-Caryophyllene + Caryophyllene Oxide + α-Humulene" },
+  piney_fresh:    { code:"PINE",    copy:"Pine needle, fir, resin, and crisp forest air. A sharp green family that cuts cleanly through heavier aromas.", drivers:"α-Pinene + β-Pinene + Camphene + Δ-3-Carene" },
+  herbal_woody:   { code:"HERBAL",  copy:"Tea leaf, sage, hops, cedar, and dry wood. Structured green and woody notes that add depth rather than sweetness.", drivers:"α-Humulene + Guaiol + Fenchol + Borneol" },
+  tropical_tangy: { code:"TROPIC",  copy:"Mango, guava, passion fruit, and exotic tang. A vivid sweet-tart family driven by volatile fruity and citrus notes.", drivers:"β-Ocimene + Terpinolene + Valencene" }
+};
+
+// ── MODIFIERS (state tags, not core profiles) ──
+const MODIFIERS = [
+  { key:"clean_fresh", label:"Clean / Fresh", color:"#88A9B2", desc:"Cooling eucalyptus / mentholated lift" },
+];
+const MOD_BY_KEY = Object.fromEntries(MODIFIERS.map(m => [m.key, m]));
+
+/* ── TERPENE DATABASE ──
+   tier: primary | impact | trace
+   profile: primary profile association · also[]: secondary associations
+   potency: aromatic weight per unit % (defaults applied by tier if omitted)
+   modifier: optional modifier key
+*/
+const TERPENES = [
+  // ── PRIMARY ──
+  { key:"myrcene", label:"Myrcene", abbr:"MYR", tier:"primary", profile:"earthy_dank", also:["gas_fuel","herbal_woody"],
+    aroma:"Earthy, musky, ripe mango, clove", foundWith:["β-Caryophyllene","Limonene","α-Pinene"],
+    impact:"Most abundant cannabis terpene; sets a heavy grounding base and amplifies overall aromatic weight." },
+  { key:"limonene", label:"D-Limonene", abbr:"LIM", tier:"primary", profile:"citrus_bright", also:["fruity_sweet","gas_fuel"],
+    aroma:"Citrus, lemon, orange peel", foundWith:["β-Caryophyllene","Myrcene","Terpinolene"],
+    impact:"Defines bright citrus character; with caryophyllene and myrcene it turns the corner into gas." },
+  { key:"caryophyllene", label:"β-Caryophyllene", abbr:"CAR", tier:"primary", profile:"spicy_warm", also:["gas_fuel"], potency:1.15,
+    aroma:"Black pepper, clove, warm wood", foundWith:["Humulene","Limonene","Myrcene"],
+    impact:"The pepper backbone; aromatically loud, so even moderate levels drive a clear spice/gas lead." },
+  { key:"linalool", label:"Linalool", abbr:"LIN", tier:"primary", profile:"floral_soft", also:["dessert_creamy"],
+    aroma:"Lavender, floral, sweet spice", foundWith:["β-Caryophyllene","Limonene","Myrcene"],
+    impact:"Potent at low levels; a little linalool softens and perfumes the whole profile.", potency:1.2 },
+  { key:"pinene_a", label:"α-Pinene", abbr:"αPIN", tier:"primary", profile:"piney_fresh", also:["herbal_woody"],
+    aroma:"Pine needle, fresh, sharp", foundWith:["β-Pinene","Myrcene","Terpinolene"],
+    impact:"Crisp pine sharpness; cuts through heavier terpenes and reads as fresh and bright." },
+  { key:"pinene_b", label:"β-Pinene", abbr:"βPIN", tier:"primary", profile:"piney_fresh", also:["herbal_woody"],
+    aroma:"Pine, dill, woody-herbal", foundWith:["α-Pinene","Myrcene"],
+    impact:"Pairs with α-pinene for forest character with a slightly more herbal, resinous edge." },
+  { key:"terpinolene", label:"Terpinolene", abbr:"TPL", tier:"primary", profile:"fruity_sweet", also:["tropical_tangy","piney_fresh"],
+    aroma:"Fruity, floral, piney, fresh", foundWith:["Myrcene","β-Ocimene","α-Pinene"],
+    impact:"Complex and volatile; a terpinolene lead signals bright, fruity-fresh 'haze' character." },
+  { key:"humulene", label:"α-Humulene", abbr:"HUM", tier:"primary", profile:"herbal_woody", also:["spicy_warm","earthy_dank","gas_fuel"],
+    aroma:"Hops, woody, dry earth", foundWith:["β-Caryophyllene","Myrcene"],
+    impact:"Travels with caryophyllene; adds a dry, hoppy woodiness and depth to gassy profiles." },
+  { key:"ocimene", label:"β-Ocimene", abbr:"OCI", tier:"primary", profile:"tropical_tangy", also:["fruity_sweet","floral_soft"],
+    aroma:"Sweet, herbal, tropical", foundWith:["Terpinolene","Limonene","Myrcene"],
+    impact:"Sweet tropical lift; pushes a profile toward exotic, fruity-floral territory." },
+
+  // ── IMPACT (minor, high quality impact) ──
+  { key:"bisabolol", label:"α-Bisabolol", abbr:"BIS", tier:"impact", profile:"floral_soft", also:["dessert_creamy"],
+    aroma:"Chamomile, soft floral, sweet", foundWith:["Linalool","β-Caryophyllene"],
+    impact:"Smooth, delicate floral; a marker of refined, premium-feeling profiles.", potency:1.2 },
+  { key:"valencene", label:"Valencene", abbr:"VAL", tier:"impact", profile:"citrus_bright", also:["tropical_tangy"],
+    aroma:"Sweet orange, grapefruit", foundWith:["Limonene","Myrcene"],
+    impact:"Juicy citrus top-note; lifts and rounds out limonene-forward profiles.", potency:1.2 },
+  { key:"nerolidol", label:"trans-Nerolidol", abbr:"NER", tier:"impact", profile:"floral_soft", also:["herbal_woody"],
+    aroma:"Apple, rose, woody bark", foundWith:["Linalool","β-Caryophyllene","Bisabolol"],
+    impact:"Soft woody-floral bridge; adds depth and a fresh-bark finish.", potency:1.15 },
+  { key:"guaiol", label:"Guaiol", abbr:"GUA", tier:"impact", profile:"herbal_woody", also:["piney_fresh"],
+    aroma:"Pine, rose-wood, cooling", foundWith:["α-Humulene","α-Pinene"],
+    impact:"Rare woody-cooling note; signals a distinctive, structured profile." },
+  { key:"terpineol", label:"α-Terpineol", abbr:"TPN", tier:"impact", profile:"floral_soft", also:["piney_fresh"],
+    aroma:"Lilac, pine, clove", foundWith:["α-Pinene","Linalool"],
+    impact:"Soft lilac-pine; smooths transitions between floral and resinous notes." },
+  { key:"caryophyllene_oxide", label:"Caryophyllene Oxide", abbr:"COX", tier:"impact", profile:"spicy_warm", also:["herbal_woody"],
+    aroma:"Dry pepper, oxidized wood", foundWith:["β-Caryophyllene","α-Humulene"],
+    impact:"Oxidation marker of caryophyllene; dry, savory-spice edge." },
+  { key:"farnesene_b", label:"β-Farnesene", abbr:"βFAR", tier:"impact", profile:"fruity_sweet", also:["herbal_woody"], potency:0.3,
+    aroma:"Green apple, woody, faint citrus", foundWith:["α-Farnesene","β-Caryophyllene","α-Humulene"],
+    impact:"High-mass but aromatically quiet — can top a COA by quantity yet barely shape the nose. Low potency keeps it from hijacking the classification." },
+  { key:"farnesene_a", label:"α-Farnesene", abbr:"αFAR", tier:"impact", profile:"fruity_sweet", also:["herbal_woody"], potency:0.3,
+    aroma:"Green apple skin, woody, citrus", foundWith:["β-Farnesene","β-Caryophyllene"],
+    impact:"Apple-skin top note found in many modern crosses; subtle even at high concentration." },
+  { key:"camphene", label:"Camphene", abbr:"CMP", tier:"impact", profile:"piney_fresh", also:["herbal_woody"],
+    aroma:"Damp fir, camphor", foundWith:["α-Pinene","Myrcene"],
+    impact:"Cool resinous fir; deepens the piney structure." },
+  { key:"carene", label:"Δ-3-Carene", abbr:"CRN", tier:"impact", profile:"piney_fresh", also:["citrus_bright"],
+    aroma:"Sweet pine, cedar, lemon", foundWith:["α-Pinene","Limonene"],
+    impact:"Sweet-resinous; bridges pine and citrus with a cedar finish." },
+  { key:"geraniol", label:"Geraniol", abbr:"GER", tier:"impact", profile:"floral_soft", also:["fruity_sweet"],
+    aroma:"Rose, geranium, sweet", foundWith:["Linalool","Limonene"],
+    impact:"Bright rose-floral; potent and instantly recognizable.", potency:1.2 },
+  { key:"fenchol", label:"Fenchol", abbr:"FEN", tier:"impact", profile:"herbal_woody", also:["piney_fresh"],
+    aroma:"Basil, camphor, lemon-earth", foundWith:["α-Pinene","Camphene"],
+    impact:"Earthy-herbal pivot; common in basil-leaning profiles." },
+  { key:"borneol", label:"Borneol", abbr:"BOR", tier:"impact", profile:"herbal_woody", also:["piney_fresh"],
+    aroma:"Camphor, mint, herbal", foundWith:["Camphene","α-Pinene"],
+    impact:"Cooling camphor-herb; lends a medicinal-herbal crispness." },
+  { key:"sabinene", label:"Sabinene", abbr:"SAB", tier:"impact", profile:"piney_fresh", also:["spicy_warm"],
+    aroma:"Peppery, woody, citrus-spice", foundWith:["α-Pinene","γ-Terpinene"],
+    impact:"Spicy-woody freshness; adds peppery complexity to pine." },
+  { key:"pcymene", label:"p-Cymene", abbr:"CYM", tier:"impact", profile:"gas_fuel", also:["spicy_warm"], potency:0.85,
+    aroma:"Pungent, solvent, citrus-spice", foundWith:["Limonene","γ-Terpinene","β-Caryophyllene"],
+    impact:"A genuine gas marker, but usually present in small amounts — a confirming note, not the main driver of fuel character." },
+  { key:"eucalyptol", label:"Eucalyptol", abbr:"EUC", tier:"impact", profile:"herbal_woody", also:["piney_fresh"], modifier:"clean_fresh",
+    aroma:"Eucalyptus, mint, cooling", foundWith:["α-Pinene","Limonene"],
+    impact:"Cooling lift; primary driver of the Clean / Fresh modifier.", potency:1.2 },
+
+  // ── TRACE (super-minor, grouped by profile in the fingerprint) ──
+  { key:"citronellol", label:"Citronellol", abbr:"CIT", tier:"trace", profile:"floral_soft", also:["fruity_sweet"],
+    aroma:"Rose, citrus, soft floral", foundWith:["Geraniol","Linalool"],
+    impact:"Trace rose-citrus nuance; rounds floral tops." },
+  { key:"nerol", label:"Nerol", abbr:"NRL", tier:"trace", profile:"floral_soft", also:["citrus_bright"],
+    aroma:"Sweet rose, fresh citrus", foundWith:["Geraniol","Citronellol"],
+    impact:"Trace sweet-floral lift." },
+  { key:"phytol", label:"Phytol", abbr:"PHY", tier:"trace", profile:"herbal_woody",
+    aroma:"Balsamic, green, faint floral", foundWith:["(chlorophyll degradation)"],
+    impact:"Trace green-balsamic; a backdrop note, not a lead." },
+  { key:"isopulegol", label:"Isopulegol", abbr:"ISO", tier:"trace", profile:"herbal_woody", also:["piney_fresh"], modifier:"clean_fresh",
+    aroma:"Mint, cooling, herbal", foundWith:["Pulegone","Menthol"],
+    impact:"Trace minty-cool note; reinforces Clean / Fresh modifier." },
+  { key:"pulegone", label:"Pulegone", abbr:"PUL", tier:"trace", profile:"herbal_woody", modifier:"clean_fresh",
+    aroma:"Minty, camphor, herbal", foundWith:["Isopulegol","Menthol"],
+    impact:"Trace mint-camphor; supports cooling character." },
+  { key:"menthol", label:"Menthol", abbr:"MEN", tier:"trace", profile:"herbal_woody", modifier:"clean_fresh",
+    aroma:"Cooling mint", foundWith:["Isopulegol","Pulegone"],
+    impact:"Rare cooling trace; strong Clean / Fresh signal when present." },
+  { key:"cedrene", label:"α-Cedrene", abbr:"CED", tier:"trace", profile:"herbal_woody",
+    aroma:"Cedar, dry wood", foundWith:["Guaiol","α-Humulene"],
+    impact:"Trace cedar nuance; deepens woody structure." },
+  { key:"bergamotene", label:"α-Bergamotene", abbr:"BRG", tier:"trace", profile:"spicy_warm", also:["herbal_woody"],
+    aroma:"Warm wood, faint tea", foundWith:["β-Caryophyllene","Farnesene"],
+    impact:"Trace warm-wood spice." },
+  { key:"phellandrene", label:"α-Phellandrene", abbr:"PHL", tier:"trace", profile:"citrus_bright", also:["herbal_woody"],
+    aroma:"Mint-citrus, peppery", foundWith:["Limonene","γ-Terpinene"],
+    impact:"Trace minty-citrus pepper." },
+  { key:"gterpinene", label:"γ-Terpinene", abbr:"γTPN", tier:"trace", profile:"piney_fresh", also:["citrus_bright"],
+    aroma:"Fresh, woody-citrus", foundWith:["Sabinene","p-Cymene"],
+    impact:"Trace fresh-woody lift." },
+  { key:"sabinene_hydrate", label:"Sabinene Hydrate", abbr:"SBH", tier:"trace", profile:"herbal_woody", also:["piney_fresh"],
+    aroma:"Marjoram, fresh herb", foundWith:["Sabinene","γ-Terpinene"],
+    impact:"Trace fresh-herb nuance." },
+  { key:"geranyl_acetate", label:"Geranyl Acetate", abbr:"GAC", tier:"trace", profile:"floral_soft", also:["fruity_sweet"],
+    aroma:"Rose, sweet fruit, floral ester", foundWith:["Geraniol","Linalool"],
+    impact:"Trace sweet-rose ester; lifts floral and candied tops." },
+  { key:"aterpinene", label:"α-Terpinene", abbr:"αTPN", tier:"trace", profile:"piney_fresh", also:["citrus_bright"],
+    aroma:"Fresh citrus, woody-pine", foundWith:["γ-Terpinene","Sabinene","p-Cymene"],
+    impact:"Trace fresh-citrus pine; common alongside terpinolene." },
+];
+const TERP_BY_KEY = Object.fromEntries(TERPENES.map(t => [t.key, t]));
+const TIER_RANK = { primary:0, impact:1, trace:2 };
+const POTENCY_DEFAULT = { primary:1.0, impact:1.1, trace:0.7 };
+const potencyOf = t => (t.potency != null ? t.potency : POTENCY_DEFAULT[t.tier]);
+
+// ── PROFILE CONTRIBUTION (auto-derived from profile + also[]) ──
+function contribOf(t) {
+  const c = {};
+  c[t.profile] = 0.7;
+  (t.also || []).forEach((p, i) => { c[p] = i === 0 ? 0.2 : 0.1; });
+  const s = Object.values(c).reduce((a, b) => a + b, 0);
+  Object.keys(c).forEach(k => c[k] = c[k] / s);
+  return c;
+}
+
+// ── CLASSIFY ──
+function classify(values) {
+  const scores = {};
+  PROFILES.forEach(p => scores[p.key] = 0);
+  const modScores = {};
+  let activeCount = 0;
+  let totalRaw = 0;
+
+  TERPENES.forEach(t => {
+    const v = values[t.key] || 0;
+    if (v <= 0) return;
+    activeCount++;
+    totalRaw += v;
+    const weighted = v * potencyOf(t);
+    const c = contribOf(t);
+    Object.entries(c).forEach(([pk, w]) => { scores[pk] += weighted * w; });
+    if (t.modifier) modScores[t.modifier] = (modScores[t.modifier] || 0) + weighted;
+  });
+
+  // ── EMERGENT GAS/FUEL ──
+  // Gas is not a single terpene; it is the gestalt of pungent (caryophyllene),
+  // citrus (limonene), and musky (myrcene/humulene) terpenes occurring TOGETHER
+  // and in BALANCE — the Sour Diesel / Chemdawg signature. A flower dominated by
+  // any single leg (pure caryophyllene = Spicy, pure limonene = Citrus, GG4 =
+  // caryophyllene-led = Spicy) is intentionally NOT pushed into Gas; only a
+  // balanced co-occurrence of all three legs tips a flower over to Gas.
+  {
+    const car = (values.caryophyllene || 0) * potencyOf(TERP_BY_KEY.caryophyllene);
+    const lim = (values.limonene || 0) * potencyOf(TERP_BY_KEY.limonene);
+    const mus = ((values.myrcene || 0) * potencyOf(TERP_BY_KEY.myrcene))
+              + ((values.humulene || 0) * potencyOf(TERP_BY_KEY.humulene));
+    if (car > 0 && lim > 0 && mus > 0) {
+      const mn = Math.min(car, lim, mus), mx = Math.max(car, lim, mus);
+      const balance = mn / mx;                 // 1.0 = perfectly balanced legs
+      scores.gas_fuel += 1.5 * mn * Math.pow(balance, 1.5);
+    }
+  }
+
+  const totalScore = Object.values(scores).reduce((a, b) => a + b, 0);
+  if (totalScore === 0) return null;
+
+  const ranked = PROFILES
+    .map(p => ({ ...p, score: scores[p.key], pct: Math.round((scores[p.key] / totalScore) * 100) }))
+    .sort((a, b) => b.score - a.score);
+
+  const modifiers = MODIFIERS
+    .map(m => ({ ...m, score: modScores[m.key] || 0, active: (modScores[m.key] || 0) / totalScore > 0.05 }))
+    .filter(m => m.active);
+
+  // confidence: how dominant the top profile is over the runner-up
+  const gap = ranked[0].pct - ranked[1].pct;
+  const confidence = gap >= 22 ? "Defined" : gap >= 10 ? "Leaning" : "Blend";
+
+  return { ranked, modifiers, totalScore, totalRaw, activeCount, confidence };
+}
+
+
+// ── engine helpers (band / blend / tops / lead) — faithful to Explorer v10.1 ──
+function topTerpenes(values, n){
+  return TERPENES.map(t => ({ t, v: values[t.key] || 0 }))
+    .filter(x => x.v > 0).sort((a,b) => b.v - a.v).slice(0, n || 3);
+}
+function aromaticLead(values){
+  const r = TERPENES.map(t => ({ t, w:(values[t.key]||0)*potencyOf(t) }))
+    .filter(x => x.w > 0).sort((a,b) => b.w - a.w);
+  return r[0] ? r[0].t.label : "\u2014";
+}
+function bandSegments(c){
+  if(!c) return [];
+  const r = c.ranked.filter(x => x.pct > 0);
+  if(!r.length) return [];
+  const lead = r[0].pct;
+  const segs = r.filter(x => x.pct >= lead * 0.6).slice(0, 3);
+  const total = segs.reduce((a,s)=> a + s.pct, 0) || 1;
+  return segs.map(s => ({ key:s.key, color:s.color, label:s.label, frac:s.pct/total, pct:s.pct }));
+}
+function blendName(c){
+  if(!c) return "\u2014";
+  const segs = bandSegments(c);
+  if(segs.length <= 1) return PROFILE_BY_KEY[(segs[0] && segs[0].key) || c.ranked[0].key].label.split(" / ")[0];
+  return segs.slice(0,2).map(s => PROFILE_BY_KEY[s.key].label.split(" / ")[0]).join("-");
+}
+
+/* =================== PHASE-3 INGESTION LAYER =================== */
+
+// ─────────────────────────────────────────────────────────────────────────
+//  ANALYTE NAME MAPPING  (Phase 3 — the new layer)
+//  Labs spell terpenes a dozen different ways. canon() squashes a reported
+//  analyte name to [a-z0-9] (greek symbols spelled out, so the alpha/beta
+//  distinction and the -ol vs -ene ending are PRESERVED), then we look it up
+//  in an explicit alias table. Nothing is fuzzy-guessed: a miss is surfaced,
+//  never silently dropped. This is exactly why the importer runs the full
+//  38-terpene engine — the extra 11 are the ones a real COA actually carries.
+// ─────────────────────────────────────────────────────────────────────────
+function canon(s){
+  return (s||"").toString().toLowerCase()
+    .replace(/\u03b1/g,"alpha").replace(/\u03b2/g,"beta")
+    .replace(/\u03b3/g,"gamma").replace(/\u03b4/g,"delta").replace(/\u0394/g,"delta")
+    .replace(/\u03c1/g,"rho")
+    .replace(/[^a-z0-9]/g,"");
+}
+
+// key -> list of human aliases (canon() is applied at build time)
+const ALIASES = [
+  ["myrcene",            ["myrcene","\u03b2-myrcene","beta-myrcene"]],
+  ["limonene",           ["limonene","d-limonene","\u03b4-limonene","dl-limonene","(d)-limonene","r-limonene","(r)-(+)-limonene"]],
+  ["caryophyllene",      ["caryophyllene","\u03b2-caryophyllene","beta-caryophyllene","trans-caryophyllene","(e)-caryophyllene","trans-\u03b2-caryophyllene","b-caryophyllene","beta caryophyllene"]],
+  ["linalool",           ["linalool","linalol","\u03b2-linalool"]],
+  ["pinene_a",           ["\u03b1-pinene","alpha-pinene","a-pinene","(+)-\u03b1-pinene","(1r)-(+)-\u03b1-pinene","alpha pinene"]],
+  ["pinene_b",           ["\u03b2-pinene","beta-pinene","b-pinene","(-)-\u03b2-pinene","beta pinene"]],
+  ["terpinolene",        ["terpinolene"]],
+  ["humulene",           ["\u03b1-humulene","alpha-humulene","humulene","\u03b1-caryophyllene","alpha-caryophyllene","alpha humulene"]],
+  ["ocimene",            ["\u03b2-ocimene","beta-ocimene","ocimene","(e)-ocimene","(z)-ocimene","cis-ocimene","trans-ocimene","ocimene 1","ocimene 2","ocimene-1","ocimene-2","(e)-\u03b2-ocimene","beta-ocimene 1","beta-ocimene 2"]],
+  ["bisabolol",          ["\u03b1-bisabolol","alpha-bisabolol","bisabolol","(-)-\u03b1-bisabolol","levomenol","alpha bisabolol"]],
+  ["valencene",          ["valencene","(+)-valencene"]],
+  ["nerolidol",          ["trans-nerolidol","nerolidol","cis-nerolidol","(e)-nerolidol","(z)-nerolidol","nerolidol 1","nerolidol 2","nerolidol-1","nerolidol-2","trans-\u03b2-nerolidol"]],
+  ["guaiol",             ["guaiol"]],
+  ["terpineol",          ["\u03b1-terpineol","alpha-terpineol","terpineol","alpha terpineol"]],
+  ["caryophyllene_oxide",["caryophyllene oxide","caryophyllene-oxide","\u03b2-caryophyllene oxide","caryophylleneoxide"]],
+  ["farnesene_b",        ["\u03b2-farnesene","beta-farnesene","(e)-\u03b2-farnesene","trans-\u03b2-farnesene","cis-\u03b2-farnesene"]],
+  ["farnesene_a",        ["\u03b1-farnesene","alpha-farnesene","farnesene","(e,e)-\u03b1-farnesene"]],
+  ["camphene",           ["camphene"]],
+  ["carene",             ["\u03b4-3-carene","delta-3-carene","3-carene","carene","\u03b4-carene","d-3-carene","(+)-3-carene","delta3carene"]],
+  ["geraniol",           ["geraniol"]],
+  ["fenchol",            ["fenchol","fenchyl alcohol","endo-fenchyl alcohol","(-)-fenchol","endo-fenchol","(+)-fenchol","fenchyl-alcohol"]],
+  ["borneol",            ["borneol","(-)-borneol","(+)-borneol","l-borneol"]],
+  ["sabinene",           ["sabinene"]],
+  ["pcymene",            ["p-cymene","para-cymene","cymene","\u03c1-cymene","4-cymene","p cymene"]],
+  ["eucalyptol",         ["eucalyptol","1,8-cineole","cineole","1,8-cineol","eucalyptol (1,8-cineole)","1 8-cineole"]],
+  ["citronellol",        ["citronellol","\u03b2-citronellol"]],
+  ["nerol",              ["nerol"]],
+  ["isopulegol",         ["isopulegol"]],
+  ["pulegone",           ["pulegone","(r)-(+)-pulegone"]],
+  ["menthol",            ["menthol","l-menthol","(-)-menthol"]],
+  ["cedrene",            ["\u03b1-cedrene","alpha-cedrene","cedrene"]],
+  ["bergamotene",        ["\u03b1-bergamotene","alpha-bergamotene","bergamotene","trans-\u03b1-bergamotene","(e)-\u03b1-bergamotene"]],
+  ["gterpinene",         ["\u03b3-terpinene","gamma-terpinene","g-terpinene","gamma terpinene"]],
+  ["sabinene_hydrate",   ["sabinene hydrate","cis-sabinene hydrate","trans-sabinene hydrate","sabinene-hydrate"]],
+  ["phytol",             ["phytol"]],
+  ["phellandrene",       ["\u03b1-phellandrene","alpha-phellandrene","phellandrene"]],
+  ["aterpinene",         ["\u03b1-terpinene","alpha-terpinene","alpha terpinene"]],
+  ["geranyl_acetate",    ["geranyl acetate","geranyl-acetate","geranylacetate"]],
+];
+const LOOKUP = {};
+ALIASES.forEach(([key, list]) => { list.forEach(a => { LOOKUP[canon(a)] = key; }); });
+// also map each engine label/key itself
+TERPENES.forEach(t => { LOOKUP[canon(t.label)] = t.key; LOOKUP[canon(t.key)] = t.key; });
+
+// Names too ambiguous to auto-assign — surfaced with guidance instead of guessed.
+const AMBIGUOUS = {
+  [canon("terpinene")]:  "ambiguous \u2014 specify \u03b1-terpinene or \u03b3-terpinene",
+  [canon("pinene")]:     "ambiguous \u2014 specify \u03b1-pinene or \u03b2-pinene",
+  [canon("nerolidol total")]: "isomer total \u2014 list individual nerolidol peaks if possible",
+};
+
+// cannabinoids / non-terpene rows to skip (and best-effort THC capture)
+function cannabinoidKind(cn){
+  if(/^totalthc$/.test(cn)) return "total_thc";
+  if(/^(delta9thc|d9thc|thc)$/.test(cn)) return "thc";
+  if(/^thca$/.test(cn)) return "thca";
+  if(/^cbda$/.test(cn)) return "cbda";
+  if(/^(cbd|totalcbd)$/.test(cn)) return "cbd";
+  if(/^(totalcannabinoids|cannabinoidtotal)$/.test(cn)) return "total_cannabinoids";
+  if(/(thcv|cbga?$|cbn$|cbc$|cbdv|delta8thc|d8thc|cannabinoids)/.test(cn)) return "other_cannabinoid";
+  return null;
+}
+
+// ── value extraction (v1.1: table-aware) ──────────────────────────────────
+// Real COA terpene tables are multi-column: Analyte | LOD | LOQ | Result(%) |
+// Result(mg/g). v1.0 guessed a single number per line and could grab a
+// detection limit. v1.1 detects a labeled header row and locks onto the Result
+// column by position; only un-tabled lines fall back to the single-line heuristic,
+// and any guessed pick is FLAGGED so the editable preview draws the eye to it.
+
+function tokenizeRow(line){
+  // split on tab(s) or 2+ spaces — the alignment real aligned tables use.
+  // (single commas are NOT delimiters here: "1,8-Cineole" must stay intact)
+  const parts = line.split(/\t+|\s{2,}/).map(x=>x.trim()).filter(x=>x!=="");
+  return parts;
+}
+const NAME_HDR = /^(analyte|compound|terpene|terpenes?|name|constituent)s?$/i;
+const VAL_HDR  = /(result|conc|concentration|amount|%|percent|wt|mg\s*\/\s*g)/i;
+function detectHeader(line){
+  const t = tokenizeRow(line);
+  if(t.length < 2) return null;
+  // A percent sign alone does not make a header. Requiring an actual header
+  // word prevents aligned data rows such as "D-Limonene   0.55 %" from being
+  // mistaken for a new table header and silently skipped.
+  if(!t.some(x => NAME_HDR.test(x) || /(result|conc|concentration|amount)/i.test(x))) return null;
+  let nameIdx = t.findIndex(x => NAME_HDR.test(x));
+  if(nameIdx < 0) nameIdx = 0;                       // assume first col is the name
+  // choose value column: prefer a %/result/conc/amount header; avoid mg/g unless only option
+  let pctIdx=-1, mggIdx=-1, genIdx=-1;
+  t.forEach((x,i)=>{ if(i===nameIdx) return;
+    if(/mg\s*\/\s*g/i.test(x)) mggIdx = mggIdx<0?i:mggIdx;
+    else if(/%|percent|wt/i.test(x)) pctIdx = pctIdx<0?i:pctIdx;
+    else if(/result|conc|concentration|amount/i.test(x)) genIdx = genIdx<0?i:genIdx;
+  });
+  let valIdx, unit="%";
+  if(pctIdx>=0){ valIdx=pctIdx; }
+  else if(genIdx>=0){ valIdx=genIdx; }
+  else if(mggIdx>=0){ valIdx=mggIdx; unit="mg/g"; }
+  else return null;                                 // no value column → not a usable header
+  if(!t.some(x=>VAL_HDR.test(x))) return null;
+  return { nameIdx, valIdx, unit, ncol:t.length };
+}
+function numFrom(cell){
+  if(cell==null) return null;
+  if(/(nd|n\/d|<\s*loq|<\s*lod|<\s*loc|blq|bdl|not\s*detected|none\s*detected)/i.test(cell) && !/[0-9]/.test(cell.replace(/loq|lod|loc/ig,""))) return 0;
+  const m = String(cell).match(/-?[0-9]*\.?[0-9]+/);
+  return m ? parseFloat(m[0]) : null;
+}
+
+// single-line fallback (v1.0 logic) + a `guess` flag when it had to choose among numbers
+function splitNameValue(line){
+  let s = line.replace(/^[\s\u2022\u2023\u25aa\-|]+/,"").trim();
+  if(!s) return null;
+  const ok = (name,value,guess,unit) => {
+    name = name.replace(/[\s,:;\-]+$/,"").replace(/^[\s,:;\-]+/,"").trim();
+    if(!name || !/[a-zA-Z]/.test(name)) return null;
+    if(value===null || isNaN(value)) return null;
+    return { name, value, guess:!!guess, unit:unit||"%" };
+  };
+  let m = s.match(/^(.*?[a-zA-Z].*?)\s*[:,;]?\s*([0-9]*\.?[0-9]+)\s*%/);
+  if(m) return ok(m[1], parseFloat(m[2]), false);
+  m = s.match(/^(.*?[a-zA-Z].*?)\s*[:,;]?\s*([0-9]*\.?[0-9]+)\s*mg\s*\/\s*g/i);
+  if(m) return ok(m[1], parseFloat(m[2])/10, false, "mg/g");
+  if(/[a-zA-Z]/.test(s) && /(nd|n\/d|<\s*loq|<\s*lod|<\s*loc|blq|bdl|not\s*detected|none\s*detected)/i.test(s)){
+    const stripped = s.replace(/(nd|n\/d|<\s*loq|<\s*lod|<\s*loc|blq|bdl|not\s*detected|none\s*detected)/ig,"");
+    if(!/[0-9]/.test(stripped)){
+      const nm = s.replace(/[\s,:;\-]*(nd|n\/d|<\s*loq|<\s*lod|<\s*loc|blq|bdl|not\s*detected|none\s*detected).*$/i,"");
+      return ok(nm, 0, false);
+    }
+  }
+  // generic: name = leading text w/ a letter, value among the trailing numbers.
+  const nums = [...s.matchAll(/[0-9]*\.?[0-9]+/g)];
+  if(!nums.length) return null;
+  // name boundary = before the first number that begins the numeric tail (a number
+  // followed only by more numbers/units to end of line)
+  let tailStart = nums.length-1;
+  for(let i=0;i<nums.length;i++){
+    const after = s.slice(nums[i].index);
+    if(/^[0-9]*\.?[0-9]+([\s,;%]|mg\s*\/\s*g|[0-9.])*$/i.test(after)){ tailStart=i; break; }
+  }
+  const name = s.slice(0, nums[tailStart].index);
+  const tail = nums.slice(tailStart).map(x=>parseFloat(x[0]));
+  // if multiple trailing numbers and none had %, this is a guess: take the LAST
+  // (most COAs order LOD,LOQ,Result → Result last). Flag it.
+  const guess = tail.length>1;
+  const value = tail[tail.length-1];
+  return ok(name, value, guess);
+}
+
+function parseCOA(text){
+  const lines = (text||"").split(/\r?\n/);
+  const values = {};
+  const matched = [];         // {raw,key,label,value,unit,summed,guess}
+  const unmapped = [];
+  let thc=null, thca=null, totalThc=null, cbd=null, cbda=null, totalCannabinoids=null, reportedTotal=null, skipped=0;
+  const meta={lot:"",sample:"",harvest:"",grower:"",product:""};
+  let header=null;            // active table header
+
+  const addPair = (rawName, value, unit, guess) => {
+    if(value===null || isNaN(value)) return;
+    if(/^total\s*terp/i.test(rawName)){ reportedTotal = value; return; }
+    const cn = canon(rawName); if(!cn) return;
+    const ck = cannabinoidKind(cn);
+    if(ck){
+      if(ck==="total_thc") totalThc=value;
+      else if(ck==="thc") thc=value;
+      else if(ck==="thca") thca=value;
+      else if(ck==="cbda") cbda=value;
+      else if(ck==="cbd") cbd=value;
+      else if(ck==="total_cannabinoids") totalCannabinoids=value;
+      skipped++; return;
+    }
+    if(AMBIGUOUS[cn]){ unmapped.push({ raw:rawName, value, reason:AMBIGUOUS[cn] }); return; }
+    const key = LOOKUP[cn];
+    if(key){
+      if(value>0){
+        const summed = values[key]!=null;
+        values[key] = (values[key]||0) + value;
+        matched.push({ raw:rawName, key, label:TERP_BY_KEY[key].label, value, unit:unit||"%", summed, guess:!!guess });
+      }
+    } else { unmapped.push({ raw:rawName, value, reason:"not a tracked terpene" }); }
+  };
+
+  for(const raw of lines){
+    const line = raw.trim();
+    if(!line || /^#/.test(line)) continue;
+    const admin=line.match(/^(sample(?:\s*id)?|lot|batch|harvest(?:\s*date)?|producer|cultivator|grower|farm|product|strain)\s*[:#\-]\s*(.+)$/i);
+    if(admin){
+      const k=admin[1].toLowerCase(), v=admin[2].trim();
+      if(/^sample/.test(k)) meta.sample=v;
+      else if(/^(lot|batch)/.test(k)) meta.lot=v;
+      else if(/^harvest/.test(k)) meta.harvest=v;
+      else if(/^(producer|cultivator|grower|farm)/.test(k)) meta.grower=v;
+      else if(/^(product|strain)/.test(k)) meta.product=v;
+      skipped++; continue;
+    }
+    // COA identity and administrative rows often contain lot numbers that look
+    // numeric enough to resemble analyte results. Keep them out of the review
+    // queue without weakening explicit terpene alias matching.
+    if(/^(sample|product|lot|batch|report|certificate|license|harvest|tested|received|issued|method|instrument|page|address)\s*[:#\-]/i.test(line)){ skipped++; continue; }
+    // (re)detect a table header
+    const h = detectHeader(line);
+    if(h){ header = h; continue; }
+    if(header){
+      const t = tokenizeRow(line);
+      // a data row in the active table: enough columns and a name with letters
+      if(t.length >= 2 && t.length >= header.valIdx+1 && /[a-zA-Z]/.test(t[header.nameIdx]||"")){
+        const name = t[header.nameIdx];
+        let val = numFrom(t[header.valIdx]);
+        let unit = header.unit;
+        // if the chosen result cell is empty/ND-less but another %/number exists, still take it
+        if(val===null){ // try any numeric cell after name
+          for(let i=header.nameIdx+1;i<t.length;i++){ const n=numFrom(t[i]); if(n!==null){ val=n; break; } }
+        }
+        if(val!==null){
+          if(unit==="mg/g") val = val/10;
+          addPair(name, val, unit, false);   // table column → not a guess
+          continue;
+        }
+      }
+      // doesn't fit the table → fall through to single-line parse
+    }
+    const sv = splitNameValue(line);
+    if(sv) addPair(sv.name, sv.value, sv.unit, sv.guess);
+  }
+
+  let thcOut=null;
+  if(totalThc!=null) thcOut=totalThc;
+  else if(thc!=null || thca!=null) thcOut=+(((thc||0)+0.877*(thca||0)).toFixed(2));
+  const cbdOut=(cbd!=null||cbda!=null)?+(((cbd||0)+0.877*(cbda||0)).toFixed(2)):null;
+  return { values, matched, unmapped, thc:thcOut, cbd:cbdOut, totalCannabinoids, meta, thcEstimated:(totalThc==null && (thc!=null||thca!=null)), reportedTotal, skipped,
+           guessedCount: matched.filter(m=>m.guess).length };
+}
+
+// ── CSV round-trip ── original 20 Explorer-compatible menu columns, seven
+// buyer-sale fields, and a raw 38-terpene block for lossless reclassification.
+const META_COLS = ["Strain","Grower","Lineage","Primary Profile","Profile %","Secondary","Secondary %","Blend Name","Confidence","THC %","Total Terpenes %","Top Terps","Aroma","Tier","Price 1g","Price 1/8","Staff Pick","Picked By","Pick Note","Notes"];
+const BUYER_COLS = ["Lot","Sample ID","Harvest Date","Quantity Available","Buyer Contact","Total Cannabinoids %","CBD %"];
+const TERP_COLS = TERPENES.map(t => t.label);
+
+function rowToValues(headerKeys, cells){
+  // headerKeys: array of canon(header); cells: array of strings
+  const values = {};
+  headerKeys.forEach((hk, i) => {
+    const key = LOOKUP[hk]; if(!key) return;
+    const v = parseFloat((cells[i]||"").toString().replace(/[%\s]/g,""));
+    if(!isNaN(v) && v>0) values[key] = (values[key]||0) + v;
+  });
+  return values;
+}
+function csvParse(text){
+  // minimal RFC-ish CSV: handles quoted fields w/ commas + escaped quotes
+  const rows=[]; let row=[], cur="", q=false;
+  for(let i=0;i<text.length;i++){
+    const c=text[i];
+    if(q){ if(c==='"'){ if(text[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=c; }
+    else if(c==='"') q=true;
+    else if(c===','){ row.push(cur); cur=""; }
+    else if(c==='\n'){ row.push(cur); rows.push(row); row=[]; cur=""; }
+    else if(c==='\r'){}
+    else cur+=c;
+  }
+  if(cur.length||row.length){ row.push(cur); rows.push(row); }
+  return rows;
+}
+function importCSV(text){
+  const rows = csvParse(text).filter(r => r.some(c => (c||"").trim()!==""));
+  if(!rows.length) return { strains:[], error:"empty CSV" };
+  // find the header row: the row that contains "Strain" (case-insensitive)
+  let hi = rows.findIndex(r => r.some(c => /^strain$/i.test((c||"").trim())));
+  if(hi<0) hi = 0;
+  const header = rows[hi].map(c => (c||"").trim());
+  const hkeys = header.map(canon);
+  const idx = name => header.findIndex(h => canon(h)===canon(name));
+  const out = [];
+  for(let i=hi+1;i<rows.length;i++){
+    const cells = rows[i];
+    const get = name => { const j=idx(name); return j>=0 ? (cells[j]||"").trim() : ""; };
+    const values = rowToValues(hkeys, cells);
+    const nm = get("Strain");
+    if(!nm && Object.keys(values).length===0) continue;
+    out.push({
+      name: nm || "(unnamed)",
+      grower: get("Grower"),
+      lineage: get("Lineage"),
+      lot: get("Lot"), sample:get("Sample ID"), harvest:get("Harvest Date"), quantity:get("Quantity Available"), contact:get("Buyer Contact"),
+      thc: get("THC %"),
+      cannabinoids:get("Total Cannabinoids %"), cbd:get("CBD %"), totalTerpenes:get("Total Terpenes %"),
+      tier: get("Tier"),
+      aroma: get("Aroma"),
+      notes: get("Notes"),
+      price: { g:get("Price 1g"), eighth:get("Price 1/8") },
+      staffPick: get("Staff Pick"),
+      pickedBy: get("Picked By"),
+      pickNote: get("Pick Note"),
+      values
+    });
+  }
+  return { strains: out };
+}
+
+function strainsToCSV(list){
+  const esc = v => { const t=String(v==null?"":v).replace(/"/g,'""'); return /[",\n]/.test(t)?'"'+t+'"':t; };
+  const header = "Flower Spectrum COA Import Export," + VERSION + "," + BUILD;
+  const cols = META_COLS.concat(BUYER_COLS,TERP_COLS);
+  const body = list.map(s => {
+    const c = classify(s.values); const r = (c&&c.ranked)||[];
+    const tops = topTerpenes(s.values,4).map(t=>t.t.label).join(" / ");
+    const meta = [
+      s.name, s.grower||"", s.lineage||"",
+      r[0]?r[0].label:"", r[0]?r[0].pct:"",
+      r[1]?r[1].label:"", r[1]?r[1].pct:"",
+      blendName(c), c?c.confidence:"",
+      s.thc||"", c?c.totalRaw.toFixed(2):"",
+      tops, s.aroma||"", s.tier||"",
+      (s.price&&s.price.g)||"", (s.price&&s.price.eighth)||"",
+      s.staffPick||"", s.pickedBy||"", s.pickNote||"", s.notes||""
+    ].concat([s.lot||"",s.sample||"",s.harvest||"",s.quantity||"",s.contact||"",s.cannabinoids||"",s.cbd||""]);
+    const terps = TERPENES.map(t => { const v=s.values[t.key]; return v?(+v).toFixed(3):""; });
+    return meta.concat(terps).map(esc).join(",");
+  });
+  return header + "\n\n" + cols.map(esc).join(",") + "\n" + body.join("\n");
+}
+
+// ── In-tool coverage self-test (synthetic LAYOUTS, not COA data) ──
+const FORMAT_FIXTURES = [
+ { id:"Simple % lines",            text:"\u03b2-Caryophyllene 0.82 %\nD-Limonene 0.55 %", expect:{caryophyllene:0.82,limonene:0.55} },
+ { id:"Comma-separated",           text:"\u03b2-Myrcene,0.40\nLinalool,0.12", expect:{myrcene:0.40,linalool:0.12} },
+ { id:"Aligned LOD/LOQ/Result",    text:"Analyte            LOD     LOQ     Result (%)\n\u03b2-Caryophyllene    0.003   0.010   0.824\nD-Limonene         0.003   0.010   0.553", expect:{caryophyllene:0.824,limonene:0.553} },
+ { id:"mg/g column",               text:"Compound          Result (mg/g)\n\u03b2-Caryophyllene   8.20\nMyrcene           4.10", expect:{caryophyllene:0.82,myrcene:0.41} },
+ { id:"Dual %/mg-g header",        text:"Terpene           Result (%)   Result (mg/g)\nLinalool          0.150        1.50", expect:{linalool:0.15} },
+ { id:"Result before limits",      text:"Analyte           Result(%)   LOD     LOQ\n\u03b2-Caryophyllene   0.824       0.003   0.010", expect:{caryophyllene:0.824} },
+ { id:"Names w/ comma+digits",     text:"1,8-Cineole 0.06 %\n\u03b4-3-Carene 0.03 %", expect:{eucalyptol:0.06,carene:0.03} },
+ { id:"Multi-word names",          text:"Caryophyllene Oxide 0.04 %\nSabinene Hydrate 0.02 %\nEndo-Fenchyl Alcohol 0.05 %", expect:{caryophyllene_oxide:0.04,sabinene_hydrate:0.02,fenchol:0.05} },
+ { id:"ND / <LOQ ignored",         text:"p-Cymene ND\nGuaiol < LOQ\nMyrcene 0.30 %", expect:{myrcene:0.30}, absent:["pcymene","guaiol"] },
+ { id:"Isomer peaks summed",       text:"(E)-Ocimene 0.07 %\ncis-Ocimene 0.03 %\ntrans-Nerolidol 0.11 %\nNerolidol 0.04 %", expect:{ocimene:0.10,nerolidol:0.15} },
+ { id:"Ambiguous flagged",         text:"Terpinene 0.02 %\nMyrcene 0.20 %", expect:{myrcene:0.20}, ambiguous:1 },
+ { id:"Cannabinoids filtered",     text:"Total THC 24.8 %\nTHCA 28.1 %\nCBD ND\n\u03b2-Caryophyllene 0.50 %\nTotal Terpenes 2.10 %", expect:{caryophyllene:0.50}, thc:24.8 },
+];
+function selfTest(){
+  const near=(a,b)=>Math.abs(a-b)<1e-6;
+  return FORMAT_FIXTURES.map(f=>{
+    const p=parseCOA(f.text); const msgs=[];
+    for(const [k,v] of Object.entries(f.expect||{})) if(!(k in p.values)||!near(p.values[k],v)) msgs.push(k+"="+p.values[k]+"\u2260"+v);
+    for(const k of (f.absent||[])) if(k in p.values) msgs.push(k+" present");
+    if(f.ambiguous!=null && p.unmapped.filter(u=>/ambiguous/.test(u.reason)).length!==f.ambiguous) msgs.push("ambiguous\u2260"+f.ambiguous);
+    if(f.thc!=null && !near(p.thc,f.thc)) msgs.push("thc="+p.thc);
+    if(!f.ambiguous){ const bad=p.unmapped.filter(u=>!/ambiguous/.test(u.reason)); if(bad.length) msgs.push("unmapped:"+bad.map(x=>x.raw).join(",")); }
+    return { id:f.id, pass:msgs.length===0, detail:msgs.join(" \u00b7 ") };
+  });
+}
+
+/* =================== UI =================== */
+let DATASET = [];
+let CUR = null;            // current parse result for the Paste tab
+let CSVROWS = null;        // current parsed CSV rows
+let CURRENT_FLOWER_IMAGE = "assets/johnny-glaze-flower.jpeg";
+
+function setFlowerImage(src){
+  CURRENT_FLOWER_IMAGE=src||"";
+  const preview=document.getElementById("mPhotoPreview"); if(preview) preview.src=CURRENT_FLOWER_IMAGE;
+  if(CUR) renderParse();
+}
+function useJohnnyGlazeImage(){ setFlowerImage("assets/johnny-glaze-flower.jpeg"); }
+function loadFlowerImage(ev){
+  const file=ev.target.files&&ev.target.files[0]; if(!file)return;
+  if(!/^image\/(png|jpeg|webp)$/i.test(file.type)){ alert("Please choose a PNG, JPG, or WEBP image."); return; }
+  if(file.size>12*1024*1024){ alert("Please choose an image smaller than 12 MB."); return; }
+  const reader=new FileReader(); reader.onload=()=>setFlowerImage(String(reader.result||"")); reader.readAsDataURL(file);
+}
+
+function switchTab(t){
+  const p = t==="paste";
+  document.getElementById("panePaste").style.display = p?"":"none";
+  document.getElementById("paneCsv").style.display = p?"none":"";
+  document.getElementById("tabPaste").classList.toggle("on",p);
+  document.getElementById("tabCsv").classList.toggle("on",!p);
+}
+
+function bandHTML(c){
+  const segs = bandSegments(c);
+  if(!segs.length) return "";
+  return '<div class="band fs-output-strip" aria-label="Flower Spectrum proportional strip">' + segs.map(s =>
+    '<span style="flex:'+s.frac+';background:'+s.color+'">'+(s.frac>0.14?'<b>'+esc(s.label.split(" / ")[0])+' · '+s.pct+'%</b>':"")+'</span>'
+  ).join("") + '</div>';
+}
+function confPill(conf){
+  const cls = conf==="Defined"?"def":conf==="Leaning"?"lean":"blend";
+  return '<span class="pill '+cls+'">'+conf+'</span>';
+}
+function esc(s){ return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+
+function fingerprintSVG(values, labelled){
+  const c = classify(values);
+  if(!c) return "";
+  return fingerprintFromClassification(c);
+}
+function fingerprintFromClassification(c){
+  const size=260,cx=size/2,cy=size/2,maxR=size*.46,minR=size*.13;
+  const slice=2*Math.PI/PROFILES.length,g=.05;
+  const pctMap=Object.fromEntries(c.ranked.map(p=>[p.key,p.pct]));
+  const maxV=Math.max(...Object.values(pctMap),1),lead=c.ranked[0];
+  const wedge=(ir,or_,sa,ea)=>{
+    const f=v=>v.toFixed(2);
+    const x1=cx+ir*Math.cos(sa),y1=cy+ir*Math.sin(sa),x2=cx+or_*Math.cos(sa),y2=cy+or_*Math.sin(sa);
+    const x3=cx+or_*Math.cos(ea),y3=cy+or_*Math.sin(ea),x4=cx+ir*Math.cos(ea),y4=cy+ir*Math.sin(ea);
+    return 'M'+f(x1)+' '+f(y1)+' L'+f(x2)+' '+f(y2)+' A'+f(or_)+' '+f(or_)+' 0 0 1 '+f(x3)+' '+f(y3)+' L'+f(x4)+' '+f(y4)+' A'+f(ir)+' '+f(ir)+' 0 0 0 '+f(x1)+' '+f(y1)+' Z';
+  };
+  const segments=PROFILES.map((p,i)=>{
+    const pct=pctSafe(pctMap[p.key]),has=pct>.5;
+    const outer=has?minR+(pct/maxV)*(maxR-minR):minR+size*.015;
+    const sa=-Math.PI/2+i*slice+g/2,ea=-Math.PI/2+(i+1)*slice-g/2;
+    return '<path d="'+wedge(minR,outer,sa,ea)+'" fill="'+p.color+'" fill-opacity="'+(has?(p.key===lead.key?.92:.22):.14)+'"><title>'+esc(p.label)+' · '+pct+'% influence</title></path>';
+  }).join("");
+  const legend=c.ranked.slice(0,3).map(p=>'<div class="fingerprint-legend-row" style="--legend-color:'+p.color+'"><i></i><b>'+esc(p.label.split(" / ")[0])+'</b><span>'+p.pct+'%</span></div>').join("");
+  return '<div class="fingerprint-lockup"><div class="fingerprint-chart"><svg viewBox="0 0 260 260" role="img" aria-label="Circular Flower Spectrum aroma fingerprint; segment radius represents profile influence">'+
+    '<circle cx="130" cy="130" r="76.7" fill="none" stroke="#2a2824" stroke-width="1" stroke-dasharray="2 4" opacity=".6"/>'+
+    '<circle cx="130" cy="130" r="119.6" fill="none" stroke="#2a2824" stroke-width="1.3"/>'+
+    '<circle cx="130" cy="130" r="33.8" fill="none" stroke="#2a2824" stroke-width="1"/>'+segments+
+    '<circle cx="130" cy="130" r="7.28" fill="'+lead.color+'"><title>Lead profile: '+esc(lead.label)+'</title></circle></svg></div><div class="fingerprint-legend" aria-label="Top three profile influences">'+legend+'</div></div>';
+}
+
+function pctSafe(v){ return Math.max(0,Math.min(100,Number(v)||0)); }
+
+function classCardHTML(values, opts){
+  opts = opts||{};
+  const c = classify(values);
+  if(!c){ return '<div class="empty">No terpene values yet.</div>'; }
+  const r = c.ranked;
+  const tops = topTerpenes(values,4).map(t=>t.t.label).join(" · ");
+  const mods = c.modifiers.map(m=>'<span class="modtag">+ '+m.label+'</span>').join(" ");
+  const lead = aromaticLead(values);
+  let html = '<div class="result-layout"><div class="result-fingerprint">'+fingerprintSVG(values,true)+'</div><div class="result-summary">';
+  html += bandHTML(c);
+  html += '<div class="result-h"><span class="pri">'+esc(blendName(c))+'</span>'+confPill(c.confidence)+' '+mods+'</div>';
+  html += '<div class="sm">Primary <b class="accent">'+esc(r[0].label)+'</b> '+r[0].pct+'% · runner-up '+esc(r[1].label)+' '+r[1].pct+'% · aromatic lead '+esc(lead)+'</div>';
+  html += '<div class="sm" style="margin-top:4px">Top by mass: '+esc(tops)+'</div></div></div>';
+  if(opts.extra) html += opts.extra;
+  return html;
+}
+
+const PROFILE_LANGUAGE={
+  gas_fuel:{noun:"diesel funk",top:"pungent fuel and sharp solvent",mid:"pepper, citrus resin, skunk",base:"musky gas and dark earth"},
+  earthy_dank:{noun:"damp earth",top:"forest air and faint green herb",mid:"soil, mushroom, dry hops",base:"deep musk and forest floor"},
+  citrus_bright:{noun:"bright citrus oil",top:"lemon oil, orange peel, bright citrus vapor",mid:"zest, sweet rind, clean resin",base:"soft citrus and warm peel"},
+  fruity_sweet:{noun:"ripe fruit",top:"berry, candy, fresh stone fruit",mid:"green fruit, sweet resin, apple skin",base:"soft fruit and woody sweetness"},
+  floral_soft:{noun:"soft florals",top:"lavender, rose petal, light perfume",mid:"chamomile, magnolia, floral cream",base:"soft resin and delicate wood"},
+  dessert_creamy:{noun:"sweet cream",top:"vanilla and soft confection",mid:"cream, cake batter, gentle spice",base:"smooth sweetness and warm resin"},
+  spicy_warm:{noun:"cracked pepper",top:"peppercorn and warm spice",mid:"clove, dry resin, baking spice",base:"savory wood and warm earth"},
+  piney_fresh:{noun:"fresh pine",top:"pine needle, fir, crisp resin",mid:"cedar, green wood, mountain air",base:"cool resin and dry forest"},
+  herbal_woody:{noun:"dry herbs",top:"tea leaf, sage, green hops",mid:"cedar, dry wood, savory resin",base:"woody herbs and balsamic green"},
+  tropical_tangy:{noun:"tangy tropical fruit",top:"mango, guava, exotic citrus",mid:"passion fruit, sweet herbs, bright resin",base:"soft fruit and tart peel"}
+};
+
+function valOf(id){ const el=document.getElementById(id); return el?el.value.trim():""; }
+function displayPct(v){ const n=parseFloat(String(v||"").replace(/[^0-9.]/g,"")); return isNaN(n)?"—":n.toFixed(2)+"%"; }
+function buyerData(values){
+  const c=classify(values), ranked=c.ranked, top=topTerpenes(values,99);
+  const summed=Object.values(values).reduce((a,b)=>a+b,0);
+  const lead=PROFILE_LANGUAGE[ranked[0].key],second=PROFILE_LANGUAGE[ranked[1].key],third=PROFILE_LANGUAGE[ranked[2].key];
+  const leadPhrase=lead.noun.charAt(0).toUpperCase()+lead.noun.slice(1);
+  const generated=leadPhrase+" leads into "+second.noun+", finishing over "+third.noun+".";
+  const aroma=valOf("mAroma")||generated;
+  // The full COA panel is intentionally never clipped. This conservative
+  // content-height model leaves room for the photo, scores, purchase details,
+  // narrative, and one complete table row for every reported terpene.
+  const buyerBodyHeight=Math.max(1500,1120+top.length*38);
+  return {
+    name:valOf("mName")||"Untitled Flower",grower:valOf("mGrower")||"Craft Cultivator",lineage:valOf("mLineage")||"Lineage not provided",
+    lot:valOf("mLot")||"—",sample:valOf("mSample")||"—",harvest:valOf("mHarvest")||"—",quantity:valOf("mQuantity")||"Contact for availability",
+    contact:valOf("mContact")||"Buyer contact not provided",image:CURRENT_FLOWER_IMAGE,thc:displayPct(valOf("mThc")),cannabinoids:displayPct(valOf("mCann")),cbd:displayPct(valOf("mCbd")),
+    terps:displayPct(valOf("mTerps")||summed),tier:valOf("mTier")||"—",priceG:valOf("mPriceG"),priceE:valOf("mPriceE"),aroma,c,values,buyerBodyHeight,buyerHeight:buyerBodyHeight+408,
+    blend:blendName(c),confidence:c.confidence,segments:bandSegments(c),scores:ranked.filter(x=>x.pct>0).slice(0,6),
+    topTerps:top.slice(0,4).map(x=>({label:x.t.label,value:x.v})),panel:top.map(x=>({label:x.t.label,value:x.v,tier:x.t.tier})),
+    sensory:{top:lead.top,middle:second.mid,base:third.base},
+    copy:[
+      (valOf("mName")||"This flower")+" reads as "+lead.noun+" over "+second.noun+", with "+third.noun+" supporting the finish.",
+      top.slice(0,3).map(x=>x.t.label).join(", ")+" lead the measured panel. The Flower Spectrum engine weights aromatic impact, keeps the raw COA visible, and treats Gas as an emergent balance rather than a single terpene."
+    ]
+  };
+}
+
+function scoreBarsHTML(d){ return d.scores.map(r=>'<div class="buyer-score"><span>'+esc(r.label)+'</span><i><b style="width:'+r.pct+'%;background:'+r.color+'"></b></i><em>'+r.pct+'%</em></div>').join(""); }
+function profileContributors(values,key){
+  const rows=TERPENES.map(t=>{ const v=values[t.key]||0,w=(contribOf(t)[key]||0)*v*potencyOf(t); return {label:t.label,value:v,weight:w,role:t.profile===key?"primary driver":"supporting driver"}; }).filter(x=>x.weight>0);
+  if(key==="gas_fuel"){
+    const car=(values.caryophyllene||0)*potencyOf(TERP_BY_KEY.caryophyllene),lim=(values.limonene||0)*potencyOf(TERP_BY_KEY.limonene),mus=(values.myrcene||0)*potencyOf(TERP_BY_KEY.myrcene)+(values.humulene||0)*potencyOf(TERP_BY_KEY.humulene);
+    if(car>0&&lim>0&&mus>0){ const mn=Math.min(car,lim,mus),mx=Math.max(car,lim,mus),weight=1.5*mn*Math.pow(mn/mx,1.5); rows.push({label:"Emergent gas balance",value:null,weight,role:"caryophyllene + limonene + myrcene/humulene"}); }
+  }
+  return rows.sort((a,b)=>b.weight-a.weight);
+}
+function spikeDetailHTML(values,key){
+  const c=classify(values),profile=c.ranked.find(x=>x.key===key),drivers=profileContributors(values,key),total=drivers.reduce((a,b)=>a+b.weight,0)||1;
+  return '<div class="spike-detail-head"><div><span style="background:'+PROFILE_BY_KEY[key].color+'"></span><h4>'+esc(PROFILE_BY_KEY[key].label)+'</h4></div><strong>'+profile.pct+'% of aroma signal</strong></div>'+
+    (drivers.length?'<div class="spike-driver-list">'+drivers.slice(0,6).map(d=>'<div><b>'+esc(d.label)+'</b><span>'+esc(d.role)+(d.value!=null?' · '+d.value.toFixed(2)+'% measured':'')+'</span><i><em style="width:'+Math.max(4,(d.weight/total)*100)+'%;background:'+PROFILE_BY_KEY[key].color+'"></em></i></div>').join("")+'</div>':'<p class="note">No measured terpenes in this COA contribute to this profile.</p>');
+}
+function inspectCurrentProfile(key,button){
+  if(!LAST_BUYER_DATA)return;
+  document.querySelectorAll(".spike-band-button").forEach(b=>b.setAttribute("aria-pressed","false")); if(button)button.setAttribute("aria-pressed","true");
+  const out=document.getElementById("spikeDetail"); if(out)out.innerHTML=spikeDetailHTML(LAST_BUYER_DATA.values,key);
+}
+function panelRowsHTML(d,limit){ return d.panel.slice(0,limit||99).map(t=>'<tr><td>'+esc(t.label)+'</td><td>'+t.value.toFixed(2)+'%</td><td>'+(t.value*10).toFixed(1)+'</td></tr>').join(""); }
+function buyerStripHTML(d){ return '<div class="buyer-strip">'+d.segments.map(s=>'<span style="flex:'+s.frac+';background:'+s.color+'"><b>'+esc(s.label.split(" / ")[0])+' · '+s.pct+'%</b></span>').join("")+'</div>'; }
+function fpAssetHTML(d,size){
+  return '<div class="asset-fingerprint" style="width:'+size+'px">'+fingerprintSVG(d.values,true)+'</div>';
+}
+
+function buyerSheetHTML(d){
+  const lead=d.segments[0];
+  return '<article class="generated-frame buyer-sheet-frame" id="buyerSheetFrame" data-w="1600" data-h="'+d.buyerHeight+'" style="height:'+d.buyerHeight+'px">'+
+    '<header class="buyer-mast"><div class="buyer-title"><h2>'+esc(d.name)+'</h2><p>'+esc(d.lineage)+'</p></div><div class="buyer-ident">'+
+      '<div><b>Flower Spectrum</b><strong style="color:'+lead.color+'">'+esc(d.blend)+'</strong></div><div><b>Confidence</b><span>'+esc(d.c.confidence)+'</span></div>'+
+      '<div><b>Lot / Sample</b><span>'+esc(d.lot)+'<br>'+esc(d.sample)+'</span></div><div><b>Farm · Harvest</b><span>'+esc(d.grower)+'<br>'+esc(d.harvest)+'</span></div></div>'+buyerStripHTML(d)+'</header>'+
+    '<div class="buyer-body" style="height:'+d.buyerBodyHeight+'px"><aside><section><h3>Flower + Fingerprint ID</h3><div class="buyer-product-grid"><img src="'+esc(d.image)+'" alt="'+esc(d.name)+' flower"><div>'+fpAssetHTML(d,240)+'<div class="buyer-legend">'+d.segments.map(s=>'<p><i style="background:'+s.color+'"></i>'+esc(s.label.split(" / ")[0])+' · '+s.pct+'%</p>').join("")+'</div></div></div></section>'+
+      '<section><h3>COA metrics</h3><div class="buyer-metrics"><div><b>THC</b><strong>'+d.thc+'</strong></div><div><b>Total cannabinoids</b><strong>'+d.cannabinoids+'</strong></div><div><b>Total terpenes</b><strong>'+d.terps+'</strong></div><div><b>CBD</b><strong>'+d.cbd+'</strong></div></div></section>'+
+      '<section><h3>Spectrum score</h3><div class="buyer-scores">'+scoreBarsHTML(d)+'</div></section>'+
+      '<section><h3>Purchase details</h3><div class="buyer-purchase"><p><b>Quantity available</b>'+esc(d.quantity)+'</p><p><b>Tier</b>'+esc(d.tier)+'</p><p><b>Price</b>'+(d.priceG?'$'+esc(d.priceG)+' / g':'—')+(d.priceE?' · $'+esc(d.priceE)+' / ⅛':'')+'</p><p><b>Buyer contact</b>'+esc(d.contact)+'</p></div></section></aside>'+
+      '<main><section class="buyer-aroma"><h3>Aroma read</h3><blockquote>'+esc(d.aroma)+'</blockquote></section><section class="buyer-copy"><p>'+esc(d.copy[0])+'</p><p>'+esc(d.copy[1])+'</p></section>'+
+      '<section><h3>Sensory architecture</h3><div class="buyer-sensory"><div><b>Top</b>'+esc(d.sensory.top)+'</div><div><b>Middle</b>'+esc(d.sensory.middle)+'</div><div><b>Base</b>'+esc(d.sensory.base)+'</div></div></section>'+
+      '<section><h3>Loudest terpenes</h3><div class="buyer-terp-chips">'+d.topTerps.map(t=>'<span>'+esc(t.label)+' · '+t.value.toFixed(2)+'%</span>').join("")+'</div></section>'+
+      '<section class="buyer-panel"><h3>Terpene test results — validated COA panel</h3><table><thead><tr><th>Terpene</th><th>%</th><th>mg/g</th></tr></thead><tbody>'+panelRowsHTML(d)+'</tbody></table></section></main></div>'+ 
+    '<footer><span>Flower Spectrum · canonical 38-terpene engine</span><span>Aroma classification — not effects or medical claims</span></footer></article>';
+}
+
+function socialCardHTML(d){
+  const lead=d.segments[0];
+  return '<article class="generated-frame social-card-frame" id="socialCardFrame" data-w="1080" data-h="1350">'+
+    '<div class="social-top"><span>Available Flower · Buyer Preview</span><span>Flower Spectrum</span></div><div class="social-title"><h2>'+esc(d.name)+'</h2><p>'+esc(d.lineage)+'</p><strong style="color:'+lead.color+'">'+esc(d.blend)+' · '+esc(d.c.confidence)+'</strong></div>'+buyerStripHTML(d)+
+    '<div class="social-core"><div class="social-product-visual"><img src="'+esc(d.image)+'" alt="'+esc(d.name)+' flower"><div class="social-fp">'+fpAssetHTML(d,175)+'</div></div><div class="social-aroma"><b>Aroma read</b><blockquote>'+esc(d.aroma)+'</blockquote><div class="social-terps">'+d.topTerps.slice(0,3).map(t=>'<span>'+esc(t.label)+' '+t.value.toFixed(2)+'%</span>').join("")+'</div></div></div>'+
+    '<div class="social-metrics"><div><b>THC</b><strong>'+d.thc+'</strong></div><div><b>Total terpenes</b><strong>'+d.terps+'</strong></div><div><b>Harvest</b><strong>'+esc(d.harvest)+'</strong></div><div><b>Available</b><strong>'+esc(d.quantity)+'</strong></div></div>'+ 
+    '<div class="social-panel"><div><b>Farm</b>'+esc(d.grower)+'</div><div><b>Lot / sample</b>'+esc(d.lot)+' · '+esc(d.sample)+'</div><div><b>Buyer contact</b>'+esc(d.contact)+'</div></div>'+ 
+    '<footer><span>'+esc(d.grower)+'</span><span>Aroma classification · validated COA</span></footer></article>';
+}
+
+let LAST_BUYER_DATA=null;
+function generatedAssetsHTML(values){
+  const d=buyerData(values); LAST_BUYER_DATA=d;
+  return '<div class="generated-studio"><div class="generated-studio-head"><div><span class="lbl">Buyer-ready outputs</span><h3>One COA. One story. Every sales detail.</h3><p>The full buyer sheet and 4:5 social card use the same validated values, fingerprint ID, and proportional spectrum strip.</p></div><div class="btn-row asset-actions">'+
+    '<button class="btn btn-primary" onclick="exportGenerated(\'buyerSheetFrame\',\'buyer-sheet\',false)">Export buyer sheet PNG</button><button class="btn" onclick="exportGenerated(\'socialCardFrame\',\'social\',false)">Export social PNG</button><button class="btn" onclick="exportGenerated(\'socialCardFrame\',\'social\',true)">Share social</button><button class="btn" onclick="downloadReactComponent()">Download React JSX</button></div></div>'+ 
+    '<div class="generated-preview-grid"><section><span class="lbl">Buyer sheet · complete purchase view</span><div class="asset-preview" data-w="1600" data-h="'+d.buyerHeight+'">'+buyerSheetHTML(d)+'</div></section><section><span class="lbl">Social card · 4:5 portrait</span><div class="asset-preview" data-w="1080" data-h="1350">'+socialCardHTML(d)+'</div></section></div>'+ 
+    '<div class="spike-inspector"><div class="spike-inspector-copy"><span class="lbl">Read this fingerprint</span><h3>What is causing each color spike?</h3><p>Choose a spectrum band to trace that profile back to the measured terpenes and the engine contribution behind it.</p></div><div><div class="spike-band-buttons">'+PROFILES.map((p,i)=>'<button class="spike-band-button" style="--band:'+p.color+'" aria-pressed="'+(i===0?'true':'false')+'" onclick="inspectCurrentProfile(\''+p.key+'\',this)">'+esc(p.label)+'</button>').join("")+'</div><div id="spikeDetail">'+spikeDetailHTML(values,d.c.ranked[0].key)+'</div></div></div></div>';
+}
+
+function layoutGeneratedAssets(){
+  document.querySelectorAll(".asset-preview").forEach(v=>{ const f=v.querySelector(".generated-frame"); if(!f)return; const scale=v.clientWidth/(+v.dataset.w); v.style.height=((+v.dataset.h)*scale)+"px"; f.style.transform="scale("+scale+")"; });
+}
+window.addEventListener("resize",layoutGeneratedAssets);
+function safeSlug(s){ return String(s||"flower").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,""); }
+async function renderAssetBlob(id){
+  const el=document.getElementById(id); if(!el||!window.htmlToImage) throw new Error("PNG export library unavailable");
+  if(document.fonts&&document.fonts.ready) await document.fonts.ready;
+  const w=+el.dataset.w,h=+el.dataset.h,style={transform:"none",transformOrigin:"top left",margin:"0"};
+  return window.htmlToImage.toBlob(el,{pixelRatio:1,width:w,height:h,cacheBust:true,skipFonts:true,style});
+}
+async function exportGenerated(id,kind,share){
+  const buttons=[...document.querySelectorAll(".asset-actions button")]; buttons.forEach(b=>b.disabled=true);
+  try{
+    const blob=await renderAssetBlob(id),name="flower-spectrum-"+safeSlug(LAST_BUYER_DATA.name)+"-"+kind+".png";
+    const file=new File([blob],name,{type:"image/png"});
+    if(share&&navigator.share&&navigator.canShare&&navigator.canShare({files:[file]})){ await navigator.share({files:[file],title:LAST_BUYER_DATA.name+" · Flower Spectrum",text:LAST_BUYER_DATA.aroma}); }
+    else { const url=URL.createObjectURL(blob),a=document.createElement("a"); a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000); }
+  }catch(e){ console.error(e); alert("The asset could not be rendered. Please wait for fonts to finish loading and try again."); }
+  finally{ buttons.forEach(b=>b.disabled=false); }
+}
+
+function downloadReactComponent(){
+  if(!LAST_BUYER_DATA)return;
+  const payload={...LAST_BUYER_DATA,values:LAST_BUYER_DATA.values,c:undefined};
+  const src='import React from "react";\nimport FlowerSpectrumStrainCard from "./FlowerSpectrumStrainCard";\n\nexport const strain = '+JSON.stringify(payload,null,2)+';\n\nexport default function '+safeSlug(LAST_BUYER_DATA.name).split("-").map(x=>x.charAt(0).toUpperCase()+x.slice(1)).join("")+'BuyerCard(){\n  return <FlowerSpectrumStrainCard strain={strain} />;\n}\n';
+  const blob=new Blob([src],{type:"text/jsx"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=safeSlug(LAST_BUYER_DATA.name)+"-flower-spectrum-card.jsx";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function doParse(){
+  const text = document.getElementById("coaText").value;
+  if(!text.trim()){ document.getElementById("parseOut").innerHTML = '<div class="panel"><div class="empty">Paste some COA text first.</div></div>'; return; }
+  const p = parseCOA(text);
+  CUR = p;
+  if(Object.keys(p.values).length===0){
+    document.getElementById("parseOut").innerHTML = '<div class="panel"><div class="empty">No recognizable terpene rows found. Check the format — one analyte per line with a value.</div></div>'+unmappedHTML(p);
+    return;
+  }
+  // auto-fill THC if found and field blank
+  if(p.thc!=null){ const f=document.getElementById("mThc"); if(!f.value.trim()) f.value = p.thc + (p.thcEstimated?" (est)":""); }
+  if(p.cbd!=null){ const f=document.getElementById("mCbd"); if(!f.value.trim()) f.value = p.cbd; }
+  if(p.totalCannabinoids!=null){ const f=document.getElementById("mCann"); if(!f.value.trim()) f.value = p.totalCannabinoids; }
+  if(p.reportedTotal!=null){ const f=document.getElementById("mTerps"); if(!f.value.trim()) f.value = (+p.reportedTotal).toFixed(2); }
+  const adminMap={mName:p.meta.product,mGrower:p.meta.grower,mLot:p.meta.lot,mSample:p.meta.sample,mHarvest:p.meta.harvest};
+  Object.entries(adminMap).forEach(([id,v])=>{ const f=document.getElementById(id); if(v&&!f.value.trim()) f.value=v; });
+  renderParse();
+}
+
+function renderParse(){
+  const p = CUR;
+  const c = classify(p.values);
+  // stats line: reported vs summed terpene total
+  const summed = Object.values(p.values).reduce((a,b)=>a+b,0);
+  let stat = '<div class="stat" style="margin-top:10px">Summed terpenes <b>'+summed.toFixed(2)+'%</b>';
+  if(p.reportedTotal!=null){
+    const d = Math.abs(p.reportedTotal - summed);
+    stat += ' · COA-reported total <b>'+(+p.reportedTotal).toFixed(2)+'%</b>';
+    stat += d>0.5 ? ' · <span style="color:var(--amber)">Δ '+d.toFixed(2)+'% (some analytes untracked)</span>' : ' · <span class="accent">✓ aligned</span>';
+  }
+  if(p.thc!=null) stat += ' · THC <b>'+p.thc+'%</b>'+(p.thcEstimated?' <span class="muted">(decarb est.)</span>':'');
+  stat += '</div>';
+
+  // matched (editable) table
+  const rows = topTerpenes(p.values, 99).map(({t,v}) => {
+    const m = p.matched.find(x=>x.key===t.key);
+    return '<tr><td class="sm">'+esc(t.label)+' <span class="keytag">'+t.key+'</span> '+
+      (m&&m.summed?'<span class="badge sum">summed</span>':'')+(m&&m.guess?' <span class="badge sum">check</span>':'')+'</td>'+
+      '<td><input class="tv" type="number" step="0.001" value="'+v.toFixed(3)+'" oninput="editVal(\''+t.key+'\',this.value)"></td>'+
+      '<td class="sm muted">'+t.tier+'</td>'+
+      '<td class="x" title="remove" onclick="editVal(\''+t.key+'\',\'\')">×</td></tr>';
+  }).join("");
+
+  const html =
+    '<div class="panel">'+
+      classCardHTML(p.values, {extra: stat})+
+      '<hr class="hr">'+
+      '<span class="lbl">Matched analytes ('+Object.keys(p.values).length+') — editable</span>'+
+      '<table><thead><tr><th>Terpene</th><th>%</th><th>Tier</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'+
+      unmappedHTML(p)+
+      '<div class="btn-row"><button class="btn btn-primary" onclick="addCurrent()">Add to dataset ↓</button></div>'+
+    '</div>'+generatedAssetsHTML(p.values);
+  document.getElementById("parseOut").innerHTML = html;
+  requestAnimationFrame(layoutGeneratedAssets);
+}
+
+function unmappedHTML(p){
+  if(!p.unmapped.length) return '<div class="note accent" style="margin-top:10px">✓ Every analyte mapped to the engine.</div>';
+  const items = p.unmapped.map(u =>
+    '<tr><td class="sm">'+esc(u.raw)+'</td><td class="sm muted">'+(u.value!=null?u.value:'')+'</td><td class="sm" style="color:var(--amber)">'+esc(u.reason)+'</td></tr>'
+  ).join("");
+  return '<div class="amberbox"><span class="lbl">Unmapped — surfaced, not dropped ('+p.unmapped.length+')</span>'+
+    '<table><tbody>'+items+'</tbody></table>'+
+    '<p class="note">These did not match a tracked terpene. Cannabinoids and totals are filtered automatically; an entry here is usually an untracked minor terpene or an ambiguous isomer name.</p></div>';
+}
+
+function editVal(key, val){
+  if(!CUR) return;
+  const v = parseFloat(val);
+  if(val==="" || isNaN(v) || v<=0){ delete CUR.values[key]; }
+  else { CUR.values[key] = v; }
+  renderParse();
+}
+
+function addCurrent(){
+  if(!CUR || Object.keys(CUR.values).length===0) return;
+  const g = id => document.getElementById(id).value.trim();
+  const name = g("mName") || "(unnamed COA)";
+  DATASET.push({
+    name, grower:g("mGrower"), lineage:g("mLineage"),
+    lot:g("mLot"), sample:g("mSample"), harvest:g("mHarvest"), quantity:g("mQuantity"), contact:g("mContact"),
+    thc:g("mThc").replace(/\s*\(est\)\s*/,""), cannabinoids:g("mCann"), cbd:g("mCbd"), totalTerpenes:g("mTerps"), tier:g("mTier"),
+    price:{ g:g("mPriceG"), eighth:g("mPriceE") },
+    aroma:g("mAroma"), notes:"",
+    staffPick:"", pickedBy:"", pickNote:"",
+    values: Object.assign({}, CUR.values)
+  });
+  // reset parse area + meta name
+  ["mName","mLineage","mLot","mSample","mHarvest","mQuantity","mContact","mThc","mCann","mCbd","mTerps","mAroma","mPriceG","mPriceE"].forEach(i=>document.getElementById(i).value="");
+  document.getElementById("coaText").value="";
+  document.getElementById("parseOut").innerHTML="";
+  CUR=null;
+  renderDataset();
+}
+
+function insertExample(){
+  document.getElementById("coaText").value =
+"# ILLUSTRATIVE EXAMPLE — not a real COA\n"+
+"Total THC, 26.4 %\n"+
+"THCA  30.1 %\n"+
+"CBD  ND\n"+
+"β-Caryophyllene   0.74 %\n"+
+"D-Limonene        0.61 %\n"+
+"β-Myrcene         0.42 %\n"+
+"α-Humulene        0.24 %\n"+
+"Linalool          0.18 %\n"+
+"(E)-β-Ocimene     0.09 %\n"+
+"trans-Nerolidol   0.07 %\n"+
+"1,8-Cineole       0.05 %\n"+
+"Caryophyllene Oxide  0.04 %\n"+
+"Total Terpenes    3.04 %";
+  document.getElementById("mName").value = "Example Flower (illustrative)";
+  document.getElementById("mGrower").value = "Example Craft Farm";
+  document.getElementById("mLineage").value = "Illustrative Cross A × Cross B";
+  document.getElementById("mLot").value = "EX-0719";
+  document.getElementById("mSample").value = "FS-PDF-001";
+  document.getElementById("mHarvest").value = "07/01/2026";
+  document.getElementById("mQuantity").value = "12 lb";
+  document.getElementById("mContact").value = "sales@example.farm";
+  document.getElementById("mCann").value = "29.10";
+  document.getElementById("mCbd").value = "0.06";
+  document.getElementById("mTerps").value = "3.04";
+}
+
+function pdfColumnLines(items,width,side){
+  const mid=width/2,subset=(items||[]).filter(item=>{ const x=Number(item.transform&&item.transform[4])||0; return side==="left"?x<mid:x>=mid; });
+  return pdfItemsToLines(subset);
+}
+function pdfTerpeneRows(items,width){
+  const out=[];
+  ["left","right"].forEach(side=>{
+    pdfColumnLines(items,width,side).split(/\r?\n/).forEach(line=>{
+      const cells=line.split(/\t+/).map(x=>x.trim()).filter(Boolean);
+      if(cells.length<2)return;
+      const rawName=cells[0].replace(/^[-–—•\s]+/,"").trim(),cn=canon(rawName);
+      if(!LOOKUP[cn]&&!AMBIGUOUS[cn])return;
+      const result=cells[1],value=numFrom(result);
+      if(value!=null&&value>0)out.push(rawName+"\t"+value+" %");
+    });
+  });
+  return out;
+}
+function pdfCannabinoidRows(items,width){
+  const lines=[];
+  ["left","right"].forEach(side=>{
+    pdfColumnLines(items,width,side).split(/\r?\n/).forEach(line=>{
+      const cells=line.split(/\t+/).map(x=>x.trim()).filter(Boolean);
+      if(cells.length<2)return;
+      const raw=cells[0].trim(),rawCanon=canon(raw),kind=rawCanon==="total"?"totalCannabinoids":cannabinoidKind(rawCanon);
+      if(!kind)return;
+      const nums=cells.slice(1).flatMap(cell=>[...cell.matchAll(/[0-9]*\.?[0-9]+/g)].map(m=>parseFloat(m[0])));
+      const hasLoq=cells.slice(1).some(cell=>/<\s*LOQ|ND|N\/D/i.test(cell));
+      // A row such as "CBD  0.4  <LOQ  <LOQ" contains a numeric LOQ but no
+      // detected mass. Never mistake that reporting limit for a result.
+      let value=hasLoq?0:null;
+      if(!hasLoq){
+        if(nums.length>=3)value=nums[1]; else if(nums.length>=2)value=nums[0]; else if(nums.length)value=nums[0];
+      }
+      if(value!=null)lines.push((rawCanon==="total"?"Total Cannabinoids":raw)+"\t"+value+" %");
+    });
+  });
+  return lines;
+}
+function pdfAdminLines(text){
+  const one=(re)=>{const m=String(text||"").match(re);return m?m[1].trim():"";};
+  const strain=one(/Strain:\s*([^\n;]+)/i),sample=one(/Sample:\s*([^\s;]+)/i),harvest=one(/Harvest\/Production Date:\s*([0-9/.-]+)/i),lot=one(/Harvest Process Lot:\s*([^;\n]+)/i);
+  const grower=/Ideal Cannabis/i.test(text)?"Ideal Cannabis":one(/^\s*([^\n]{2,60})\s+Sample:/im);
+  return [strain&&"Strain: "+strain,sample&&"Sample: "+sample,harvest&&"Harvest: "+harvest,lot&&"Lot: "+lot,grower&&"Grower: "+grower].filter(Boolean);
+}
+function totalTerpeneLine(text){
+  const normalized=String(text||"").replace(/\s+/g," ");
+  const m=normalized.match(/([0-9]*\.?[0-9]+)\s*%\s*Total Terpenes/i)||normalized.match(/Total Terpenes\s*([0-9]*\.?[0-9]+)\s*%/i);
+  return m?"Total Terpenes\t"+m[1]+" %":"";
+}
+async function extractPdfDocument(pdf,status){
+  const pages=[];
+  for(let i=1;i<=pdf.numPages;i++){
+    status.textContent="Scanning page "+i+" of "+pdf.numPages+"…";
+    const page=await pdf.getPage(i),viewport=page.getViewport({scale:1}),content=await page.getTextContent();
+    const full=pdfItemsToLines(content.items),terpRows=pdfTerpeneRows(content.items,viewport.width);
+    const score=terpRows.length*8+(/\bTerpenes?\b/i.test(full)?20:0)+(/Total Terpenes/i.test(full)?15:0)+(/mg\s*\/\s*g/i.test(full)?3:0);
+    pages.push({page:i,items:content.items,width:viewport.width,full,terpRows,score});
+  }
+  const terpPage=pages.slice().sort((a,b)=>b.score-a.score)[0],metaPage=pages[0];
+  if(!terpPage||terpPage.terpRows.length<2)return {text:pages.map(p=>p.full).join("\n\n"),page:null,mapped:0};
+  const cannabinoidLines=pdfCannabinoidRows(metaPage.items,metaPage.width);
+  const admin=pdfAdminLines(pages.map(p=>p.full).join("\n"));
+  const total=totalTerpeneLine(terpPage.full);
+  const text=admin.concat(cannabinoidLines,terpPage.terpRows,total?[total]:[]).join("\n");
+  return {text,page:terpPage.page,mapped:Object.keys(parseCOA(text).values).length};
+}
+
+async function loadCoaFile(ev){
+  const file=ev.target.files&&ev.target.files[0]; if(file) await processCoaFile(file);
+}
+async function loadJohnnyGlazeDemo(){
+  useJohnnyGlazeImage();
+  const response=await fetch("examples/johnny-glaze-coa.pdf");
+  if(!response.ok){ alert("The Johnny Glaze demo COA could not be loaded."); return; }
+  const file=new File([await response.blob()],"johnny-glaze-coa-ideal-cannabis.pdf",{type:"application/pdf"});
+  await processCoaFile(file);
+}
+async function loadCoaUrl(){
+  const input=document.getElementById("coaUrl"),url=input.value.trim(),status=document.getElementById("fileStatus");
+  if(!/^https?:\/\//i.test(url)){ status.textContent="Enter a complete HTTP or HTTPS PDF link."; return; }
+  status.textContent="Retrieving linked COA…";
+  try{
+    const response=await fetch("/api/fetch-coa?url="+encodeURIComponent(url));
+    if(!response.ok)throw new Error((await response.text())||"The linked COA could not be retrieved.");
+    const name=(new URL(url).pathname.split("/").pop()||"linked-coa.pdf").replace(/[^a-zA-Z0-9._-]/g,"-");
+    await processCoaFile(new File([await response.blob()],name,{type:"application/pdf"}));
+  }catch(err){ status.textContent=err.message||"The linked COA could not be retrieved."; }
+}
+async function processCoaFile(file){
+  const status = document.getElementById("fileStatus");
+  status.textContent = "Reading "+file.name+"…";
+  try {
+    let text="";
+    if(file.type==="application/pdf" || /\.pdf$/i.test(file.name)){
+      showPdfReview(file);
+      if(!window.pdfjsLib) throw new Error("The PDF reader could not load. The document is visible below, but automatic extraction is unavailable.");
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js";
+      const bytes = new Uint8Array(await file.arrayBuffer());
+      const pdf = await window.pdfjsLib.getDocument({data:bytes}).promise;
+      document.getElementById("pdfPageCount").textContent=pdf.numPages+(pdf.numPages===1?" page":" pages");
+      document.getElementById("pdfExtractMode").textContent="Finding terpene page";
+      const extracted=await extractPdfDocument(pdf,status);
+      text=extracted.text;
+      let probe=parseCOA(text),mapped=Object.keys(probe.values).length;
+      if(mapped<2){
+        document.getElementById("pdfExtractMode").textContent="OCR fallback";
+        status.textContent="No usable text layer found · running private in-browser OCR…";
+        const ocrText=await ocrPdf(pdf,status);
+        if(ocrText.trim()) text=ocrText;
+        probe=parseCOA(text); mapped=Object.keys(probe.values).length;
+        document.getElementById("pdfExtractMode").textContent="OCR · "+mapped+" mapped";
+      } else {
+        document.getElementById("pdfExtractMode").textContent="Page "+extracted.page+" · "+mapped+" mapped";
+        document.getElementById("pdfViewer").src=CURRENT_PDF_URL+"#page="+extracted.page+"&view=FitH";
+        document.getElementById("pdfReviewNote").textContent="Flower Spectrum identified page "+extracted.page+" as the terpene analysis and extracted its two-column table by position. Verify the mapped values against the highlighted source page.";
+      }
+    } else {
+      hidePdfReview();
+      text=await file.text();
+    }
+    document.getElementById("coaText").value=text;
+    status.textContent=file.name+" · "+Math.max(1,Math.round(file.size/1024))+" KB · extracted";
+    doParse();
+    const name=document.getElementById("mName");
+    if(!name.value.trim()) name.value=file.name.replace(/\.[^.]+$/,"");
+  } catch(err){
+    status.textContent=err.message || "Could not read this file.";
+    const note=document.getElementById("pdfReviewNote");
+    if(note) note.textContent=(err.message||"Automatic extraction failed.")+" You can still inspect the PDF and paste its terpene table manually.";
+  }
+}
+
+let CURRENT_PDF_URL="";
+function showPdfReview(file){
+  if(CURRENT_PDF_URL) URL.revokeObjectURL(CURRENT_PDF_URL);
+  CURRENT_PDF_URL=URL.createObjectURL(file);
+  document.getElementById("pdfReview").hidden=false;
+  document.getElementById("pdfViewer").src=CURRENT_PDF_URL+"#view=FitH";
+  document.getElementById("pdfFileName").textContent=file.name;
+  document.getElementById("pdfPageCount").textContent="Loading pages";
+  document.getElementById("pdfExtractMode").textContent="Reading";
+  document.getElementById("pdfReviewNote").textContent="The original document stays visible while Flower Spectrum reconstructs its terpene table. Review the extracted values against the PDF before adding the result.";
+}
+function hidePdfReview(){
+  document.getElementById("pdfReview").hidden=true;
+  document.getElementById("pdfViewer").removeAttribute("src");
+  if(CURRENT_PDF_URL){ URL.revokeObjectURL(CURRENT_PDF_URL); CURRENT_PDF_URL=""; }
+}
+
+function pdfItemsToLines(items){
+  const rows=[];
+  (items||[]).forEach(item=>{
+    const str=String(item.str||"").trim();
+    if(!str) return;
+    const x=Number(item.transform&&item.transform[4])||0;
+    const y=Number(item.transform&&item.transform[5])||0;
+    let row=rows.find(r=>Math.abs(r.y-y)<=2.5);
+    if(!row){ row={y,items:[]}; rows.push(row); }
+    row.items.push({str,x,width:Number(item.width)||0});
+  });
+  return rows.sort((a,b)=>b.y-a.y).map(row=>{
+    const cells=row.items.sort((a,b)=>a.x-b.x);
+    let line="",cursor=null;
+    cells.forEach(cell=>{
+      if(cursor!=null){
+        const gap=cell.x-cursor;
+        const avg=Math.max(2,cell.width/Math.max(cell.str.length,1));
+        line += gap>Math.max(9,avg*2.2) ? "\t" : " ";
+      }
+      line+=cell.str;
+      cursor=cell.x+cell.width;
+    });
+    return line.trim();
+  }).filter(Boolean).join("\n");
+}
+
+function loadExternalScript(src,test){
+  if(test()) return Promise.resolve();
+  return new Promise((resolve,reject)=>{
+    const existing=document.querySelector('script[data-dynamic-src="'+src+'"]');
+    if(existing){ existing.addEventListener("load",resolve,{once:true}); existing.addEventListener("error",reject,{once:true}); return; }
+    const s=document.createElement("script"); s.src=src; s.async=true; s.dataset.dynamicSrc=src;
+    s.onload=resolve; s.onerror=()=>reject(new Error("The OCR engine could not load.")); document.head.appendChild(s);
+  });
+}
+
+async function ocrPdf(pdf,status){
+  await loadExternalScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js",()=>!!window.Tesseract);
+  const out=[];
+  for(let i=1;i<=pdf.numPages;i++){
+    const page=await pdf.getPage(i), viewport=page.getViewport({scale:2});
+    const canvas=document.createElement("canvas"),ctx=canvas.getContext("2d",{willReadFrequently:true});
+    canvas.width=Math.ceil(viewport.width); canvas.height=Math.ceil(viewport.height);
+    await page.render({canvasContext:ctx,viewport}).promise;
+    const result=await window.Tesseract.recognize(canvas,"eng",{logger:m=>{
+      if(m.status==="recognizing text") status.textContent="OCR page "+i+" of "+pdf.numPages+" · "+Math.round((m.progress||0)*100)+"%";
+    }});
+    out.push(result.data.text||"");
+  }
+  return out.join("\n\n");
+}
+
+/* ---------- CSV import ---------- */
+function loadCsvFile(ev){
+  const f = ev.target.files && ev.target.files[0]; if(!f) return;
+  const rd = new FileReader();
+  rd.onload = () => { document.getElementById("csvText").value = rd.result; };
+  rd.readAsText(f);
+}
+function doParseCsv(){
+  const text = document.getElementById("csvText").value;
+  if(!text.trim()){ document.getElementById("csvOut").innerHTML='<div class="panel"><div class="empty">Paste or load a CSV first.</div></div>'; return; }
+  const res = importCSV(text);
+  CSVROWS = res.strains;
+  if(!res.strains.length){ document.getElementById("csvOut").innerHTML='<div class="panel"><div class="empty">No data rows found. A header row containing "Strain" plus terpene columns is required.</div></div>'; return; }
+  const rows = res.strains.map((s,i)=>{
+    const c = classify(s.values);
+    const nT = Object.keys(s.values).length;
+    return '<tr><td class="sm">'+esc(s.name)+'</td>'+
+      '<td>'+(c?bandHTML(c):'<span class="muted sm">no terpenes</span>')+'</td>'+
+      '<td class="sm">'+(c?esc(blendName(c)):'—')+'</td>'+
+      '<td>'+(c?confPill(c.confidence):'')+'</td>'+
+      '<td class="sm muted">'+nT+' terps</td></tr>';
+  }).join("");
+  document.getElementById("csvOut").innerHTML =
+    '<div class="panel"><span class="lbl">Parsed '+res.strains.length+' row(s) — classified preview</span>'+
+    '<table><thead><tr><th>Strain</th><th>Spectrum</th><th>Blend</th><th>Conf</th><th>Terps</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div class="btn-row"><button class="btn btn-primary" onclick="addCsvRows()">Add all to dataset ↓</button></div></div>';
+}
+function addCsvRows(){
+  if(!CSVROWS) return;
+  CSVROWS.forEach(s=>DATASET.push(s));
+  CSVROWS=null;
+  document.getElementById("csvText").value="";
+  document.getElementById("csvOut").innerHTML="";
+  renderDataset();
+}
+
+/* ---------- dataset render + export ---------- */
+function renderDataset(){
+  document.getElementById("dsCount").textContent = DATASET.length + (DATASET.length===1?" strain":" strains");
+  const wrap = document.getElementById("dsWrap");
+  if(!DATASET.length){ wrap.innerHTML='<div class="empty">No strains yet. Parse a COA or import a CSV to begin.</div>'; document.getElementById("exportOut").innerHTML=""; return; }
+  const rows = DATASET.map((s,i)=>{
+    const c = classify(s.values);
+    const tops = topTerpenes(s.values,3).map(t=>t.t.label).join(" · ");
+    return '<tr>'+
+      '<td><b>'+esc(s.name)+'</b>'+(s.grower?'<div class="keytag">'+esc(s.grower)+'</div>':'')+'</td>'+
+      '<td style="min-width:120px">'+(c?bandHTML(c):'—')+'</td>'+
+      '<td class="sm">'+(c?esc(blendName(c)):'—')+'</td>'+
+      '<td>'+(c?confPill(c.confidence):'')+'</td>'+
+      '<td class="sm muted">'+(s.thc||'—')+'</td>'+
+      '<td class="sm muted">'+esc(tops)+'</td>'+
+      '<td class="x" onclick="removeRow('+i+')" title="remove">×</td></tr>';
+  }).join("");
+  wrap.innerHTML = '<table><thead><tr><th>Strain</th><th>Spectrum</th><th>Blend</th><th>Conf</th><th>THC</th><th>Top terps</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>';
+  renderExport();
+}
+function removeRow(i){ DATASET.splice(i,1); renderDataset(); }
+function clearDataset(){ if(DATASET.length && !confirm("Clear all "+DATASET.length+" strains from the dataset?")) return; DATASET=[]; renderDataset(); }
+
+function renderExport(){
+  const csv = strainsToCSV(DATASET);
+  const href = "data:text/csv;charset=utf-8," + encodeURIComponent(csv);
+  const fname = BUILD + "-flower-spectrum-coa-import-" + DATASET.length + "strains.csv";
+  document.getElementById("exportOut").innerHTML =
+    '<hr class="hr"><span class="lbl">Export — round-trippable (27 buyer/menu columns + 38 raw terpene columns)</span>'+
+    '<div class="btn-row"><a class="dl" href="'+href+'" download="'+fname+'">↓ Download CSV</a></div>'+
+    '<p class="note">Filename: <span class="sm">'+fname+'</span>. The terpene block lets a future Explorer import reconstruct values and re-classify identically. Feeds the same column format the Explorer data backend reads.</p>';
+}
+
+function runSelfTest(){
+  const res = selfTest();
+  const pass = res.filter(r=>r.pass).length;
+  const rows = res.map(r=>'<tr><td>'+(r.pass?'<span class="badge">pass</span>':'<span class="badge sum">fail</span>')+'</td><td class="sm">'+esc(r.id)+'</td><td class="sm muted">'+esc(r.detail)+'</td></tr>').join("");
+  document.getElementById("stOut").innerHTML =
+    '<div class="count" style="margin:4px 0 8px">'+pass+'/'+res.length+' layout fixtures pass</div>'+
+    '<table><tbody>'+rows+'</tbody></table>';
+}
+
+function exampleProfileClassification(key){
+  const tail=[9,8,7,6,4,3,2,2,1],others=PROFILES.filter(p=>p.key!==key);
+  const ranked=[{...PROFILE_BY_KEY[key],pct:58,score:58}].concat(others.map((p,i)=>({...p,pct:tail[i],score:tail[i]}))).sort((a,b)=>b.pct-a.pct);
+  return {ranked,confidence:"Defined",modifiers:[],totalScore:100,totalRaw:0,activeCount:0};
+}
+function exampleProfileDrivers(key){
+  const direct=TERPENES.filter(t=>t.profile===key).sort((a,b)=>potencyOf(b)-potencyOf(a));
+  const supporting=TERPENES.filter(t=>t.profile!==key&&(t.also||[]).includes(key)).sort((a,b)=>potencyOf(b)-potencyOf(a));
+  return direct.concat(supporting).slice(0,7);
+}
+function renderProfileExample(key){
+  const c=exampleProfileClassification(key),p=PROFILE_BY_KEY[key],drivers=exampleProfileDrivers(key);
+  document.querySelectorAll(".profile-lab-tabs button").forEach(b=>b.setAttribute("aria-pressed",String(b.dataset.key===key)));
+  document.getElementById("profileExampleFingerprint").innerHTML=fingerprintFromClassification(c);
+  document.getElementById("profileExampleDetail").innerHTML='<span class="lbl" style="color:'+p.color+'">'+esc(p.label)+' · illustrative example</span><h4>'+esc(PROFILE_LANGUAGE[key].noun)+'</h4><p>'+esc(PROFILE_DETAILS[key].copy)+'</p><div class="example-driver-chips">'+drivers.map(t=>'<span>'+esc(t.label)+(t.profile===key?' · primary':' · supports')+'</span>').join("")+'</div>'+(key==="gas_fuel"?'<p class="example-note">Gas is the exception: its strongest spike appears when caryophyllene, limonene, and myrcene/humulene occur together in balance.</p>':'');
+}
+
+function renderBrandEducation(){
+  const key=document.getElementById("profileKey");
+  if(key) key.innerHTML=PROFILES.map((p,i)=>{
+    const d=PROFILE_DETAILS[p.key];
+    return '<article class="profile-item" style="--profile-color:'+p.color+'"><div class="profile-head"><h3>'+esc(p.label)+'</h3><span>'+String(i+1).padStart(2,"0")+' · '+d.code+'</span></div><p>'+d.copy+'</p><div class="driver-line">Common drivers · <b>'+d.drivers+'</b></div></article>';
+  }).join("");
+
+  const heroValues={caryophyllene:.74,limonene:.61,myrcene:.42,humulene:.24,linalool:.18,ocimene:.09,nerolidol:.07,eucalyptol:.05,caryophyllene_oxide:.04};
+  const hero=document.getElementById("heroFingerprint");
+  if(hero) hero.innerHTML=fingerprintSVG(heroValues,true);
+  const tabs=document.getElementById("profileLabTabs");
+  if(tabs){ tabs.innerHTML=PROFILES.map((p,i)=>'<button data-key="'+p.key+'" style="--profile-color:'+p.color+'" aria-pressed="'+(i===0?'true':'false')+'" onclick="renderProfileExample(\''+p.key+'\')">'+String(i+1).padStart(2,"0")+' · '+esc(p.label)+'</button>').join(""); renderProfileExample(PROFILES[0].key); }
+}
+
+renderDataset();
+switchTab("paste");
+renderBrandEducation();
+let metaRefreshTimer;
+["mName","mGrower","mLineage","mLot","mSample","mHarvest","mThc","mCann","mCbd","mTerps","mQuantity","mContact","mTier","mPriceG","mPriceE","mAroma"].forEach(id=>{
+  const el=document.getElementById(id); if(!el)return;
+  el.addEventListener("input",()=>{ if(!CUR)return; clearTimeout(metaRefreshTimer); metaRefreshTimer=setTimeout(renderParse,140); });
+  el.addEventListener("change",()=>{ if(CUR)renderParse(); });
+});
+</script>
+</body>
+</html>

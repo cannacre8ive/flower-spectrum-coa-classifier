@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flower Spectrum — Brand Guidelines v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
+<style>
+/* ════════════════════════════════════════════════════════════════
+   FLOWER SPECTRUM · BRAND GUIDELINES v1.0
+   Built on the canonical Flower Spectrum product design system.
+   Every token below traces to the live tools + context pack.
+   ════════════════════════════════════════════════════════════════ */
+:root{
+  /* — Neutral foundation (the canvas the whole system lives on) — */
+  --bg:#0e0e0c; --surface:#181715; --surface-2:#1f1d1a; --border:#2a2824;
+  --fg:#e8e3d9; --fg-dim:#a8a092; --muted:#6e675b;
+  /* — Accent + signal — */
+  --accent:#6AAFA0;          /* sage-teal: kickers, links, active states */
+  --amber:#C9A84C;           /* warning/flag — also the Gas/Fuel hue */
+  /* — Paper (print/label surface) — */
+  --paper:#f4eee3; --paper-ink:#1a1816;
+  /* — The Ten Aroma Profiles (canonical) — */
+  --gas:#C9A84C; --earth:#6B8E5A; --citrus:#D4A843; --fruit:#B75F4A;
+  --floral:#B98BBE; --dessert:#D6B58A; --spicy:#9E6B4A; --pine:#4F7A5B;
+  --herb:#7FA688; --tropic:#D28B49;
+  /* — Type — */
+  --display:"Newsreader",Georgia,serif;
+  --body:"DM Sans",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --maxw:1080px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--fg);
+  font-family:var(--body); font-size:16px; line-height:1.65;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none;}
+::selection{background:var(--accent);color:var(--bg);}
+
+/* ── Layout shell ── */
+.wrap{display:grid;grid-template-columns:232px 1fr;gap:0;max-width:1440px;margin:0 auto;}
+main{min-width:0;border-left:1px solid var(--border);}
+section{padding:88px clamp(24px,6vw,96px);border-bottom:1px solid var(--border);scroll-margin-top:0;}
+.inner{max-width:var(--maxw);}
+
+/* ── Side index (desktop) ── */
+nav.index{
+  position:sticky;top:0;height:100vh;padding:40px 26px;align-self:start;
+  display:flex;flex-direction:column;gap:0;
+}
+nav.index .mark{font-family:var(--mono);font-weight:800;font-size:12.5px;letter-spacing:.22em;color:var(--fg);line-height:1.5;}
+nav.index .mark b{color:var(--accent);}
+nav.index .sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;color:var(--muted);margin-top:6px;text-transform:uppercase;}
+nav.index ol{list-style:none;margin:34px 0 0;padding:0;display:flex;flex-direction:column;gap:1px;}
+nav.index li a{
+  display:flex;gap:11px;align-items:baseline;padding:7px 0;
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--fg-dim);
+  border-bottom:1px solid transparent;transition:color .2s,border-color .2s;
+}
+nav.index li a .n{color:var(--muted);font-weight:700;min-width:20px;}
+nav.index li a:hover{color:var(--fg);}
+nav.index li a.active{color:var(--accent);}
+nav.index li a.active .n{color:var(--accent);}
+nav.index .foot{margin-top:auto;font-family:var(--mono);font-size:9px;letter-spacing:.12em;color:var(--muted);line-height:1.7;text-transform:uppercase;}
+
+/* ── Mobile top bar ── */
+.mobilebar{display:none;}
+
+/* ── Shared type devices ── */
+.eyebrow{
+  font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--accent);display:flex;align-items:center;gap:12px;margin:0 0 26px;
+}
+.eyebrow .num{color:var(--muted);}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--border);}
+h1,h2,h3{font-family:var(--display);font-weight:600;letter-spacing:-.015em;margin:0;}
+h2.title{font-size:clamp(30px,5vw,52px);line-height:1.04;margin:0 0 22px;}
+h3.sub{font-size:23px;font-weight:600;margin:0 0 14px;letter-spacing:-.01em;}
+p.lead{font-size:clamp(18px,2.3vw,22px);line-height:1.55;color:var(--fg);max-width:60ch;font-family:var(--display);font-weight:400;}
+p{max-width:64ch;color:var(--fg-dim);}
+p strong, li strong{color:var(--fg);font-weight:600;}
+.mono{font-family:var(--mono);}
+.dim{color:var(--fg-dim);} .faint{color:var(--muted);}
+hr.rule{border:0;border-top:1px solid var(--border);margin:46px 0;}
+
+/* ════════ HERO ════════ */
+header.hero{
+  border-left:1px solid var(--border);position:relative;overflow:hidden;
+  padding:0;
+}
+.hero .pad{padding:clamp(56px,9vh,120px) clamp(24px,6vw,96px) 0;}
+.hero .kick{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:30px;display:flex;gap:14px;flex-wrap:wrap;}
+.hero .kick span{color:var(--muted);}
+.hero h1{
+  font-family:var(--display);font-weight:600;font-size:clamp(52px,12vw,150px);
+  line-height:.92;letter-spacing:-.035em;margin:0;
+}
+.hero h1 em{font-style:italic;font-weight:500;color:var(--fg);}
+.hero .philosophy{
+  font-family:var(--display);font-style:italic;font-weight:400;
+  font-size:clamp(19px,2.6vw,28px);line-height:1.5;color:var(--fg-dim);
+  max-width:30ch;margin:38px 0 0;
+}
+.hero .philosophy b{color:var(--fg);font-style:normal;font-weight:500;}
+/* the signature: full-bleed proportional spectrum band */
+.hero .band-wrap{margin-top:clamp(48px,8vh,90px);}
+.bandcap{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:0 clamp(24px,6vw,96px) 12px;font-family:var(--mono);font-size:10px;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--muted);gap:16px;
+}
+.spectrum-band{display:flex;height:clamp(120px,22vh,200px);width:100%;}
+.spectrum-band .seg{flex:1;position:relative;transform-origin:bottom;}
+.spectrum-band .seg .tag{
+  position:absolute;left:0;bottom:10px;width:100%;text-align:center;
+  font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;
+  color:rgba(14,14,12,.62);opacity:0;transition:opacity .3s;
+}
+.spectrum-band .seg:hover .tag{opacity:1;}
+@keyframes grow{from{transform:scaleY(0);}to{transform:scaleY(1);}}
+.animate .spectrum-band .seg{animation:grow .9s cubic-bezier(.22,1,.36,1) both;}
+
+/* ════════ generic content bits ════════ */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+.cols2 p{max-width:none;}
+@media(max-width:760px){.cols2{grid-template-columns:1fr;gap:30px;}}
+
+.tokenrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px;}
+.chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:.04em;color:var(--fg-dim);
+  border:1px solid var(--border);border-radius:2px;padding:5px 10px;background:var(--surface);
+}
+
+/* swatches */
+.swatchgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:14px;}
+.swatch{background:var(--surface);padding:0;cursor:pointer;position:relative;outline:none;}
+.swatch .fill{height:84px;width:100%;display:block;}
+.swatch .meta{padding:11px 13px 13px;}
+.swatch .nm{font-family:var(--body);font-weight:600;font-size:13px;color:var(--fg);}
+.swatch .hex{font-family:var(--mono);font-size:11px;color:var(--fg-dim);letter-spacing:.03em;margin-top:3px;display:flex;justify-content:space-between;}
+.swatch .role{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+.swatch:hover .copy,.swatch:focus-visible .copy{opacity:1;}
+.swatch .copy{opacity:0;transition:opacity .2s;color:var(--accent);}
+.swatch.copied .copy{opacity:1;color:var(--accent);}
+.swatch:focus-visible{box-shadow:inset 0 0 0 2px var(--accent);}
+
+/* the ten profile specimens */
+.profiles{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:16px;}
+@media(max-width:760px){.profiles{grid-template-columns:1fr;}}
+.profile{background:var(--surface);padding:0;}
+.profile .bar{height:6px;width:100%;}
+.profile .body{padding:20px 22px 22px;}
+.profile .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+.profile .code{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.22em;}
+.profile .no{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.1em;}
+.profile .name{font-family:var(--display);font-size:25px;font-weight:600;color:var(--fg);line-height:1.05;margin:7px 0 2px;}
+.profile .hex{font-family:var(--mono);font-size:10.5px;color:var(--fg-dim);letter-spacing:.04em;}
+.profile .tag{font-family:var(--display);font-style:italic;font-size:15px;color:var(--fg-dim);margin:12px 0 0;}
+.profile .sensory{font-size:13.5px;line-height:1.6;color:var(--fg-dim);margin:12px 0 16px;max-width:none;}
+.profile .drv{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.profile .drvlist{display:flex;flex-wrap:wrap;gap:5px;}
+.profile .drvlist span{font-family:var(--mono);font-size:10px;color:var(--fg-dim);border:1px solid var(--border);border-radius:2px;padding:3px 7px;}
+.profile.note .annot{font-size:12px;line-height:1.55;color:var(--muted);margin-top:14px;padding-top:13px;border-top:1px solid var(--border);font-style:italic;font-family:var(--display);}
+
+/* type specimens */
+.typespec{border:1px solid var(--border);background:var(--surface);padding:30px 32px;margin-top:14px;}
+.typespec + .typespec{margin-top:1px;}
+.typespec .role{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+.typespec .fam{font-family:var(--mono);font-size:11px;color:var(--muted);float:right;letter-spacing:.04em;}
+.typespec .big{margin:14px 0 4px;color:var(--fg);line-height:1;}
+.typespec .scale{font-family:var(--mono);font-size:11px;color:var(--fg-dim);margin-top:12px;line-height:1.9;}
+.typespec .scale b{color:var(--fg);font-weight:700;}
+
+/* the band-construction explainer */
+.bandlab{border:1px solid var(--border);background:var(--surface);padding:28px 30px;margin-top:18px;}
+.bandlab .ttl{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+.exband{display:flex;height:64px;border-radius:3px;overflow:hidden;border:1px solid var(--border);}
+.exband .seg{display:flex;align-items:flex-end;padding:8px 10px;}
+.exband .seg b{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.06em;color:rgba(14,14,12,.7);}
+.bandlab .legend{display:flex;gap:22px;flex-wrap:wrap;margin-top:14px;font-family:var(--mono);font-size:10.5px;color:var(--fg-dim);}
+.bandlab .legend i{font-style:normal;color:var(--muted);}
+.rules{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:9px;}
+.rules li{display:flex;gap:12px;font-size:13.5px;color:var(--fg-dim);align-items:baseline;}
+.rules li .k{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.1em;color:var(--accent);min-width:74px;text-transform:uppercase;padding-top:1px;}
+
+/* do / don't */
+.dd{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-top:16px;}
+@media(max-width:680px){.dd{grid-template-columns:1fr;}}
+.dd .cell{background:var(--surface);padding:22px 24px;}
+.dd .lbl{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.dd .do .lbl{color:var(--accent);} .dd .dont .lbl{color:var(--fruit);}
+.dd ul{list-style:none;padding:0;margin:0;display:grid;gap:11px;}
+.dd li{font-size:13.5px;line-height:1.5;color:var(--fg-dim);padding-left:18px;position:relative;}
+.dd .do li::before{content:"+";position:absolute;left:0;color:var(--accent);font-family:var(--mono);font-weight:700;}
+.dd .dont li::before{content:"–";position:absolute;left:0;color:var(--fruit);font-family:var(--mono);font-weight:700;}
+
+/* voice quote */
+.bigquote{font-family:var(--display);font-weight:400;font-size:clamp(24px,4vw,40px);line-height:1.22;letter-spacing:-.015em;color:var(--fg);max-width:24ch;margin:0;}
+.bigquote em{font-style:italic;color:var(--accent);}
+
+/* wordmark spec */
+.wm-stage{border:1px solid var(--border);background:var(--surface);padding:clamp(34px,6vw,72px);margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:8px;position:relative;}
+.wm-primary{font-family:var(--display);font-weight:600;font-size:clamp(34px,7vw,72px);letter-spacing:-.03em;color:var(--fg);line-height:.95;text-align:center;}
+.wm-system{font-family:var(--mono);font-weight:700;font-size:clamp(11px,2vw,15px);letter-spacing:.34em;color:var(--fg);text-transform:uppercase;}
+.clearbox{position:relative;padding:34px;border:1px dashed var(--border);margin-top:1px;display:flex;justify-content:center;align-items:center;background:var(--surface);}
+.clearbox .cap{position:absolute;top:8px;left:12px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;}
+
+/* applications */
+.apps{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);margin-top:16px;}
+.app{background:var(--surface);padding:22px 24px;}
+.app .no{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.14em;}
+.app .nm{font-family:var(--display);font-size:20px;font-weight:600;color:var(--fg);margin:6px 0 8px;}
+.app p{font-size:13px;line-height:1.55;color:var(--fg-dim);margin:0;}
+/* mini label mock */
+.labelmock{background:var(--paper);color:var(--paper-ink);border-radius:5px;padding:0;overflow:hidden;margin-top:16px;max-width:300px;box-shadow:0 14px 40px -18px rgba(0,0,0,.7);}
+.labelmock .lband{display:flex;height:13px;}
+.labelmock .lbody{padding:15px 16px 16px;}
+.labelmock .lstrain{font-family:var(--display);font-weight:700;font-size:21px;line-height:1.02;}
+.labelmock .lblend{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:#7a6f45;margin-top:5px;}
+.labelmock .laroma{font-size:12px;line-height:1.45;margin:11px 0 12px;color:#3a352d;}
+.labelmock .lmeta{display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.06em;color:#8a8174;border-top:1px solid #d9cfbe;padding-top:9px;text-transform:uppercase;}
+
+/* callout / compliance */
+.callout{border:1px solid var(--border);border-left:3px solid var(--amber);background:var(--surface);padding:22px 26px;margin-top:18px;}
+.callout.teal{border-left-color:var(--accent);}
+.callout .ct{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;}
+.callout.teal .ct{color:var(--accent);}
+.callout p{margin:0;font-size:14px;color:var(--fg-dim);}
+.complist{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:1px;background:var(--border);border:1px solid var(--border);}
+.complist li{background:var(--surface);padding:15px 20px;display:grid;grid-template-columns:160px 1fr;gap:18px;font-size:13.5px;color:var(--fg-dim);align-items:start;}
+.complist li b{font-family:var(--mono);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--fg);padding-top:2px;}
+@media(max-width:620px){.complist li{grid-template-columns:1fr;gap:5px;}}
+
+/* doc footer / section footer line */
+.specline{display:flex;justify-content:space-between;gap:16px;margin-top:46px;padding-top:16px;border-top:2px solid var(--fg);font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;flex-wrap:wrap;}
+.colophon{padding:70px clamp(24px,6vw,96px) 90px;}
+.colophon .big{font-family:var(--display);font-size:clamp(22px,3vw,32px);font-weight:500;color:var(--fg);max-width:30ch;line-height:1.3;letter-spacing:-.01em;}
+
+/* toast */
+#toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--accent);color:var(--bg);font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.08em;padding:9px 16px;border-radius:3px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:60;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ── Responsive ── */
+@media(max-width:920px){
+  .wrap{grid-template-columns:1fr;}
+  nav.index{display:none;}
+  main,header.hero{border-left:0;}
+  .mobilebar{display:flex;position:sticky;top:0;z-index:50;background:rgba(14,14,12,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);padding:13px 22px;justify-content:space-between;align-items:center;}
+  .mobilebar .mk{font-family:var(--mono);font-weight:800;font-size:12px;letter-spacing:.2em;color:var(--fg);}
+  .mobilebar .mk b{color:var(--accent);}
+  .mobilebar .mv{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted);}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .animate .spectrum-band .seg{animation:none;}
+}
+@media print{
+  nav.index,.mobilebar,#toast{display:none;}
+  body{background:#fff;color:#111;}
+  .wrap{grid-template-columns:1fr;}
+  section{break-inside:avoid;}
+}
+</style>
+</head>
+<body>
+
+<div class="mobilebar">
+  <span class="mk">FLOWER <b>SPECTRUM</b></span>
+  <span class="mv">BRAND GUIDELINES · v1.0</span>
+</div>
+
+<div class="wrap">
+
+  <!-- ════════ SIDE INDEX ════════ -->
+  <nav class="index" aria-label="Contents">
+    <div class="mark">FLOWER<br/><b>SPECTRUM</b></div>
+    <div class="sub">Brand Guidelines</div>
+    <ol>
+      <li><a href="#s01"><span class="n">01</span>Foundation</a></li>
+      <li><a href="#s02"><span class="n">02</span>The Wordmark</a></li>
+      <li><a href="#s03"><span class="n">03</span>Color</a></li>
+      <li><a href="#s04"><span class="n">04</span>Typography</a></li>
+      <li><a href="#s05"><span class="n">05</span>The Spectrum</a></li>
+      <li><a href="#s06"><span class="n">06</span>Voice &amp; Tone</a></li>
+      <li><a href="#s07"><span class="n">07</span>Applications</a></li>
+      <li><a href="#s08"><span class="n">08</span>Guardrails</a></li>
+      <li><a href="#s09"><span class="n">09</span>Colophon</a></li>
+    </ol>
+    <div class="foot">v1.0 · 06_2026<br/>CannaCre8ive · Portland OR</div>
+  </nav>
+
+  <main>
+
+  <!-- ════════ HERO ════════ -->
+  <header class="hero" id="top">
+    <div class="pad">
+      <div class="kick">Brand Guidelines <span>/</span> Version 1.0 <span>/</span> June 2026 <span>/</span> CannaCre8ive</div>
+      <h1>Flower<br/><em>Spectrum</em></h1>
+      <p class="philosophy">&ldquo;The nose knows&nbsp;— this is just the science catching up to what people have <b>always known.</b>&rdquo;</p>
+    </div>
+    <div class="band-wrap">
+      <div class="bandcap"><span>The Spectrum — ten aromas, one system</span><span>Trust your nose</span></div>
+      <div class="spectrum-band" id="heroBand" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- ════════ 01 · FOUNDATION ════════ -->
+  <section id="s01">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">01</span> Foundation</div>
+      <h2 class="title">A standard for how cannabis is chosen.</h2>
+      <p class="lead">Flower Spectrum replaces indica / sativa and the THC-percentage race with the one signal a person can actually trust at the counter: aroma. Ten named profiles, each with a canonical color, derived from a flower&rsquo;s real lab-tested terpene panel — the same engine behind every label, menu, and guide.</p>
+
+      <hr class="rule" />
+
+      <div class="cols2">
+        <div>
+          <h3 class="sub">What it is</h3>
+          <p>A terpene-driven, aroma-led classification framework. Every flower is run through one canonical engine that weights each terpene by how loudly it actually smells, then maps that signal onto the ten-profile spectrum. The output is a color, a name, and a plain-language aroma line — consistent everywhere it appears.</p>
+        </div>
+        <div>
+          <h3 class="sub">What it believes</h3>
+          <p>Two flowers at the same THC can be completely different experiences. The number on the jar was never the answer. Aroma is measurable, honest, and already understood by every nose that opens a jar. Flower Spectrum gives that instinct names, colors, and the rigor of a lab sheet behind it.</p>
+        </div>
+      </div>
+
+      <hr class="rule" />
+
+      <h3 class="sub">Where it sits</h3>
+      <p>Flower Spectrum is the <strong>retail implementation layer</strong> — the system that turns terpene data into something a shopper, a budtender, and a grower all read the same way. Craft growers are the wedge: a single decision-maker, an aroma worth telling a story about, and a label that finally does the flower justice. Dispensaries follow.</p>
+
+      <div class="specline"><span>Flower Spectrum System · v1.0</span><span>Aroma classification · not effects or medical claims</span></div>
+    </div>
+  </section>
+
+  <!-- ════════ 02 · WORDMARK ════════ -->
+  <section id="s02">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">02</span> The Wordmark</div>
+      <h2 class="title">No leaf. No mascot. A name and a spectrum.</h2>
+      <p class="lead">The identity is typographic. Two lockups carry it: an expressive <strong>primary wordmark</strong> set in Newsreader, and a <strong>system signature</strong> set in JetBrains Mono for tools, footers, and labels. The colored band does the rest of the talking.</p>
+
+      <div class="wm-stage">
+        <div class="wm-primary">Flower&nbsp;Spectrum</div>
+      </div>
+      <div class="tokenrow">
+        <span class="chip">Primary · Newsreader · 600</span>
+        <span class="chip">Tracking −0.03em</span>
+        <span class="chip">Use for covers, headers, hero, brand moments</span>
+      </div>
+
+      <div class="wm-stage" style="margin-top:26px;">
+        <div class="wm-system">Flower&nbsp;Spectrum&nbsp;System</div>
+      </div>
+      <div class="tokenrow">
+        <span class="chip">System signature · JetBrains Mono · 700</span>
+        <span class="chip">Tracking 0.34em · UPPERCASE</span>
+        <span class="chip">Use in tool nav, footers, label compliance lines</span>
+      </div>
+
+      <hr class="rule" />
+
+      <div class="cols2">
+        <div>
+          <h3 class="sub">Clear space &amp; minimum size</h3>
+          <div class="clearbox"><span class="cap">Clear space = cap-height of the &ldquo;F&rdquo;</span><div class="wm-primary" style="font-size:clamp(26px,5vw,46px);">Flower&nbsp;Spectrum</div></div>
+          <p style="margin-top:14px;">Keep clear space on all sides equal to at least the cap-height of the wordmark&rsquo;s <em>F</em>. Minimum legible size: <span class="mono dim">120px</span> wide on screen, <span class="mono dim">1&nbsp;inch</span> in print. Below that, use the system signature instead.</p>
+        </div>
+        <div>
+          <h3 class="sub">Construction rules</h3>
+          <ul class="rules" style="margin-top:0;">
+            <li><span class="k">Case</span><span>Primary wordmark is title-case. The system signature is always uppercase.</span></li>
+            <li><span class="k">Color</span><span>Foreground <span class="mono">#e8e3d9</span> on the dark canvas; <span class="mono">#1a1816</span> on paper. Never recolor the wordmark to a profile hue.</span></li>
+            <li><span class="k">Pairing</span><span>The band may sit directly beneath the wordmark as a rule — never woven through the letters.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="dd">
+        <div class="cell do">
+          <div class="lbl">Do</div>
+          <ul>
+            <li>Set the primary mark in Newsreader 600, title case.</li>
+            <li>Let the ten-color band carry the visual energy.</li>
+            <li>Drop to the mono system signature at small sizes and in footers.</li>
+            <li>Keep the mark monochrome against its background.</li>
+          </ul>
+        </div>
+        <div class="cell dont">
+          <div class="lbl">Don&rsquo;t</div>
+          <ul>
+            <li>Add a cannabis leaf, mascot, or icon — ever.</li>
+            <li>Apply gradients, glows, or drop shadows to the type.</li>
+            <li>Recolor the wordmark to a profile hue or stretch its tracking.</li>
+            <li>Reach for generic &ldquo;AI / tech&rdquo; aesthetics or stock dispensary clichés.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 03 · COLOR ════════ -->
+  <section id="s03">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">03</span> Color</div>
+      <h2 class="title">A dark, considered canvas — and ten aromas of color.</h2>
+      <p class="lead">The palette has two jobs. A restrained neutral foundation holds the interface and the page; the ten profile hues are the brand&rsquo;s living language. Click any swatch to copy its value.</p>
+
+      <h3 class="sub" style="margin-top:42px;">Neutral foundation</h3>
+      <div class="swatchgrid" id="neutralGrid"></div>
+
+      <h3 class="sub" style="margin-top:42px;">Accent &amp; signal</h3>
+      <div class="swatchgrid" id="accentGrid"></div>
+
+      <h3 class="sub" style="margin-top:42px;">The ten aroma hues</h3>
+      <p style="margin-bottom:4px;">These are the heart of the system. Each profile owns exactly one canonical color, used identically across labels, menus, education, and the web guide. They are deliberately earthy and desaturated — a sophisticated spectrum, never neon. Gas / Fuel&rsquo;s amber doubles as the system&rsquo;s warning color.</p>
+      <div class="swatchgrid" id="profileGrid"></div>
+
+      <div class="callout teal" style="margin-top:34px;">
+        <div class="ct">Color principles</div>
+        <p>The neutral canvas never competes with the hues. A profile color appears as a fill, a 6px top-rule, or a band segment — not as body text. On paper the system shifts to the warm surface <span class="mono">#f4eee3</span> with <span class="mono">#1a1816</span> ink, and the same ten hues print true with <span class="mono">print-color-adjust: exact</span>.</p>
+      </div>
+
+      <div class="specline"><span>Flower Spectrum System · Color v1.0</span><span>Ten profiles · ten canonical hues</span></div>
+    </div>
+  </section>
+
+  <!-- ════════ 04 · TYPOGRAPHY ════════ -->
+  <section id="s04">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">04</span> Typography</div>
+      <h2 class="title">Three voices: editorial, plain-spoken, exact.</h2>
+      <p class="lead">A display serif for personality, a humanist sans for clarity, and a monospace for anything that behaves like data. The contrast between the editorial and the exact <em>is</em> the brand&rsquo;s tension — instinct and lab sheet, in the same breath.</p>
+
+      <div class="typespec">
+        <span class="role">Display</span><span class="fam">Newsreader · 400–700 · italic</span>
+        <div class="big" style="font-family:var(--display);font-weight:600;font-size:clamp(40px,7vw,76px);letter-spacing:-.02em;">Trust your nose</div>
+        <div class="scale">
+          Headlines, profile names, brand moments · <b>Optical sizing on</b><br/>
+          Weights — <b>400</b> Regular · <b>500</b> Medium · <b>600</b> Semibold · <b>700</b> Bold &nbsp;·&nbsp; Italic for pull-quotes &amp; taglines
+        </div>
+      </div>
+
+      <div class="typespec">
+        <span class="role">Body / UI</span><span class="fam">DM Sans · 400–700</span>
+        <div class="big" style="font-family:var(--body);font-weight:500;font-size:clamp(26px,4vw,40px);letter-spacing:-.01em;">Two flowers at the same THC can be completely different.</div>
+        <div class="scale">
+          Running text, interface, descriptions · set 15–16px / 1.65 · <b>max 64ch measure</b><br/>
+          Weights — <b>400</b> body · <b>500/600</b> emphasis · <b>700</b> UI labels
+        </div>
+      </div>
+
+      <div class="typespec">
+        <span class="role">Mono / Data</span><span class="fam">JetBrains Mono · 400–800</span>
+        <div class="big mono" style="font-weight:700;font-size:clamp(20px,3.4vw,34px);letter-spacing:.04em;">GAS · EARTH · CITRUS · #C9A84C</div>
+        <div class="scale">
+          Eyebrows, codes, hex, COA values, footers, the system signature · <b>UPPERCASE, tracked 0.1–0.34em</b><br/>
+          This is the &ldquo;spec voice&rdquo; — it appears wherever the system is being precise.
+        </div>
+      </div>
+
+      <hr class="rule" />
+      <div class="cols2">
+        <div>
+          <h3 class="sub">Type scale</h3>
+          <ul class="rules" style="margin-top:0;">
+            <li><span class="k">Display</span><span>Newsreader 600 · clamp 30–52px for section titles, larger for hero</span></li>
+            <li><span class="k">Sub</span><span>Newsreader 600 · 23px</span></li>
+            <li><span class="k">Lead</span><span>Newsreader 400 · 18–22px / 1.55</span></li>
+            <li><span class="k">Body</span><span>DM Sans 400 · 15–16px / 1.65</span></li>
+            <li><span class="k">Eyebrow</span><span>JetBrains Mono 700 · 11px · 0.28em · uppercase</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sub">Pairing rules</h3>
+          <p>Never set body copy in the serif or run headlines in the mono. The mono is reserved for the precise — it earns its monospace by labeling something real (a hex, a code, a measured value). One display face, one body face, one data face. No fourth.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 05 · THE SPECTRUM ════════ -->
+  <section id="s05">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">05</span> The Spectrum</div>
+      <h2 class="title">Ten profiles. The soul of the brand.</h2>
+      <p class="lead">This is the system everything else exists to serve. Each profile is a fixed pairing of a name, a short code, a color, and a plain sensory description — drawn from the terpenes that drive it. They never change, never get reordered, and never get a new sibling.</p>
+
+      <div class="profiles" id="profileSpecimens"></div>
+
+      <div class="bandlab">
+        <div class="ttl">How a classification becomes a band</div>
+        <div class="exband" id="exBand"></div>
+        <div class="legend">
+          <span><i>Example —</i> Gorilla Glue #4 · validated COA</span>
+          <span>Spicy / Warm 19% &nbsp;·&nbsp; Gas / Fuel 17%</span>
+          <span><i>→ blend name</i> &ldquo;Spicy-Gas&rdquo;</span>
+        </div>
+        <ul class="rules">
+          <li><span class="k">Order</span><span>Loudest profile leads — left to right by weighted score.</span></li>
+          <li><span class="k">Width</span><span>Each segment&rsquo;s width is proportional to its share of the signal.</span></li>
+          <li><span class="k">Join</span><span>A profile joins the band only if it scores ≥ 60% of the leader.</span></li>
+          <li><span class="k">Cap</span><span>Three colors maximum. A solid band means one aroma dominates.</span></li>
+        </ul>
+      </div>
+
+      <div class="callout" style="margin-top:26px;">
+        <div class="ct">Locked decisions — do not revisit without cause</div>
+        <p>Ten profiles, not eleven — Savory / Funk was absorbed into Gas / Fuel and does not come back. Gas is the only <em>emergent</em> profile (it appears when caryophyllene, limonene, and myrcene/humulene land in balance, never from a single terpene). The engine weights aroma over mass — β-Farnesene is loud on a lab sheet and quiet to the nose, and is clamped accordingly. The classification is only ever as honest as the COA behind it.</p>
+      </div>
+
+      <div class="specline"><span>Flower Spectrum System · Spectrum v1.0</span><span>Aroma classification · not effects or medical claims</span></div>
+    </div>
+  </section>
+
+  <!-- ════════ 06 · VOICE ════════ -->
+  <section id="s06">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">06</span> Voice &amp; Tone</div>
+      <h2 class="title">Confident, sensory, honest. Never clinical.</h2>
+
+      <p class="bigquote" style="margin:8px 0 36px;">We classify the smell, which is measurable. How any flower makes <em>you</em> feel is yours to discover.</p>
+
+      <div class="cols2">
+        <div>
+          <h3 class="sub">Principles</h3>
+          <ul class="rules" style="margin-top:0;">
+            <li><span class="k">Aroma first</span><span>Lead with smell and flavor. It&rsquo;s what we measure and what people recognize.</span></li>
+            <li><span class="k">Plain</span><span>&ldquo;Bright lemon,&rdquo; not &ldquo;dominant D-limonene expression.&rdquo; Name things by the nose, not the molecule.</span></li>
+            <li><span class="k">Honest</span><span>Effect reputations are traditional associations — say so, and hand the experience back to the reader.</span></li>
+            <li><span class="k">Assured</span><span>The system is built on real data. The voice can be calm and certain without overclaiming.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="sub">Signature lines</h3>
+          <p style="font-family:var(--display);font-size:18px;color:var(--fg);line-height:1.5;">&ldquo;Trust your nose. It&rsquo;s smarter than the number.&rdquo;<br/><br/>&ldquo;The Flower Spectrum just gives them names and colors.&rdquo;<br/><br/>&ldquo;Find a smell you&rsquo;re drawn to, and you&rsquo;ll find flower you enjoy.&rdquo;</p>
+        </div>
+      </div>
+
+      <div class="dd">
+        <div class="cell do">
+          <div class="lbl">Say</div>
+          <ul>
+            <li>&ldquo;Reads as bright lemon with a soft floral edge.&rdquo;</li>
+            <li>&ldquo;Traditionally linked to grounding, restful moments.&rdquo; <em>(education only, disclaimed)</em></li>
+            <li>&ldquo;A solid band means one aroma leads; a split band is a blend.&rdquo;</li>
+          </ul>
+        </div>
+        <div class="cell dont">
+          <div class="lbl">Avoid</div>
+          <ul>
+            <li>&ldquo;Sedative,&rdquo; &ldquo;energizing,&rdquo; &ldquo;couch-lock&rdquo; — no effect claims on labels.</li>
+            <li>&ldquo;Entourage effect&rdquo; and any medical framing.</li>
+            <li>Indica / sativa shorthand, or leading with a THC percentage.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 07 · APPLICATIONS ════════ -->
+  <section id="s07">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">07</span> Applications</div>
+      <h2 class="title">One system, every surface.</h2>
+      <p class="lead">The same ten hues and the same band logic carry from a printed jar label to a public web guide. The brand is recognized by its spectrum, not a logo.</p>
+
+      <div class="cols2" style="margin-top:36px;align-items:start;">
+        <div>
+          <div class="labelmock" aria-label="Example jar label">
+            <div class="lband" id="mockBand"></div>
+            <div class="lbody">
+              <div class="lstrain">Gorilla Glue #4</div>
+              <div class="lblend">Spicy-Gas · Leaning</div>
+              <div class="laroma">Cracked black pepper and clove over a loud diesel funk. Warm, assertive, unmistakable.</div>
+              <div class="lmeta"><span>THC 24%</span><span>Aroma classification</span></div>
+            </div>
+          </div>
+          <p style="font-size:12.5px;margin-top:14px;color:var(--muted);font-family:var(--mono);letter-spacing:.04em;">Jar label · Avery 6464 · band + aroma line, no effect claims</p>
+        </div>
+        <div>
+          <div class="apps" style="grid-template-columns:1fr;">
+            <div class="app"><div class="no">01</div><div class="nm">Labels</div><p>Avery 6464 sheets. A colored band reads the profile at a glance; a plain aroma sentence sits beneath. Compliance line always present.</p></div>
+            <div class="app"><div class="no">02</div><div class="nm">Menus</div><p>Spectrum and Staff-Picks layouts, grouped by profile with the color key and tier pricing. Print-true.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="apps" style="margin-top:26px;">
+        <div class="app"><div class="no">03</div><div class="nm">Education</div><p>Customer and staff pieces — the ten profiles, the THC myth, how to read a jar. Where hedged effect-leans are allowed, with a visible disclaimer.</p></div>
+        <div class="app"><div class="no">04</div><div class="nm">Consumer Web Guide</div><p>Public aroma picker running the live engine, reachable by QR from label and menu. The compliant front door to the system.</p></div>
+        <div class="app"><div class="no">05</div><div class="nm">Operator Tools</div><p>COA Importer &amp; Classifier — the dark-canvas product surface. Same hues, same signature, same band.</p></div>
+        <div class="app"><div class="no">06</div><div class="nm">Sales Enablement</div><p>Grower- and dispensary-facing one-pagers in the CannaCre8ive Studio system — the studio voice introducing the Spectrum standard.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 08 · GUARDRAILS ════════ -->
+  <section id="s08">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">08</span> Guardrails</div>
+      <h2 class="title">Compliance is part of the craft.</h2>
+      <p class="lead">Oregon OLCC discipline isn&rsquo;t a footnote — it shapes the voice. Aroma always leads; effects are handled carefully and only where allowed. These rules are non-negotiable across every surface.</p>
+
+      <ul class="complist">
+        <li><b>Labels</b><span>Zero effect claims. Aroma and flavor only, plus factual data (THC % is data, not a claim).</span></li>
+        <li><b>Education</b><span>Hedged effect-leans permitted — framed explicitly as traditional aromatic associations, never medical, with a visible disclaimer.</span></li>
+        <li><b>Forbidden</b><span>No &ldquo;entourage effect&rdquo; language. No medical claims. No effect-based filtering words (&ldquo;energetic,&rdquo; &ldquo;sedative&rdquo;) in dispensary-facing tools.</span></li>
+        <li><b>Required line</b><span>&ldquo;Aroma classification — not effects or medical claims&rdquo; appears in every tool footer and label compliance line.</span></li>
+        <li><b>Data integrity</b><span>Never invent terpene or COA values. Every classification traces to a real, lab-tested panel.</span></li>
+      </ul>
+
+      <div class="callout" style="margin-top:30px;">
+        <div class="ct">An honest word on &ldquo;effects&rdquo;</div>
+        <p>Certain aromas carry long-standing reputations — bright citrus with a lift, deep earth with a wind-down. Those are traditional associations, shaped by culture and shared experience, and they vary by person, dose, and setting. We classify the smell, which is measurable. How any flower makes you feel is yours to discover — the aroma is just the most reliable place to start.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ 09 · COLOPHON ════════ -->
+  <section id="s09" class="colophon">
+    <div class="inner">
+      <div class="eyebrow"><span class="num">09</span> Colophon</div>
+      <p class="big">Flower Spectrum is a product of <strong style="color:var(--accent);font-weight:500;">CannaCre8ive</strong> — a cannabis business-improvement and creative studio in Portland, Oregon.</p>
+      <p style="margin-top:26px;max-width:60ch;">The Spectrum is the standard; CannaCre8ive Studio is the voice that brings it to growers and dispensaries. The two share a sage-teal thread and a refusal of clichés — no gold, no gradients, no leaf iconography — but keep distinct systems: Flower Spectrum on its dark canvas with Newsreader; the Studio in Overpass and Cormorant Garamond on its sales materials.</p>
+
+      <div class="tokenrow" style="margin-top:32px;">
+        <span class="chip">Newsreader</span><span class="chip">DM Sans</span><span class="chip">JetBrains Mono</span>
+        <span class="chip">#0e0e0c canvas</span><span class="chip">#6AAFA0 accent</span><span class="chip">10 profile hues</span>
+      </div>
+
+      <div class="specline"><span>Flower Spectrum Brand Guidelines · v1.0 · 06_25_2026</span><span>CannaCre8ive · cannacre8ive.com</span></div>
+    </div>
+  </section>
+
+  </main>
+</div>
+
+<div id="toast">Copied</div>
+
+<script>
+/* ── Canonical data — traced to the live system, nothing invented ── */
+const PROFILES = [
+  {key:"gas",   no:"01", code:"GAS",    name:"Gas / Fuel",      color:"#C9A84C", tag:"Loud, pungent diesel and chemical funk", sensory:"Pungent diesel, solvent, and aggressive skunk. The loudest jar on the shelf — it announces itself before you even open it.", drivers:["β-Caryophyllene","D-Limonene","Myrcene","α-Humulene"], note:"The only emergent profile — diesel appears from a balance of terpenes, never one driver."},
+  {key:"earth", no:"02", code:"EARTH",  name:"Earthy / Dank",   color:"#6B8E5A", tag:"Deep soil, musk, and weight", sensory:"Wet forest floor, damp soil, fresh-cut mushroom. Grounded and heavy, with an old-school musk that reads as substantial.", drivers:["Myrcene","α-Humulene"]},
+  {key:"citrus",no:"03", code:"CITRUS", name:"Citrus / Bright",  color:"#D4A843", tag:"Zesty lemon, orange, grapefruit", sensory:"Fresh-cut citrus rind, lemon zest, ripe orange. Sharp and uplifting — the brightest, most awake corner of the spectrum.", drivers:["D-Limonene","Valencene"]},
+  {key:"fruit", no:"04", code:"FRUIT",  name:"Fruity / Sweet",   color:"#B75F4A", tag:"Juicy, candy, ripe stone fruit", sensory:"Berry, stone fruit, candy. The sweetest, juiciest profile — often led by terpinolene's haze-like fruit-fresh character.", drivers:["Terpinolene","β-Ocimene","β-Farnesene"]},
+  {key:"floral",no:"05", code:"FLORAL", name:"Floral / Soft",    color:"#B98BBE", tag:"Lavender, rose, perfumed softness", sensory:"Crushed lavender, rose petal, soft perfume. Delicate and aromatic — the calmest corner of the spectrum.", drivers:["Linalool","α-Bisabolol","trans-Nerolidol","α-Terpineol"]},
+  {key:"dessert",no:"06",code:"DESSERT",name:"Dessert / Creamy", color:"#D6B58A", tag:"Vanilla, cake, rich and smooth", sensory:"Vanilla, cake batter, sweet cream. Smooth and indulgent — it sits on top of other profiles rather than driving them.", drivers:["Linalool + α-Bisabolol","over a sweet/spicy base"], note:"A combination profile — soft florals layered over sweetness and warmth."},
+  {key:"spicy", no:"07", code:"SPICY",  name:"Spicy / Warm",     color:"#9E6B4A", tag:"Black pepper, clove, warm spice", sensory:"Cracked black pepper, clove, baking spice. Warm and assertive — dominated by a single aromatic heavyweight.", drivers:["β-Caryophyllene","Caryophyllene Oxide","α-Humulene"]},
+  {key:"pine",  no:"08", code:"PINE",   name:"Piney / Fresh",    color:"#4F7A5B", tag:"Pine, fir, crisp mountain air", sensory:"Pine needle, Douglas fir, crisp mountain air. Sharp and resinous — clean, bracing, often invigorating.", drivers:["α-Pinene","β-Pinene","Camphene","Δ-3-Carene"]},
+  {key:"herb",  no:"09", code:"HERB",   name:"Herbal / Woody",   color:"#7FA688", tag:"Loose tea, sage, fresh-cut wood", sensory:"Loose-leaf tea, sage, dry hop, fresh-sawn wood. Dry and savory — refined and understated, more considered than loud.", drivers:["α-Humulene","Guaiol","Fenchol","Eucalyptol"]},
+  {key:"tropic",no:"10", code:"TROPIC", name:"Tropical / Tangy", color:"#D28B49", tag:"Mango, guava, sun-ripened fruit", sensory:"Mango, guava, passionfruit. Exotic and tangy — vibrant fruit you'd find in a juice bar, not a pie.", drivers:["β-Ocimene","Terpinolene","Valencene"]},
+];
+
+const NEUTRALS = [
+  {nm:"Canvas",   hex:"#0e0e0c", role:"Background"},
+  {nm:"Surface",  hex:"#181715", role:"Cards / panels"},
+  {nm:"Surface 2",hex:"#1f1d1a", role:"Raised"},
+  {nm:"Border",   hex:"#2a2824", role:"Hairlines"},
+  {nm:"Foreground",hex:"#e8e3d9",role:"Primary text"},
+  {nm:"Dim",      hex:"#a8a092", role:"Secondary text"},
+  {nm:"Muted",    hex:"#6e675b", role:"Captions"},
+  {nm:"Paper",    hex:"#f4eee3", role:"Print surface"},
+];
+const ACCENTS = [
+  {nm:"Sage-Teal", hex:"#6AAFA0", role:"Accent · links · active"},
+  {nm:"Amber",     hex:"#C9A84C", role:"Warning · Gas hue"},
+  {nm:"Paper Ink", hex:"#1a1816", role:"Ink on paper"},
+];
+
+/* ── Render hero band (ten equal segments = the full palette) ── */
+const heroBand = document.getElementById("heroBand");
+PROFILES.forEach((p,i)=>{
+  const seg=document.createElement("div");
+  seg.className="seg"; seg.style.background=p.color; seg.style.animationDelay=(i*0.06)+"s";
+  seg.innerHTML='<span class="tag">'+p.code+'</span>';
+  heroBand.appendChild(seg);
+});
+
+/* ── Swatch rendering + click-to-copy ── */
+const toast=document.getElementById("toast");
+let toastT;
+function copyHex(hex,el){
+  const done=()=>{ if(el){el.classList.add("copied");setTimeout(()=>el.classList.remove("copied"),900);}
+    toast.textContent="Copied "+hex; toast.classList.add("show");
+    clearTimeout(toastT); toastT=setTimeout(()=>toast.classList.remove("show"),1200); };
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(hex).then(done).catch(done);}else{done();}
+}
+function buildSwatches(arr,target,dark){
+  const grid=document.getElementById(target);
+  arr.forEach(s=>{
+    const b=document.createElement("button");
+    b.className="swatch"; b.type="button"; b.setAttribute("aria-label","Copy "+s.nm+" "+s.hex);
+    b.innerHTML='<span class="fill" style="background:'+s.hex+'"></span>'+
+      '<span class="meta"><span class="nm">'+s.nm+'</span>'+
+      '<span class="hex"><span>'+s.hex+'</span><span class="copy">copy ⧉</span></span>'+
+      '<span class="role">'+s.role+'</span></span>';
+    b.addEventListener("click",()=>copyHex(s.hex,b));
+    grid.appendChild(b);
+  });
+}
+buildSwatches(NEUTRALS,"neutralGrid");
+buildSwatches(ACCENTS,"accentGrid");
+PROFILES.forEach(p=>{}); // profiles built below with richer card
+const pg=document.getElementById("profileGrid");
+PROFILES.forEach(p=>{
+  const b=document.createElement("button");
+  b.className="swatch"; b.type="button"; b.setAttribute("aria-label","Copy "+p.name+" "+p.color);
+  b.innerHTML='<span class="fill" style="background:'+p.color+'"></span>'+
+    '<span class="meta"><span class="nm">'+p.name+'</span>'+
+    '<span class="hex"><span>'+p.color+'</span><span class="copy">copy ⧉</span></span>'+
+    '<span class="role">'+p.code+'</span></span>';
+  b.addEventListener("click",()=>copyHex(p.color,b));
+  pg.appendChild(b);
+});
+
+/* ── Profile specimens (§05) ── */
+const spec=document.getElementById("profileSpecimens");
+PROFILES.forEach(p=>{
+  const d=document.createElement("div");
+  d.className="profile"+(p.note?" note":"");
+  d.innerHTML=
+    '<div class="bar" style="background:'+p.color+'"></div>'+
+    '<div class="body">'+
+      '<div class="head"><span class="code" style="color:'+p.color+'">'+p.code+'</span><span class="no">'+p.no+' / 10</span></div>'+
+      '<div class="name">'+p.name+'</div>'+
+      '<div class="hex">'+p.color+'</div>'+
+      '<div class="tag">'+p.tag+'</div>'+
+      '<div class="sensory">'+p.sensory+'</div>'+
+      '<div class="drv">Primary drivers</div>'+
+      '<div class="drvlist">'+p.drivers.map(x=>'<span>'+x+'</span>').join('')+'</div>'+
+      (p.note?'<div class="annot">'+p.note+'</div>':'')+
+    '</div>';
+  spec.appendChild(d);
+});
+
+/* ── Example proportional band: GG4 → Spicy-Gas (validated COA, §6) ── */
+const GG4=[{c:"#9E6B4A",l:"SPICY 19%",w:53},{c:"#C9A84C",l:"GAS 17%",w:47}];
+const ex=document.getElementById("exBand");
+GG4.forEach(s=>{const seg=document.createElement("div");seg.className="seg";seg.style.background=s.c;seg.style.flex=s.w;seg.innerHTML='<b>'+s.l+'</b>';ex.appendChild(seg);});
+/* mock label band mirrors the same blend */
+const mb=document.getElementById("mockBand");
+GG4.forEach(s=>{const seg=document.createElement("div");seg.style.background=s.c;seg.style.flex=s.w;mb.appendChild(seg);});
+
+/* ── Hero band draw on load ── */
+requestAnimationFrame(()=>document.body.classList.add("animate"));
+
+/* ── Scroll-spy on side index ── */
+const links=[...document.querySelectorAll('nav.index a')];
+const map={}; links.forEach(a=>map[a.getAttribute('href').slice(1)]=a);
+const obs=new IntersectionObserver((es)=>{
+  es.forEach(e=>{ if(e.isIntersecting){ links.forEach(l=>l.classList.remove('active')); const a=map[e.target.id]; if(a)a.classList.add('active'); } });
+},{rootMargin:"-45% 0px -50% 0px",threshold:0});
+document.querySelectorAll('main section[id]').forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>

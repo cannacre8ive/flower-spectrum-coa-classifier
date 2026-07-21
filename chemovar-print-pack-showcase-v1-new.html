@@ -1,0 +1,2809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Chemovar Guide — Print Marketing Pack Showcase v1.0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400&family=DM+Sans:wght@300;400;500;700&family=DM+Mono:wght@400&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #0A0A0A;
+  --surface: #131613;
+  --elevated: #1A1E1A;
+  --border: #252B22;
+  --border-hi: #3A4535;
+  --sage: #7FA688;
+  --sage-bright: #9BC4A5;
+  --sage-dim: #4A6353;
+  --cream: #EDE8DC;
+  --cream-dim: #A09A8E;
+  --muted: #585E52;
+  --terra: #C8845C;
+
+  --ignite: #D4845C;
+  --focus:  #B8D4A8;
+  --flow:   #8AAEB2;
+  --ease:   #7FA688;
+  --unwind: #6B7D6B;
+  --rest:   #4A5A6A;
+
+  --font-head: 'Playfair Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  --scene: #08090A;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+*:focus-visible { outline: 2px solid var(--sage); outline-offset: 3px; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--scene);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-weight: 300;
+  line-height: 1.65;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+
+/* ============ NAV ============ */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(8, 9, 10, 0.94);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 0;
+}
+
+.nav-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: var(--sage);
+  text-transform: uppercase;
+}
+
+.nav-brand .ver { color: var(--cream-dim); margin-left: 8px; }
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  color: var(--cream-dim);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover { color: var(--sage); }
+
+/* ============ HERO ============ */
+.hero {
+  padding: 100px 0 80px;
+  border-bottom: 1px solid var(--border);
+}
+
+.hero-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.hero-eyebrow::before {
+  content: "";
+  width: 28px;
+  height: 1px;
+  background: var(--sage);
+}
+
+.hero-title {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 76px);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+  max-width: 920px;
+}
+.hero-title em { font-style: italic; color: var(--sage); }
+
+.hero-sub {
+  font-size: clamp(17px, 1.3vw, 19px);
+  line-height: 1.65;
+  color: var(--cream-dim);
+  max-width: 700px;
+  margin-bottom: 40px;
+}
+
+.hero-sub strong { color: var(--cream); font-weight: 400; }
+
+.hero-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 32px;
+  margin-top: 8px;
+}
+
+.hero-meta-item .label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.hero-meta-item .val {
+  font-family: var(--font-head);
+  font-size: 19px;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.hero-meta-item .val em { color: var(--sage); font-style: italic; }
+
+/* ============ SECTIONS ============ */
+.section {
+  padding: 96px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section-id {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-id::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  max-width: 200px;
+}
+
+.section-title {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: clamp(28px, 3.6vw, 44px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  margin-bottom: 16px;
+  max-width: 880px;
+}
+.section-title em { font-style: italic; color: var(--sage); }
+
+.section-lede {
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--cream-dim);
+  max-width: 680px;
+  margin-bottom: 12px;
+}
+
+/* ============ SPEC STRIP ============ */
+.spec-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin: 40px 0 48px;
+}
+
+.spec-item {
+  background: var(--bg);
+  padding: 20px 24px;
+}
+
+.spec-item .label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.spec-item .val {
+  font-family: var(--font-head);
+  font-size: 17px;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+/* ============ KIT OVERVIEW ============ */
+.kit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.kit-tile {
+  background: var(--bg);
+  padding: 32px 28px;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: background 0.2s ease;
+}
+
+.kit-tile:hover { background: var(--surface); }
+
+.kit-tile-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  text-transform: uppercase;
+}
+
+.kit-tile-name {
+  font-family: var(--font-head);
+  font-size: 22px;
+  line-height: 1.2;
+  color: var(--cream);
+}
+
+.kit-tile-name em { font-style: italic; color: var(--sage); }
+
+.kit-tile-spec {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: auto;
+}
+
+.kit-tile-desc {
+  font-size: 13px;
+  color: var(--cream-dim);
+  line-height: 1.55;
+}
+
+/* ============ MOCKUP STAGE ============ */
+.stage {
+  margin-top: 32px;
+  padding: 56px 40px;
+  background:
+    radial-gradient(ellipse at top, rgba(127, 166, 136, 0.04), transparent 60%),
+    var(--bg);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+  position: relative;
+}
+
+.stage-label {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.stage-toggle {
+  display: flex;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+  width: fit-content;
+}
+
+.stage-toggle button {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 12px 20px;
+  background: var(--bg);
+  border: none;
+  color: var(--cream-dim);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 44px;
+}
+
+.stage-toggle button:hover { background: var(--surface); color: var(--cream); }
+
+.stage-toggle button.active {
+  background: var(--sage);
+  color: var(--bg);
+  font-weight: 500;
+}
+
+.stage-view { display: none; }
+.stage-view.active { display: block; }
+
+/* ============ PRINT PAGE (generic mockup base) ============ */
+.page {
+  background: var(--bg);
+  border: 1px solid var(--border-hi);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.02) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.01);
+  position: relative;
+  overflow: hidden;
+}
+
+.page::before {
+  /* subtle paper-edge highlight */
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.025), transparent 60%);
+}
+
+.page-bleed {
+  position: absolute;
+  inset: 0;
+  border: 1px dashed rgba(127,166,136,0.0);
+  pointer-events: none;
+}
+
+/* ============ NOTES PANEL ============ */
+.notes {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 40px;
+}
+
+.note {
+  background: var(--bg);
+  padding: 24px;
+}
+
+.note .label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.note .body {
+  font-size: 13px;
+  color: var(--cream);
+  line-height: 1.65;
+}
+
+/* ============ BROCHURE (tri-fold flat) ============
+   Flat sheet: 11" wide × 8.5" tall. Each panel: ~3.67" × 8.5".
+   Aspect for full flat = 11:8.5 ~ 1.294
+   We render each panel with ratio 3.67:8.5 = ~0.432
+*/
+.brochure-flat {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  aspect-ratio: 11 / 8.5;
+}
+
+.brochure-panel {
+  background: var(--bg);
+  border-right: 1px dashed rgba(127,166,136,0.18);
+  padding: 22px 18px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  font-size: 9px;
+}
+.brochure-panel:last-child { border-right: none; }
+
+.brochure-panel.cover {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(127,166,136,0.06), transparent 70%),
+    var(--bg);
+}
+
+.fold-mark {
+  position: absolute;
+  top: -4px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  background: var(--scene);
+  padding: 2px 6px;
+}
+.fold-mark.left { left: -1px; }
+.fold-mark.right { right: -1px; }
+
+/* Brochure typography (small for print scale) */
+.br-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.br-eyebrow::before {
+  content: "";
+  width: 12px;
+  height: 1px;
+  background: var(--sage);
+}
+
+.br-h1 {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+.br-h1 em { color: var(--sage); font-style: italic; }
+
+.br-h2 {
+  font-family: var(--font-head);
+  font-size: 13px;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.br-h2 em { color: var(--sage); font-style: italic; }
+
+.br-h3 {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 10px;
+  color: var(--sage);
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+
+.br-body {
+  font-size: 7.5px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+  margin-bottom: 8px;
+}
+
+.br-body strong { color: var(--cream); font-weight: 400; }
+
+.br-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 0;
+}
+
+.br-mark {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.br-mark::before {
+  content: "▲";
+  font-size: 6px;
+  letter-spacing: 0;
+}
+
+.br-cobrand {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.br-cobrand-disp {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 10px;
+  color: var(--cream);
+  line-height: 1.1;
+}
+
+.br-cobrand-mark {
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.4;
+}
+
+.br-qr {
+  width: 56px;
+  height: 56px;
+  background:
+    repeating-linear-gradient(0deg, var(--cream) 0 2px, var(--bg) 2px 4px),
+    repeating-linear-gradient(90deg, var(--cream) 0 2px, var(--bg) 2px 4px);
+  background-blend-mode: multiply;
+  border: 1px solid var(--cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+  position: relative;
+}
+.br-qr::after {
+  content: "QR";
+  position: absolute;
+  background: var(--cream);
+  padding: 2px 4px;
+  font-weight: 700;
+}
+
+/* Brochure category row (inside panel content) */
+.br-cat-row {
+  display: grid;
+  grid-template-columns: 12px 1fr auto;
+  gap: 6px;
+  align-items: baseline;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 7px;
+  line-height: 1.3;
+}
+.br-cat-row:last-child { border-bottom: none; }
+
+.br-cat-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--catcolor);
+  border-radius: 50%;
+}
+
+.br-cat-name {
+  font-family: var(--font-head);
+  font-size: 10px;
+  color: var(--cream);
+}
+
+.br-cat-feel {
+  font-size: 6.5px;
+  color: var(--cream-dim);
+  line-height: 1.3;
+}
+
+.br-cat-time {
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+/* Brochure fingerprint demo box */
+.br-fp-demo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+.br-fp-caption {
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cream-dim);
+  text-align: center;
+}
+.br-fp-caption .name {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 8px;
+  color: var(--cream);
+  display: block;
+  margin-top: 2px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* ============ TABLE TENT (flat pattern) ============
+   3 faces: each face = 5" wide × 7" tall.
+   Flat shows 3 panels side-by-side. Aspect: 15:7.
+*/
+.tent-flat {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 780px;
+  margin: 0 auto;
+  aspect-ratio: 15 / 7;
+}
+
+.tent-face {
+  background: var(--bg);
+  border-right: 1px dashed rgba(127,166,136,0.18);
+  padding: 20px 18px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.tent-face:last-child { border-right: none; }
+
+.tent-face.face-1 {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(127,166,136,0.07), transparent 70%),
+    var(--bg);
+}
+
+/* Tent typography */
+.tt-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.tt-headline {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  margin-bottom: 12px;
+}
+.tt-headline em { color: var(--sage); font-style: italic; }
+
+.tt-body {
+  font-size: 8px;
+  color: var(--cream-dim);
+  line-height: 1.55;
+}
+
+.tt-cat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  margin-top: 10px;
+  font-size: 7px;
+}
+
+.tt-cat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tt-cat-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--catcolor);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tt-cat-name {
+  font-family: var(--font-head);
+  font-size: 9px;
+  color: var(--cream);
+  font-weight: 400;
+}
+
+.tt-cat-time {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.12em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.tt-fp-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.tt-cobrand {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.tt-cobrand-disp {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+
+.tt-cobrand-mark {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.tt-qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.tt-qr {
+  width: 80px;
+  height: 80px;
+  background:
+    repeating-linear-gradient(0deg, var(--cream) 0 2px, var(--bg) 2px 4px),
+    repeating-linear-gradient(90deg, var(--cream) 0 2px, var(--bg) 2px 4px);
+  background-blend-mode: multiply;
+  border: 1px solid var(--cream);
+  position: relative;
+}
+.tt-qr::after {
+  content: "QR";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cream);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  padding: 2px 5px;
+  letter-spacing: 0.1em;
+}
+
+.tt-qr-caption {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+/* Annotated mini fingerprint within tent */
+.tt-annotation {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.12em;
+  color: var(--sage);
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ============ POP DISPLAY (11×17 vertical) ============ */
+.pop-display {
+  max-width: 380px;
+  margin: 0 auto;
+  aspect-ratio: 11 / 17;
+  padding: 28px 24px;
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(127,166,136,0.08), transparent 65%),
+    var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pop-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.24em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pop-eyebrow::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: var(--sage);
+}
+
+.pop-headline {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+.pop-headline em { color: var(--sage); font-style: italic; }
+
+.pop-sub {
+  font-size: 9px;
+  color: var(--cream-dim);
+  line-height: 1.55;
+  margin-bottom: 18px;
+}
+
+.pop-fp-feature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 18px 0 14px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 18px;
+}
+
+.pop-fp-caption {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-top: 8px;
+  text-align: center;
+}
+.pop-fp-caption .name {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--cream);
+  display: block;
+  margin-top: 2px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pop-cats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+  margin-bottom: 18px;
+}
+
+.pop-cat {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 0;
+  font-size: 8px;
+}
+
+.pop-cat-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--catcolor);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.pop-cat-name {
+  font-family: var(--font-head);
+  font-size: 10px;
+  color: var(--cream);
+}
+
+.pop-cat-time {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.12em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.pop-qr-row {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 14px 0;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+}
+
+.pop-qr {
+  width: 64px;
+  height: 64px;
+  background:
+    repeating-linear-gradient(0deg, var(--cream) 0 2px, var(--bg) 2px 4px),
+    repeating-linear-gradient(90deg, var(--cream) 0 2px, var(--bg) 2px 4px);
+  background-blend-mode: multiply;
+  border: 1px solid var(--cream);
+  flex-shrink: 0;
+  position: relative;
+}
+.pop-qr::after {
+  content: "QR";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cream);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 700;
+  padding: 2px 4px;
+  letter-spacing: 0.1em;
+}
+
+.pop-qr-text {
+  flex: 1;
+}
+
+.pop-qr-text .lead {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--cream);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.pop-qr-text .sub {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.pop-cobrand {
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.pop-cobrand-disp {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 10px;
+  color: var(--cream);
+}
+
+.pop-cobrand-mark {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+/* ============ POSTER (18×24 vertical) ============ */
+.poster {
+  max-width: 480px;
+  margin: 0 auto;
+  aspect-ratio: 18 / 24;
+  padding: 28px 24px;
+  background:
+    radial-gradient(ellipse at 50% 8%, rgba(127,166,136,0.07), transparent 60%),
+    var(--bg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.poster-head {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 16px;
+}
+
+.poster-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 7.5px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.poster-headline {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.02;
+  letter-spacing: -0.015em;
+  margin-bottom: 10px;
+}
+.poster-headline em { color: var(--sage); font-style: italic; }
+
+.poster-sub {
+  font-size: 8px;
+  color: var(--cream-dim);
+  line-height: 1.55;
+}
+
+.poster-section-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: var(--sage);
+  text-transform: uppercase;
+  margin: 14px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.poster-section-label::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.poster-six {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 4px;
+}
+
+.poster-cat-mini {
+  background: var(--surface);
+  padding: 8px 6px;
+  text-align: center;
+  position: relative;
+  border-top: 2px solid var(--catcolor);
+}
+
+.poster-cat-mini-name {
+  font-family: var(--font-head);
+  font-size: 9px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+
+.poster-cat-mini-time {
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.poster-cat-mini-feel {
+  font-size: 6.5px;
+  color: var(--cream-dim);
+  line-height: 1.35;
+}
+
+.poster-terps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--border);
+  margin-top: 6px;
+  border: 1px solid var(--border);
+}
+
+.poster-terp {
+  background: var(--bg);
+  padding: 8px 6px;
+  font-size: 7px;
+  line-height: 1.35;
+  text-align: center;
+  position: relative;
+}
+
+.poster-terp.tier-1::before {
+  content: "1°";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  color: var(--sage);
+}
+
+.poster-terp.tier-2::before {
+  content: "2°";
+  position: absolute;
+  top: 2px;
+  right: 4px;
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  color: var(--cream-dim);
+}
+
+.poster-terp-name {
+  font-family: var(--font-head);
+  font-size: 8px;
+  color: var(--cream);
+  margin-bottom: 2px;
+}
+
+.poster-terp-aroma {
+  font-size: 6px;
+  color: var(--cream-dim);
+}
+
+.poster-foot {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr;
+  gap: 14px;
+  align-items: center;
+}
+
+.poster-qr {
+  width: 60px;
+  height: 60px;
+  background:
+    repeating-linear-gradient(0deg, var(--cream) 0 2px, var(--bg) 2px 4px),
+    repeating-linear-gradient(90deg, var(--cream) 0 2px, var(--bg) 2px 4px);
+  background-blend-mode: multiply;
+  border: 1px solid var(--cream);
+  position: relative;
+}
+.poster-qr::after {
+  content: "QR";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cream);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 700;
+  padding: 2px 4px;
+  letter-spacing: 0.1em;
+}
+
+.poster-foot-text .lead {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 10px;
+  color: var(--cream);
+  margin-bottom: 2px;
+}
+.poster-foot-text .sub {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.poster-foot-cobrand {
+  text-align: right;
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--cream);
+}
+
+.poster-fp-detail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 0;
+}
+
+.poster-fp-detail-text .h {
+  font-family: var(--font-head);
+  font-size: 11px;
+  color: var(--cream);
+  margin-bottom: 4px;
+}
+.poster-fp-detail-text .b {
+  font-size: 7px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+}
+
+/* ============ POCKET CARD / BOOKMARK (2"×7") ============ */
+.bookmark-stage {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.bookmark {
+  width: 160px;
+  aspect-ratio: 2 / 7;
+  padding: 14px 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.bookmark.front {
+  background:
+    radial-gradient(ellipse at 50% 8%, rgba(127,166,136,0.1), transparent 60%),
+    var(--bg);
+}
+
+.bm-mark {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.22em;
+  color: var(--sage);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.bm-h1 {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1;
+  margin-bottom: 6px;
+  text-align: center;
+}
+.bm-h1 em { color: var(--sage); font-style: italic; }
+
+.bm-h2 {
+  font-family: var(--font-head);
+  font-size: 11px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.bm-h2 em { color: var(--sage); font-style: italic; }
+
+.bm-sub {
+  font-size: 6.5px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.bm-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 8px 0;
+}
+
+.bm-cats {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+}
+
+.bm-cat {
+  display: grid;
+  grid-template-columns: 10px 1fr auto;
+  gap: 5px;
+  align-items: baseline;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 6.5px;
+}
+.bm-cat:last-child { border-bottom: none; }
+
+.bm-cat-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--catcolor);
+  border-radius: 50%;
+}
+
+.bm-cat-name {
+  font-family: var(--font-head);
+  font-size: 8.5px;
+  color: var(--cream);
+}
+
+.bm-cat-feel {
+  font-size: 6px;
+  color: var(--cream-dim);
+  line-height: 1.3;
+  display: block;
+  margin-top: 1px;
+}
+
+.bm-cat-time {
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.bm-cobrand {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+  text-align: center;
+}
+
+.bm-cobrand-disp {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 8px;
+  color: var(--cream);
+}
+
+.bm-cobrand-mark {
+  font-family: var(--font-mono);
+  font-size: 5.5px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.bm-script {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 8px;
+  margin-top: 6px;
+}
+
+.bm-script-line {
+  font-size: 6.5px;
+  color: var(--cream-dim);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.bm-script-line strong {
+  color: var(--cream);
+  font-weight: 400;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.bm-qr-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin: 12px 0;
+}
+
+.bm-qr {
+  width: 64px;
+  height: 64px;
+  background:
+    repeating-linear-gradient(0deg, var(--cream) 0 2px, var(--bg) 2px 4px),
+    repeating-linear-gradient(90deg, var(--cream) 0 2px, var(--bg) 2px 4px);
+  background-blend-mode: multiply;
+  border: 1px solid var(--cream);
+  position: relative;
+}
+.bm-qr::after {
+  content: "QR";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--cream);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: 7px;
+  font-weight: 700;
+  padding: 2px 4px;
+  letter-spacing: 0.1em;
+}
+
+.bm-qr-caption {
+  font-family: var(--font-mono);
+  font-size: 6px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.bm-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* ============ SHELF TALKERS (5"×2") ============ */
+.shelf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.shelf {
+  aspect-ratio: 5 / 2;
+  background: var(--bg);
+  padding: 14px 16px;
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  border-top: 2px solid var(--catcolor);
+}
+
+.shelf-fp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.shelf-info { min-width: 0; }
+
+.shelf-cat {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  letter-spacing: 0.18em;
+  color: var(--catcolor);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.shelf-name {
+  font-family: var(--font-head);
+  font-size: 16px;
+  line-height: 1.1;
+  margin-bottom: 4px;
+  color: var(--cream);
+}
+
+.shelf-feel {
+  font-size: 8px;
+  color: var(--cream-dim);
+  line-height: 1.4;
+}
+
+.shelf-meta {
+  text-align: right;
+  border-left: 1px solid var(--border);
+  padding-left: 12px;
+}
+
+.shelf-meta .top {
+  font-family: var(--font-mono);
+  font-size: 6.5px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.shelf-meta .terps {
+  font-family: var(--font-head);
+  font-style: italic;
+  font-size: 9px;
+  color: var(--cream);
+  line-height: 1.3;
+}
+
+.shelf-meta .qr {
+  width: 30px;
+  height: 30px;
+  background:
+    repeating-linear-gradient(0deg, var(--cream) 0 1.5px, var(--bg) 1.5px 3px),
+    repeating-linear-gradient(90deg, var(--cream) 0 1.5px, var(--bg) 1.5px 3px);
+  background-blend-mode: multiply;
+  border: 1px solid var(--cream);
+  margin-left: auto;
+  margin-top: 6px;
+}
+
+/* ============ PRODUCTION SPECS TABLE ============ */
+.prod-table {
+  margin-top: 32px;
+  border: 1px solid var(--border);
+}
+
+.prod-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1.2fr 1fr;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.2s ease;
+}
+
+.prod-row:last-child { border-bottom: none; }
+.prod-row:hover { background: var(--surface); }
+
+.prod-row.head {
+  background: var(--surface);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+}
+
+.prod-cell {
+  padding: 18px 20px;
+  font-size: 13px;
+  color: var(--cream);
+  border-right: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+}
+.prod-cell:last-child { border-right: none; }
+
+.prod-cell strong {
+  font-family: var(--font-head);
+  font-weight: 400;
+  font-size: 15px;
+  color: var(--cream);
+}
+
+.prod-cell em {
+  color: var(--cream-dim);
+  font-style: normal;
+  font-size: 12px;
+}
+
+/* ============ CTA ============ */
+.cta-block {
+  text-align: center;
+  padding: 80px 32px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  margin-top: 48px;
+}
+
+.cta-title {
+  font-family: var(--font-head);
+  font-size: clamp(28px, 3.4vw, 40px);
+  line-height: 1.15;
+  margin-bottom: 16px;
+}
+.cta-title em { color: var(--sage); font-style: italic; }
+
+.cta-sub {
+  font-size: 16px;
+  color: var(--cream-dim);
+  margin-bottom: 32px;
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* ============ FOOTER ============ */
+.footer { padding: 48px 0; }
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: var(--cream-dim);
+  text-transform: uppercase;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.footer-inner .sage { color: var(--sage); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 960px) {
+  .container { padding: 0 24px; }
+  .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .spec-strip { grid-template-columns: repeat(2, 1fr); }
+  .kit-grid { grid-template-columns: repeat(2, 1fr); }
+  .notes { grid-template-columns: 1fr; }
+  .prod-row { grid-template-columns: 1fr 1fr; }
+  .prod-cell {
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    padding: 14px 16px;
+  }
+  .prod-row.head { display: none; }
+  .stage { padding: 36px 20px; }
+  .brochure-flat { max-width: 100%; }
+  .tent-flat { max-width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .container { padding: 0 18px; }
+  .section { padding: 64px 0; }
+  .hero { padding: 64px 0 56px; }
+  .hero-meta { grid-template-columns: 1fr; gap: 16px; padding-top: 24px; }
+  .spec-strip { grid-template-columns: 1fr; }
+  .kit-grid { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .stage { padding: 24px 12px; }
+  .pop-display, .poster { max-width: 100%; padding: 18px 14px; }
+  .pop-headline { font-size: 22px; }
+  .poster-headline { font-size: 20px; }
+  .poster-six { grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .poster-terps { grid-template-columns: repeat(2, 1fr); }
+  .shelf-grid { grid-template-columns: 1fr; }
+  .bookmark { width: 140px; }
+  .stage-toggle { flex-wrap: wrap; }
+  .cta-block { padding: 56px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav">
+  <div class="container nav-inner">
+    <div class="nav-brand">Chemovar Print Pack <span class="ver">v1.0</span></div>
+    <div class="nav-links">
+      <a href="#kit">Kit</a>
+      <a href="#brochure">Brochure</a>
+      <a href="#tent">Tent</a>
+      <a href="#pop">Pop</a>
+      <a href="#poster">Poster</a>
+      <a href="#card">Card</a>
+      <a href="#shelf">Shelf</a>
+      <a href="#specs">Specs</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Print Marketing Pack · Showcase</div>
+    <h1 class="hero-title">
+      The chemovar system, <em>off the screen</em> and onto the counter.
+    </h1>
+    <p class="hero-sub">
+      Six co-brandable print pieces that bring the Chemovar Retail System into the dispensary itself. Tri-fold customer brochure, three-sided table tent, countertop pop display, wall-mounted educational poster, pocket bookmark, and refreshed shelf talkers. <strong>Every piece pulls from the same 16-terpene data model as the digital guide</strong> — same fingerprint geometry, same six categories, same featured flowers. Customers see one coherent system whether they're on their phone, at the bar, or at the shelf.
+    </p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="label">Pieces in this pack</span>
+        <span class="val">Six print formats <em>+ shelf system</em></span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Design system</span>
+        <span class="val">Editorial dark <em>sage + cream</em></span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Co-branding</span>
+        <span class="val">Dispensary mark <em>on every piece</em></span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Output stage</span>
+        <span class="val">Flat-layout review mockups</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============ §01 KIT OVERVIEW ============ -->
+<section class="section" id="kit">
+  <div class="container">
+    <div class="section-id">01 — The Kit at a Glance</div>
+    <h2 class="section-title">Six pieces, one consistent <em>customer journey</em>.</h2>
+    <p class="section-lede">
+      Each piece does one job and hands the customer off to the next. The standee catches them at the entrance, the table tent earns a closer read while they wait, the shelf talker confirms what's on offer, the brochure goes home in the bag, and the QR code on every piece lands them in the consumer guide where the full system unfolds.
+    </p>
+
+    <div class="kit-grid">
+      <a href="#brochure" class="kit-tile">
+        <div class="kit-tile-num">01</div>
+        <div class="kit-tile-name">Customer Brochure</div>
+        <div class="kit-tile-desc">Tri-fold takeaway. Six panels covering the premise, the system, and how to read a fingerprint. Goes in the bag at checkout.</div>
+        <div class="kit-tile-spec">8.5×11 flat · letter fold · 80lb matte</div>
+      </a>
+      <a href="#tent" class="kit-tile">
+        <div class="kit-tile-num">02</div>
+        <div class="kit-tile-name">Table Tent</div>
+        <div class="kit-tile-desc">Three-sided pyramidal. Counter or bar placement. Each face does one job: hook, teach, scan.</div>
+        <div class="kit-tile-spec">5×7 face · 12pt cover · triangular prism</div>
+      </a>
+      <a href="#pop" class="kit-tile">
+        <div class="kit-tile-num">03</div>
+        <div class="kit-tile-name">Countertop Pop</div>
+        <div class="kit-tile-desc">Single-face standee for the counter or queue area. Big hook, six categories at a glance, QR to the guide.</div>
+        <div class="kit-tile-spec">11×17 vertical · die-cut easel · 100lb cover</div>
+      </a>
+      <a href="#poster" class="kit-tile">
+        <div class="kit-tile-num">04</div>
+        <div class="kit-tile-name">Wall Poster</div>
+        <div class="kit-tile-desc">The whole system on one wall. Six categories, sample fingerprints, the 16 terpenes. Educational anchor piece.</div>
+        <div class="kit-tile-spec">18×24 vertical · matte poster stock</div>
+      </a>
+      <a href="#card" class="kit-tile">
+        <div class="kit-tile-num">05</div>
+        <div class="kit-tile-name">Pocket Bookmark</div>
+        <div class="kit-tile-desc">Double-sided 2×7 takeaway. Six categories on the front, "how to ask your budtender" script on the back.</div>
+        <div class="kit-tile-spec">2×7 vertical · 14pt uncoated · rounded corners</div>
+      </a>
+      <a href="#shelf" class="kit-tile">
+        <div class="kit-tile-num">06</div>
+        <div class="kit-tile-name">Shelf Talkers</div>
+        <div class="kit-tile-desc">One per flower on the shelf. Name, category, fingerprint, feels-like, QR to the strain's modal in the guide.</div>
+        <div class="kit-tile-spec">5×2 horizontal · adhesive or rail-clip</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §02 BROCHURE ============ -->
+<section class="section" id="brochure">
+  <div class="container">
+    <div class="section-id">02 — Customer Brochure</div>
+    <h2 class="section-title">The takeaway. <em>Goes home in the bag.</em></h2>
+    <p class="section-lede">
+      A tri-fold letter-fold brochure built around the same six-section structure as the consumer guide — but condensed to fit in someone's pocket. The cover earns the open. The inside spread teaches the system. The back panel sends them to the digital guide for the deep dive.
+    </p>
+
+    <div class="spec-strip">
+      <div class="spec-item">
+        <div class="label">Flat Size</div>
+        <div class="val">8.5″ × 11″</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Fold</div>
+        <div class="val">Letter (tri-fold)</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Stock</div>
+        <div class="val">80lb matte cover</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Finish</div>
+        <div class="val">Soft-touch lamination</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-label">Print mockup · flat layout · not to print scale</div>
+      <div class="stage-toggle" data-toggle-group="brochure">
+        <button class="active" data-view="outside">Outside Spread</button>
+        <button data-view="inside">Inside Spread</button>
+      </div>
+
+      <!-- OUTSIDE SPREAD: back-panel | inside-flap | cover (reading L→R as letter-fold lays flat) -->
+      <div class="stage-view active" data-view="outside">
+        <div class="page brochure-flat">
+          <!-- LEFT PANEL: BACK -->
+          <div class="brochure-panel">
+            <div class="fold-mark right">FOLD</div>
+            <div class="br-eyebrow">About</div>
+            <div class="br-h2">A new way to <em>read your menu.</em></div>
+            <div class="br-body">The Chemovar Retail System replaces sativa/indica nomenclature with six effect-based categories anchored to the terpene fingerprint — the chemical signature that actually shapes how a flower feels.</div>
+            <div class="br-body">Built by practitioners, not generalists. <strong>Pilot dispensary partnership with <em id="brand-disp-1">[Dispensary Name]</em>.</strong></div>
+
+            <div class="br-divider"></div>
+
+            <div class="br-eyebrow">Go Deeper</div>
+            <div style="display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px;">
+              <div class="br-qr"></div>
+              <div>
+                <div class="br-h3" style="font-style: normal; color: var(--cream);">Scan the full guide</div>
+                <div class="br-body" style="margin-bottom: 0;">Interactive fingerprint reader. Find-your-match quiz. All 18 flowers with their full terpene breakdown.</div>
+              </div>
+            </div>
+
+            <div class="br-cobrand">
+              <div>
+                <div class="br-cobrand-disp" id="brand-disp-2">[Dispensary Name]</div>
+                <div class="br-cobrand-mark">[address · hours]</div>
+              </div>
+              <div class="br-cobrand-mark">Cannacre8ive<br/>System · v1.0</div>
+            </div>
+          </div>
+
+          <!-- MIDDLE PANEL: INSIDE FLAP / PREMISE -->
+          <div class="brochure-panel">
+            <div class="fold-mark right">FOLD</div>
+            <div class="br-eyebrow">The Premise</div>
+            <div class="br-h2">The old labels don't tell you how it'll <em>feel</em>.</div>
+            <div class="br-body" style="font-style: italic; color: var(--cream-dim); text-decoration: line-through; text-decoration-color: var(--terra);">"Indica means sleepy, sativa means awake, hybrid is somewhere in between."</div>
+            <div class="br-body">After 50+ years of crossbreeding, sativa and indica describe what the <em>plant</em> looks like — not what the <em>flower</em> does to you. Two flowers labeled the same way can land you in completely different headspaces.</div>
+
+            <div class="br-divider"></div>
+
+            <div class="br-h3">What actually shapes the feel:</div>
+            <div class="br-body">The unique mix of terpenes in every batch. Terpenes are the molecules behind the smell. They're also the molecules behind the feel. The same compounds that make lemon peel smell bright are the ones that lift your mood. The ones in lavender are the ones that help you wind down.</div>
+
+            <div class="br-divider"></div>
+
+            <div class="br-body" style="font-family: var(--font-head); font-size: 11px; line-height: 1.4; font-style: italic; color: var(--cream);">We track <em style="color: var(--sage); font-style: italic;">sixteen terpenes</em> on every flower. Eight that drive most of the experience, eight more that fine-tune it. Open the brochure to see how they map.</div>
+          </div>
+
+          <!-- RIGHT PANEL: COVER -->
+          <div class="brochure-panel cover">
+            <div class="br-mark">The Chemovar Guide</div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; margin: 12px 0;">
+              <div class="br-h1">Stop guessing.<br/>Start with <em>how you want to feel.</em></div>
+              <div class="br-body" style="margin-top: 14px;">A plain-language guide to reading your menu, choosing your flower, and walking out with something that actually fits your day.</div>
+            </div>
+
+            <div class="br-fp-demo" data-fp="wedding-cake" data-color="#7FA688" data-size="72">
+              <div class="br-fp-caption">Sample fingerprint<span class="name">Wedding Cake · Ease</span></div>
+            </div>
+
+            <div class="br-cobrand">
+              <div>
+                <div class="br-cobrand-disp" id="brand-disp-3">[Dispensary Name]</div>
+                <div class="br-cobrand-mark">In-store · Pilot</div>
+              </div>
+              <div class="br-cobrand-mark">v1.0<br/>2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INSIDE SPREAD: 3 panels of full education -->
+      <div class="stage-view" data-view="inside">
+        <div class="page brochure-flat">
+          <!-- PANEL 1: SIX CATEGORIES -->
+          <div class="brochure-panel">
+            <div class="fold-mark right">FOLD</div>
+            <div class="br-eyebrow">The Six</div>
+            <div class="br-h2">Six clear vibes, anchored to the <em>actual chemistry.</em></div>
+            <div class="br-body">A day-to-night arc, from brightest morning lift to deepest end-of-day rest.</div>
+
+            <div style="margin-top: 12px;" id="br-cats-list">
+              <!-- Filled by JS -->
+            </div>
+          </div>
+
+          <!-- PANEL 2: HOW TO READ THE FINGERPRINT -->
+          <div class="brochure-panel">
+            <div class="fold-mark right">FOLD</div>
+            <div class="br-eyebrow">Read the Fingerprint</div>
+            <div class="br-h2">Every flower has a <em>chemical signature.</em></div>
+            <div class="br-body">Sixteen molecules. Eight primary terpenes at the cardinal positions, eight secondary terpenes filling the diagonals. The further out a spoke pokes, the more of that terpene the flower contains.</div>
+
+            <div class="br-fp-demo" data-fp="durban-poison" data-color="#8AAEB2" data-size="120" style="margin: 10px 0;">
+              <div class="br-fp-caption">Reading example<span class="name">Durban Poison · Flow</span></div>
+            </div>
+
+            <div class="br-divider"></div>
+
+            <div class="br-h3">What you're reading:</div>
+            <div class="br-body"><strong>Long spokes</strong> = dominant terpenes — they drive how the flower feels.</div>
+            <div class="br-body"><strong>Cluster patterns</strong> = aromatic family — citrus terpenes group together, pine terpenes group together, floral terpenes group together.</div>
+            <div class="br-body"><strong>Unusual bumps</strong> = the rare secondaries that make a flower distinctive even within its category.</div>
+          </div>
+
+          <!-- PANEL 3: HOW TO ASK -->
+          <div class="brochure-panel">
+            <div class="fold-mark right">FOLD</div>
+            <div class="br-eyebrow">At the Counter</div>
+            <div class="br-h2">How to ask for the <em>right flower</em>.</div>
+
+            <div style="background: var(--surface); border: 1px solid var(--border); padding: 10px; margin: 8px 0;">
+              <div class="br-body" style="margin-bottom: 6px;"><strong>Skip:</strong></div>
+              <div class="br-body" style="font-style: italic; color: var(--cream-dim);">"What's a good sativa?"</div>
+            </div>
+
+            <div style="background: var(--surface); border-left: 2px solid var(--sage); padding: 10px; margin: 8px 0;">
+              <div class="br-body" style="margin-bottom: 6px;"><strong>Try:</strong></div>
+              <div class="br-body" style="font-style: italic; color: var(--cream);">"I want a Focus flower for a long work session — what do you have?"</div>
+              <div class="br-body" style="font-style: italic; color: var(--cream); margin-top: 6px;">"Show me an Unwind option with notable bisabolol."</div>
+              <div class="br-body" style="font-style: italic; color: var(--cream); margin-top: 6px;">"What's your highest-terpinolene Flow flower right now?"</div>
+            </div>
+
+            <div class="br-body" style="margin-top: 12px;">Your budtender already speaks this language. The shelf talkers on every jar show the category and fingerprint. You can also <strong>scan the QR on the back panel</strong> for the full interactive guide.</div>
+
+            <div class="br-divider"></div>
+
+            <div class="br-h3">Disclaimer</div>
+            <div class="br-body" style="font-size: 6.5px;">For adults 21+. Cannabis affects everyone differently. Start low, go slow, and consult a physician for medical advice. This guide is educational and is not a substitute for batch-specific COA review.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <div class="label">What it does</div>
+        <div class="body">Earns its place in the bag at checkout. The cover does the recruiting; the inside teaches the system; the back panel hands them off to the digital guide.</div>
+      </div>
+      <div class="note">
+        <div class="label">Where it goes</div>
+        <div class="body">Stacked at the counter, slipped into every recreational bag, kept at the entrance for browsing customers. One ask: budtenders point new customers to it instead of explaining sativa/indica again.</div>
+      </div>
+      <div class="note">
+        <div class="label">Open items</div>
+        <div class="body">Final OLCC compliance copy block. Dispensary contact details (address, hours, social handles). Co-brand mark placement decision (logo lockup vs. wordmark only).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §03 TABLE TENT ============ -->
+<section class="section" id="tent">
+  <div class="container">
+    <div class="section-id">03 — Table Tent</div>
+    <h2 class="section-title">Three faces, three jobs. <em>Built for the wait.</em></h2>
+    <p class="section-lede">
+      A pyramidal table tent that lives on the counter, the bar, or wherever customers spend a moment idling. Three vertical faces — each one earns a glance, none of them ask for a long read. Face one hooks. Face two teaches. Face three sends them to the digital guide.
+    </p>
+
+    <div class="spec-strip">
+      <div class="spec-item">
+        <div class="label">Face Size</div>
+        <div class="val">5″ × 7″</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Format</div>
+        <div class="val">Triangular prism</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Stock</div>
+        <div class="val">12pt cover</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Score</div>
+        <div class="val">2 fold scores · self-locking base</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-label">Flat pattern · 3 faces side-by-side</div>
+
+      <div class="page tent-flat">
+        <!-- FACE 1: HOOK + SIX CATEGORIES -->
+        <div class="tent-face face-1">
+          <div class="tt-eyebrow">The Chemovar Guide · Face 01</div>
+          <div class="tt-headline">Don't ask sativa or indica.<br/><em>Ask which feeling.</em></div>
+          <div class="tt-body">Six honest categories, organized by how the flower actually feels — not what the plant happens to look like.</div>
+          <div class="tt-cat-grid" id="tt-cats-1">
+            <!-- Filled by JS -->
+          </div>
+          <div class="tt-cobrand">
+            <div class="tt-cobrand-disp" id="brand-disp-tent">[Dispensary]</div>
+            <div class="tt-cobrand-mark">Now in the menu</div>
+          </div>
+        </div>
+
+        <!-- FACE 2: READ THE FINGERPRINT -->
+        <div class="tent-face">
+          <div class="tt-eyebrow">Face 02 · Read It</div>
+          <div class="tt-headline">Every flower has a <em>fingerprint.</em></div>
+          <div class="tt-body">Sixteen terpenes. The longer the spoke, the more of that terpene this batch contains.</div>
+
+          <div class="tt-fp-center" data-fp="wedding-cake" data-color="#7FA688" data-size="140"></div>
+
+          <div class="tt-annotation">Wedding Cake · Ease<br/>Caryophyllene + Myrcene<br/>+ Notable bisabolol</div>
+
+          <div class="tt-body" style="margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); font-size: 7px;">Look for the shelf talker on every jar. The fingerprint tells you what to expect before you smell it.</div>
+        </div>
+
+        <!-- FACE 3: QR + SCAN -->
+        <div class="tent-face">
+          <div class="tt-eyebrow">Face 03 · Go Deeper</div>
+          <div class="tt-headline" style="font-size: 16px;">Find your match in <em>30 seconds.</em></div>
+          <div class="tt-body">Scan to launch the full interactive guide. Tap one feeling. We'll tell you what to ask for.</div>
+
+          <div class="tt-qr-block">
+            <div class="tt-qr"></div>
+            <div class="tt-qr-caption">Scan · or visit<br/>cannacre8ive.com/guide</div>
+          </div>
+
+          <div class="tt-body" style="font-size: 7px; text-align: center; font-style: italic; color: var(--cream);">"The interactive guide includes 18 flowers, all 16 terpenes, and a profile builder. Free, no signup."</div>
+
+          <div class="tt-cobrand">
+            <div class="tt-cobrand-disp">[Dispensary]</div>
+            <div class="tt-cobrand-mark">Powered by Cannacre8ive</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <div class="label">What it does</div>
+        <div class="body">Captures the customer who's already in the store but waiting — at the bar, in line, at the counter. Three faces means whichever angle they're facing, there's something to read.</div>
+      </div>
+      <div class="note">
+        <div class="label">Where it goes</div>
+        <div class="body">Cash wrap, queue rail, demo bar, tasting counter. Anywhere customers spend 30+ seconds standing still. Multiple per location is fine — different faces tell different parts of the story.</div>
+      </div>
+      <div class="note">
+        <div class="label">Open items</div>
+        <div class="body">Print supplier specs for the triangular die-cut and self-locking base score lines. URL slug for the QR (cannacre8ive.com/guide vs. a per-dispensary subdomain).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §04 POP DISPLAY ============ -->
+<section class="section" id="pop">
+  <div class="container">
+    <div class="section-id">04 — Countertop Pop</div>
+    <h2 class="section-title">One face. <em>Maximum signal.</em></h2>
+    <p class="section-lede">
+      The countertop pop is the loudest piece in the pack. Eleven-by-seventeen vertical, easel-backed, sized to dominate a counter or anchor a queue rail without being a poster. One big hook, six categories at a glance, one sample fingerprint, one QR. The least it can do is make a customer look up from their phone.
+    </p>
+
+    <div class="spec-strip">
+      <div class="spec-item">
+        <div class="label">Size</div>
+        <div class="val">11″ × 17″ vertical</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Format</div>
+        <div class="val">Die-cut easel back</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Stock</div>
+        <div class="val">100lb cover</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Finish</div>
+        <div class="val">Matte UV</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-label">Single-face mockup · proportional to actual size</div>
+
+      <div class="page pop-display">
+        <div class="pop-eyebrow">The Chemovar Guide</div>
+        <div class="pop-headline">Stop guessing.<br/>Start with <em>how you want to feel.</em></div>
+        <div class="pop-sub">A plain-language way to read this menu. Six categories, sixteen terpenes, and a fingerprint that tells you what to expect before you smell it.</div>
+
+        <div class="pop-fp-feature" data-fp="super-lemon-haze" data-color="#D4845C" data-size="120">
+          <div class="pop-fp-caption">Sample fingerprint<br/><span class="name">Super Lemon Haze · Ignite</span></div>
+        </div>
+
+        <div style="font-family: var(--font-mono); font-size: 7px; letter-spacing: 0.18em; color: var(--sage); text-transform: uppercase; margin-bottom: 8px;">The Six Categories</div>
+        <div class="pop-cats" id="pop-cats">
+          <!-- Filled by JS -->
+        </div>
+
+        <div class="pop-qr-row">
+          <div class="pop-qr"></div>
+          <div class="pop-qr-text">
+            <div class="lead">Scan to find your match in 30 seconds.</div>
+            <div class="sub">Free interactive guide · No signup</div>
+          </div>
+        </div>
+
+        <div class="pop-cobrand">
+          <div class="pop-cobrand-disp">[Dispensary Name]</div>
+          <div class="pop-cobrand-mark">Pilot Implementation</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <div class="label">What it does</div>
+        <div class="body">High-signal awareness piece. Customers don't need to read it deeply — they need to register that something new is going on with the menu, and that there's a way to engage with it.</div>
+      </div>
+      <div class="note">
+        <div class="label">Where it goes</div>
+        <div class="body">Cash wrap (right of register), queue rail entrance, intake counter, or end-cap shelf. One per high-traffic touchpoint. Replace seasonally as flowers rotate.</div>
+      </div>
+      <div class="note">
+        <div class="label">Open items</div>
+        <div class="body">Decision: feature one strain (rotating) or one category (static) on the standee? Featured-strain version requires per-rotation reprints; category version stays evergreen.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §05 WALL POSTER ============ -->
+<section class="section" id="poster">
+  <div class="container">
+    <div class="section-id">05 — Wall Poster</div>
+    <h2 class="section-title">The whole system on <em>one wall.</em></h2>
+    <p class="section-lede">
+      The educational anchor of the implementation. Eighteen by twenty-four, hung at eye level near the menu wall or above the demo bar. Six categories, the sixteen terpenes, a sample fingerprint with annotation, and a QR. Customers who want the full picture get it in a single glance; budtenders get a teaching aid they can gesture toward mid-conversation.
+    </p>
+
+    <div class="spec-strip">
+      <div class="spec-item">
+        <div class="label">Size</div>
+        <div class="val">18″ × 24″ vertical</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Format</div>
+        <div class="val">Flat poster</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Stock</div>
+        <div class="val">100lb matte poster</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Mounting</div>
+        <div class="val">Frame, magnetic rail, or wheat paste</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-label">Single-side mockup · proportional to actual size</div>
+
+      <div class="page poster">
+        <div class="poster-head">
+          <div class="poster-eyebrow">The Chemovar Guide · Educational Reference</div>
+          <div class="poster-headline">Six vibes.<br/>Sixteen molecules.<br/><em>One way to read your menu.</em></div>
+          <div class="poster-sub">After 50+ years of crossbreeding, sativa and indica describe what the plant looks like — not what the flower does to you. Here's a system that actually predicts the experience.</div>
+        </div>
+
+        <div class="poster-section-label">The Six Categories · Day-to-Night Arc</div>
+        <div class="poster-six" id="poster-six">
+          <!-- Filled by JS -->
+        </div>
+
+        <div class="poster-section-label">Read the Fingerprint</div>
+        <div class="poster-fp-detail">
+          <div data-fp="wedding-cake" data-color="#7FA688" data-size="110"></div>
+          <div class="poster-fp-detail-text">
+            <div class="h">Wedding Cake · Ease</div>
+            <div class="b">Sixteen terpenes mapped at 22.5° intervals around the wheel. <strong style="color: var(--cream);">Primary eight</strong> at the cardinal positions. <strong style="color: var(--cream);">Secondary eight</strong> on the diagonals. The longer the spoke, the more of that terpene this flower contains.</div>
+          </div>
+        </div>
+
+        <div class="poster-section-label">The Sixteen Terpenes</div>
+        <div class="poster-terps" id="poster-terps">
+          <!-- Filled by JS -->
+        </div>
+
+        <div class="poster-foot">
+          <div class="poster-qr"></div>
+          <div class="poster-foot-text">
+            <div class="lead">Scan for the full guide.</div>
+            <div class="sub">Find Your Match · Profile Builder · All 18 flowers</div>
+          </div>
+          <div class="poster-foot-cobrand">[Dispensary]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <div class="label">What it does</div>
+        <div class="body">The teaching aid. Budtenders point to it during onboarding conversations. Customers use it to orient themselves to the system before they walk to the menu wall.</div>
+      </div>
+      <div class="note">
+        <div class="label">Where it goes</div>
+        <div class="body">Eye-level near the menu wall, above the demo bar, or in the waiting area for ID checks. One per implementation, mounted permanently.</div>
+      </div>
+      <div class="note">
+        <div class="label">Open items</div>
+        <div class="body">Mounting decision per dispensary (frame vs. magnetic rail vs. removable). Final terpene aroma copy — current language is approximate, needs scientific review before press.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §06 POCKET BOOKMARK ============ -->
+<section class="section" id="card">
+  <div class="container">
+    <div class="section-id">06 — Pocket Bookmark</div>
+    <h2 class="section-title">The smallest piece. <em>The longest tail.</em></h2>
+    <p class="section-lede">
+      A two-by-seven double-sided bookmark, the same size as the cards stoners already keep in their wallets. Six categories on the front for quick reference; a "what to say at the counter" script on the back. Goes home with every customer who asks about the system — and shows up at every dispensary they visit after.
+    </p>
+
+    <div class="spec-strip">
+      <div class="spec-item">
+        <div class="label">Size</div>
+        <div class="val">2″ × 7″ vertical</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Format</div>
+        <div class="val">Double-sided bookmark</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Stock</div>
+        <div class="val">14pt uncoated cover</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Finish</div>
+        <div class="val">Rounded corners · soft-touch</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-label">Front and back · 2× actual size for legibility</div>
+
+      <div class="bookmark-stage">
+        <!-- FRONT -->
+        <div>
+          <div class="bm-label">Front</div>
+          <div class="page bookmark front">
+            <div class="bm-mark">Chemovar Guide</div>
+            <div class="bm-h1">Six vibes.</div>
+            <div class="bm-h2"><em>Pick a feeling.</em></div>
+            <div class="bm-sub">Plain-language replacements for sativa/indica.</div>
+            <div class="bm-divider"></div>
+            <div class="bm-cats" id="bm-cats">
+              <!-- Filled by JS -->
+            </div>
+            <div class="bm-cobrand">
+              <div class="bm-cobrand-disp">[Dispensary]</div>
+              <div class="bm-cobrand-mark">Now in store</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- BACK -->
+        <div>
+          <div class="bm-label">Back</div>
+          <div class="page bookmark">
+            <div class="bm-mark">At the Counter</div>
+            <div class="bm-h2"><em>Skip this:</em></div>
+            <div class="bm-sub" style="font-style: italic;">"What's a good sativa?"</div>
+
+            <div class="bm-divider"></div>
+
+            <div class="bm-h2"><em>Try this:</em></div>
+            <div class="bm-script">
+              <div class="bm-script-line">
+                <strong>For a morning lift:</strong>
+                "What's your highest-limonene Ignite flower?"
+              </div>
+              <div class="bm-script-line">
+                <strong>For focused work:</strong>
+                "Show me a Focus option with notable pinene."
+              </div>
+              <div class="bm-script-line">
+                <strong>For winding down:</strong>
+                "What Unwind flower has notable bisabolol or nerolidol?"
+              </div>
+              <div class="bm-script-line" style="margin-bottom: 0;">
+                <strong>For sleep:</strong>
+                "Heaviest Rest you've got. Myrcene-led."
+              </div>
+            </div>
+
+            <div class="bm-qr-block">
+              <div class="bm-qr"></div>
+              <div class="bm-qr-caption">Full guide</div>
+            </div>
+
+            <div class="bm-cobrand">
+              <div class="bm-cobrand-mark" style="margin-top: 0;">Cannacre8ive · v1.0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <div class="label">What it does</div>
+        <div class="body">The lowest-cost piece in the pack and probably the highest-utility. Customers actually carry it. Every reach for it is a moment where the chemovar system reinforces itself.</div>
+      </div>
+      <div class="note">
+        <div class="label">Where it goes</div>
+        <div class="body">Counter dispenser (free to take), tucked into every recreational bag, handed out at events. Reorder quarterly — these go fast and don't come back.</div>
+      </div>
+      <div class="note">
+        <div class="label">Open items</div>
+        <div class="body">Final "what to say" script copy. Decision on whether the back is a generic script or carries dispensary-specific recommendations (latter requires reprints per menu rotation).</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §07 SHELF TALKERS ============ -->
+<section class="section" id="shelf">
+  <div class="container">
+    <div class="section-id">07 — Shelf Talkers</div>
+    <h2 class="section-title">The last touch. <em>One per flower.</em></h2>
+    <p class="section-lede">
+      The moment a customer is actually choosing — between two Eases, between three Unwinds, between the OG Kush and the Bubba Kush — is where the system has to deliver in seconds. Shelf talkers do that work. Strain name, category, fingerprint, three-word feels-like, and a QR that opens that exact strain's modal in the consumer guide. The bridge from interest to purchase.
+    </p>
+
+    <div class="spec-strip">
+      <div class="spec-item">
+        <div class="label">Size</div>
+        <div class="val">5″ × 2″ horizontal</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Format</div>
+        <div class="val">Adhesive or rail-clip</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Stock</div>
+        <div class="val">14pt synthetic (water-resistant)</div>
+      </div>
+      <div class="spec-item">
+        <div class="label">Finish</div>
+        <div class="val">Soft-touch · removable adhesive</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-label">Six samples · one per category · actual proportions</div>
+
+      <div class="shelf-grid" id="shelf-grid">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <div class="notes">
+      <div class="note">
+        <div class="label">What it does</div>
+        <div class="body">Decision-moment confirmation. At the shelf, the customer has narrowed it to two or three jars. The shelf talker tells them which one fits their stated goal — and lets them dig deeper via QR without having to ask a budtender mid-rush.</div>
+      </div>
+      <div class="note">
+        <div class="label">Where it goes</div>
+        <div class="body">One per active SKU on the shelf. Rail-clip for flower jars, adhesive for pre-roll packs, magnetic for refrigerator-stored concentrate. Refreshed per menu rotation.</div>
+      </div>
+      <div class="note">
+        <div class="label">Open items</div>
+        <div class="body">Production template that generates these from the live Dutchie inventory feed — should be batch-printable from a CSV/CRM export. Default 36-card sheet layout for cost.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ §08 PRODUCTION SPECS ============ -->
+<section class="section" id="specs">
+  <div class="container">
+    <div class="section-id">08 — Production Specs</div>
+    <h2 class="section-title">From mockup to <em>press-ready.</em></h2>
+    <p class="section-lede">
+      Once the layouts in this showcase are approved, each piece moves to production with the specs below. Recommended vendors are Oregon-based for the pilot to keep proofs in-hand fast; nationwide options noted for scale-up after dispensary client #2.
+    </p>
+
+    <div class="prod-table">
+      <div class="prod-row head">
+        <div class="prod-cell">Piece</div>
+        <div class="prod-cell">Trim Size</div>
+        <div class="prod-cell">Stock</div>
+        <div class="prod-cell">Notes</div>
+        <div class="prod-cell">Pilot Qty</div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-cell"><strong>Customer Brochure</strong></div>
+        <div class="prod-cell">8.5″ × 11″ flat</div>
+        <div class="prod-cell">80lb matte cover</div>
+        <div class="prod-cell"><em>Letter fold · soft-touch lam · 1/8″ bleed</em></div>
+        <div class="prod-cell">500</div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-cell"><strong>Table Tent</strong></div>
+        <div class="prod-cell">5″ × 7″ faces</div>
+        <div class="prod-cell">12pt cover</div>
+        <div class="prod-cell"><em>Die-cut triangle · self-locking base</em></div>
+        <div class="prod-cell">12</div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-cell"><strong>Countertop Pop</strong></div>
+        <div class="prod-cell">11″ × 17″</div>
+        <div class="prod-cell">100lb cover</div>
+        <div class="prod-cell"><em>Matte UV · die-cut easel back</em></div>
+        <div class="prod-cell">6</div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-cell"><strong>Wall Poster</strong></div>
+        <div class="prod-cell">18″ × 24″</div>
+        <div class="prod-cell">100lb matte poster</div>
+        <div class="prod-cell"><em>Flat · 1/4″ white margin for framing</em></div>
+        <div class="prod-cell">2</div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-cell"><strong>Pocket Bookmark</strong></div>
+        <div class="prod-cell">2″ × 7″</div>
+        <div class="prod-cell">14pt uncoated</div>
+        <div class="prod-cell"><em>Rounded corners · soft-touch · double-sided</em></div>
+        <div class="prod-cell">2,000</div>
+      </div>
+      <div class="prod-row">
+        <div class="prod-cell"><strong>Shelf Talkers</strong></div>
+        <div class="prod-cell">5″ × 2″</div>
+        <div class="prod-cell">14pt synthetic</div>
+        <div class="prod-cell"><em>Water-resistant · removable adhesive · 36-up sheet</em></div>
+        <div class="prod-cell">36 (1 sheet)</div>
+      </div>
+    </div>
+
+    <div style="margin-top: 48px;">
+      <div class="section-id" style="margin-bottom: 16px;">Co-brand System</div>
+      <p class="section-lede" style="margin-bottom: 32px;">Every piece carries the Cannacre8ive system mark and the implementing dispensary's wordmark or logo lockup. The relationship is "powered by" — the dispensary brand is the primary identity on customer-facing pieces; the Cannacre8ive credit sits subordinate.</p>
+
+      <div class="notes">
+        <div class="note">
+          <div class="label">Dispensary placement</div>
+          <div class="body">Primary identity. Wordmark or logo lockup, sage or cream color, sized for legibility at arm's length. Appears on every piece in the lower band.</div>
+        </div>
+        <div class="note">
+          <div class="label">Cannacre8ive credit</div>
+          <div class="body">"Powered by Cannacre8ive · The Chemovar Guide v1.0" — DM Mono uppercase, cream-dim, smallest type in the layout. Dofollow link in digital versions.</div>
+        </div>
+        <div class="note">
+          <div class="label">QR target</div>
+          <div class="body">Per-dispensary subdomain (e.g., bandos.chemovar.guide) lands on the consumer guide pre-configured for that store's current inventory. Default fallback: cannacre8ive.com/guide.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section class="section" id="next" style="border-bottom: none; padding-bottom: 32px;">
+  <div class="container">
+    <div class="cta-block">
+      <h2 class="cta-title">Approve the layouts, then we go to <em>press.</em></h2>
+      <p class="cta-sub">
+        Next session: production-ready PDFs per piece (1/8″ bleed, CMYK, outlined fonts, packaged for InDesign handoff). After Bando's pilot, the same six pieces become a white-label template kit for dispensary client #2.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div>Chemovar Print Pack · Showcase v1.0</div>
+    <div class="sage">Six pieces · One coherent system</div>
+    <div>Built by CannaCre8ive</div>
+  </div>
+</footer>
+
+<script>
+/* ===================================================================
+   SHARED DATA — mirrors the consumer guide v2 data model
+   =================================================================== */
+const TERPENES = [
+  'myrcene', 'farnesene', 'limonene', 'valencene',
+  'caryophyllene', 'fenchone', 'pinene', 'guaiol',
+  'linalool', 'bisabolol', 'terpinolene', 'nerolidol',
+  'ocimene', 'geranylAcetate', 'humulene', 'eucalyptol'
+];
+
+const CATEGORIES = [
+  { key: 'ignite', name: 'Ignite', color: '#D4845C', time: 'Morning', tag: 'The morning spark.',
+    feel: 'Bright, social, ready to go.', dominant: 'Limonene + Terpinolene' },
+  { key: 'focus', name: 'Focus', color: '#B8D4A8', time: 'Daytime', tag: 'The clear lane.',
+    feel: 'Sharp, awake, head clear.', dominant: 'Pinene + Limonene' },
+  { key: 'flow', name: 'Flow', color: '#8AAEB2', time: 'Afternoon', tag: 'The drift.',
+    feel: 'Loose, creative, lightly euphoric.', dominant: 'Terpinolene + Ocimene' },
+  { key: 'ease', name: 'Ease', color: '#7FA688', time: 'Anytime', tag: 'The exhale.',
+    feel: 'Body softens, head stays clear.', dominant: 'Caryophyllene + Myrcene' },
+  { key: 'unwind', name: 'Unwind', color: '#6B7D6B', time: 'Evening', tag: 'The descent.',
+    feel: 'Soft, heavy, edges blur.', dominant: 'Myrcene + Linalool' },
+  { key: 'rest', name: 'Rest', color: '#4A5A6A', time: 'Night', tag: 'The night cap.',
+    feel: 'Deep, slow, ready for sleep.', dominant: 'Myrcene + Linalool + Caryo' }
+];
+
+const STRAINS = {
+  'super-lemon-haze': { cat: 'ignite', name: 'Super Lemon Haze', feel: 'Bright citrus, conversational',
+    profile: [10, 2, 35, 4, 12, 1, 8, 1, 5, 2, 25, 1, 3, 2, 2, 1], dominant: 'Limonene · Terpinolene' },
+  'jack-herer': { cat: 'focus', name: 'Jack Herer', feel: 'Pine-and-citrus alert',
+    profile: [18, 1, 22, 2, 8, 2, 28, 3, 4, 1, 15, 1, 3, 1, 2, 2], dominant: 'Pinene · Limonene' },
+  'durban-poison': { cat: 'flow', name: 'Durban Poison', feel: 'Drifty and creative',
+    profile: [12, 1, 14, 1, 8, 1, 12, 2, 4, 1, 38, 1, 10, 1, 2, 1], dominant: 'Terpinolene · Ocimene' },
+  'wedding-cake': { cat: 'ease', name: 'Wedding Cake', feel: 'Smooth and rich, balanced',
+    profile: [20, 2, 16, 1, 32, 2, 8, 1, 12, 4, 4, 3, 6, 1, 2, 1], dominant: 'Caryophyllene · Myrcene + Bisabolol' },
+  'granddaddy-purple': { cat: 'unwind', name: 'Granddaddy Purple', feel: 'Berry-floral, body settles',
+    profile: [35, 2, 10, 1, 18, 1, 5, 1, 22, 3, 4, 3, 4, 2, 2, 1], dominant: 'Myrcene · Linalool' },
+  'northern-lights': { cat: 'rest', name: 'Northern Lights', feel: 'Classic sleep flower',
+    profile: [42, 3, 6, 1, 18, 1, 4, 1, 22, 3, 3, 3, 3, 1, 2, 1], dominant: 'Myrcene · Linalool + Caryo' }
+};
+
+const TERPENE_LIST = [
+  { key: 'myrcene', name: 'Myrcene', aroma: 'Earth · mango', tier: 1 },
+  { key: 'limonene', name: 'Limonene', aroma: 'Lemon peel', tier: 1 },
+  { key: 'caryophyllene', name: 'Caryophyllene', aroma: 'Black pepper', tier: 1 },
+  { key: 'pinene', name: 'Pinene', aroma: 'Pine forest', tier: 1 },
+  { key: 'linalool', name: 'Linalool', aroma: 'Lavender', tier: 1 },
+  { key: 'terpinolene', name: 'Terpinolene', aroma: 'Apple · herbs', tier: 1 },
+  { key: 'ocimene', name: 'Ocimene', aroma: 'Sweet mint', tier: 1 },
+  { key: 'humulene', name: 'Humulene', aroma: 'Hops · sage', tier: 1 },
+  { key: 'farnesene', name: 'Farnesene', aroma: 'Green apple', tier: 2 },
+  { key: 'valencene', name: 'Valencene', aroma: 'Sweet orange', tier: 2 },
+  { key: 'fenchone', name: 'Fenchone', aroma: 'Camphor', tier: 2 },
+  { key: 'guaiol', name: 'Guaiol', aroma: 'Cedar wood', tier: 2 },
+  { key: 'bisabolol', name: 'Bisabolol', aroma: 'Chamomile', tier: 2 },
+  { key: 'nerolidol', name: 'Nerolidol', aroma: 'Jasmine', tier: 2 },
+  { key: 'geranylAcetate', name: 'Geranyl Ac.', aroma: 'Rose · floral', tier: 2 },
+  { key: 'eucalyptol', name: 'Eucalyptol', aroma: 'Eucalyptus', tier: 2 }
+];
+
+/* ===================================================================
+   16-SPOKE FINGERPRINT GENERATOR (matches consumer guide v2)
+   =================================================================== */
+function fpPoints(profile) {
+  const center = 100, minR = 8, maxR = 82, scaleMax = 45;
+  return profile.map((pct, i) => {
+    const angle = i * 22.5;
+    const r = minR + (Math.min(pct, scaleMax) / scaleMax) * (maxR - minR);
+    const rad = (angle - 90) * Math.PI / 180;
+    const x = center + r * Math.cos(rad);
+    const y = center + r * Math.sin(rad);
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
+  }).join(' ');
+}
+
+function fpSVG(profile, color, size = 100) {
+  const points = fpPoints(profile);
+
+  // Grid
+  let grid = `<g stroke="rgba(127,166,136,0.18)" stroke-width="0.5" fill="none">`;
+  grid += `<circle cx="100" cy="100" r="82"/>`;
+  grid += `<circle cx="100" cy="100" r="60"/>`;
+  grid += `<circle cx="100" cy="100" r="38"/>`;
+  grid += `<circle cx="100" cy="100" r="16"/>`;
+  grid += `</g>`;
+
+  // Spokes — primary heavier, secondary lighter
+  grid += `<g stroke="rgba(127,166,136,0.18)" fill="none">`;
+  for (let i = 0; i < 16; i++) {
+    const angle = i * 22.5;
+    const rad = (angle - 90) * Math.PI / 180;
+    const x = 100 + 82 * Math.cos(rad);
+    const y = 100 + 82 * Math.sin(rad);
+    const sw = i % 2 === 0 ? 0.7 : 0.3;
+    grid += `<line x1="100" y1="100" x2="${x.toFixed(2)}" y2="${y.toFixed(2)}" stroke-width="${sw}"/>`;
+  }
+  grid += `</g>`;
+
+  return `<svg viewBox="0 0 200 200" width="${size}" height="${size}" aria-hidden="true">
+    ${grid}
+    <polygon points="${points}" fill="${color}" fill-opacity="0.22" stroke="${color}" stroke-width="1.4" stroke-linejoin="round"/>
+    <circle cx="100" cy="100" r="2" fill="${color}"/>
+  </svg>`;
+}
+
+/* ===================================================================
+   AUTO-RENDER FINGERPRINTS
+   Any element with [data-fp] gets a fingerprint inserted.
+   =================================================================== */
+function renderAllFingerprints() {
+  document.querySelectorAll('[data-fp]').forEach(el => {
+    const slug = el.dataset.fp;
+    const color = el.dataset.color || '#7FA688';
+    const size = parseInt(el.dataset.size || '100', 10);
+    const strain = STRAINS[slug];
+    if (!strain) return;
+    // Insert the SVG at the start of the element, preserving any caption/content
+    const svg = fpSVG(strain.profile, color, size);
+    // If element has existing children (e.g., a caption), prepend SVG
+    if (el.children.length > 0 || el.textContent.trim() !== '') {
+      el.insertAdjacentHTML('afterbegin', svg);
+    } else {
+      el.innerHTML = svg;
+    }
+  });
+}
+
+/* ===================================================================
+   BROCHURE: inside-panel category list
+   =================================================================== */
+function renderBrochureCats() {
+  const el = document.getElementById('br-cats-list');
+  if (!el) return;
+  el.innerHTML = CATEGORIES.map(c => `
+    <div class="br-cat-row" style="--catcolor: ${c.color}">
+      <div class="br-cat-dot"></div>
+      <div>
+        <div class="br-cat-name">${c.name}</div>
+        <div class="br-cat-feel">${c.feel}</div>
+      </div>
+      <div class="br-cat-time">${c.time}</div>
+    </div>
+  `).join('');
+}
+
+/* ===================================================================
+   TABLE TENT: face-1 category grid
+   =================================================================== */
+function renderTentCats() {
+  const el = document.getElementById('tt-cats-1');
+  if (!el) return;
+  el.innerHTML = CATEGORIES.map(c => `
+    <div class="tt-cat" style="--catcolor: ${c.color}">
+      <div class="tt-cat-dot"></div>
+      <div class="tt-cat-name">${c.name}</div>
+      <div class="tt-cat-time">${c.time}</div>
+    </div>
+  `).join('');
+}
+
+/* ===================================================================
+   POP DISPLAY: category list
+   =================================================================== */
+function renderPopCats() {
+  const el = document.getElementById('pop-cats');
+  if (!el) return;
+  el.innerHTML = CATEGORIES.map(c => `
+    <div class="pop-cat" style="--catcolor: ${c.color}">
+      <div class="pop-cat-dot"></div>
+      <div class="pop-cat-name">${c.name}</div>
+      <div class="pop-cat-time">${c.time}</div>
+    </div>
+  `).join('');
+}
+
+/* ===================================================================
+   POSTER: six categories + terpene grid
+   =================================================================== */
+function renderPosterSix() {
+  const el = document.getElementById('poster-six');
+  if (!el) return;
+  el.innerHTML = CATEGORIES.map(c => `
+    <div class="poster-cat-mini" style="--catcolor: ${c.color}">
+      <div class="poster-cat-mini-name">${c.name}</div>
+      <div class="poster-cat-mini-time">${c.time}</div>
+      <div class="poster-cat-mini-feel">${c.feel}</div>
+    </div>
+  `).join('');
+}
+
+function renderPosterTerps() {
+  const el = document.getElementById('poster-terps');
+  if (!el) return;
+  el.innerHTML = TERPENE_LIST.map(t => `
+    <div class="poster-terp tier-${t.tier}">
+      <div class="poster-terp-name">${t.name}</div>
+      <div class="poster-terp-aroma">${t.aroma}</div>
+    </div>
+  `).join('');
+}
+
+/* ===================================================================
+   BOOKMARK: category list (front)
+   =================================================================== */
+function renderBookmarkCats() {
+  const el = document.getElementById('bm-cats');
+  if (!el) return;
+  el.innerHTML = CATEGORIES.map(c => `
+    <div class="bm-cat" style="--catcolor: ${c.color}">
+      <div class="bm-cat-dot"></div>
+      <div>
+        <div class="bm-cat-name">${c.name}</div>
+        <div class="bm-cat-feel">${c.feel}</div>
+      </div>
+      <div class="bm-cat-time">${c.time}</div>
+    </div>
+  `).join('');
+}
+
+/* ===================================================================
+   SHELF TALKERS: one per category
+   =================================================================== */
+function renderShelfTalkers() {
+  const el = document.getElementById('shelf-grid');
+  if (!el) return;
+  // One strain per category, in day-to-night order
+  const samples = ['super-lemon-haze', 'jack-herer', 'durban-poison', 'wedding-cake', 'granddaddy-purple', 'northern-lights'];
+  el.innerHTML = samples.map(slug => {
+    const s = STRAINS[slug];
+    const c = CATEGORIES.find(cat => cat.key === s.cat);
+    return `
+      <div class="shelf" style="--catcolor: ${c.color}">
+        <div class="shelf-fp">${fpSVG(s.profile, c.color, 56)}</div>
+        <div class="shelf-info">
+          <div class="shelf-cat">${c.name} · ${c.time}</div>
+          <div class="shelf-name">${s.name}</div>
+          <div class="shelf-feel">${s.feel}.</div>
+        </div>
+        <div class="shelf-meta">
+          <div class="top">Dominant</div>
+          <div class="terps">${s.dominant}</div>
+          <div class="qr"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+/* ===================================================================
+   STAGE TOGGLE (brochure outside/inside)
+   =================================================================== */
+function wireStageToggles() {
+  document.querySelectorAll('.stage-toggle').forEach(toggle => {
+    toggle.addEventListener('click', e => {
+      const btn = e.target.closest('button[data-view]');
+      if (!btn) return;
+      const view = btn.dataset.view;
+      // Find stage container
+      const stage = toggle.closest('.stage');
+      // Update buttons
+      toggle.querySelectorAll('button').forEach(b => {
+        b.classList.toggle('active', b.dataset.view === view);
+      });
+      // Update views
+      stage.querySelectorAll('.stage-view').forEach(v => {
+        v.classList.toggle('active', v.dataset.view === view);
+      });
+      // Re-render fingerprints in the newly-shown view (in case they weren't rendered yet)
+      setTimeout(renderAllFingerprints, 50);
+    });
+  });
+}
+
+/* ===================================================================
+   INIT
+   =================================================================== */
+document.addEventListener('DOMContentLoaded', () => {
+  renderBrochureCats();
+  renderTentCats();
+  renderPopCats();
+  renderPosterSix();
+  renderPosterTerps();
+  renderBookmarkCats();
+  renderShelfTalkers();
+  renderAllFingerprints();
+  wireStageToggles();
+});
+</script>
+</body>
+</html>
