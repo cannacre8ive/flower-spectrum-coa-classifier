@@ -6,7 +6,7 @@
 - [🟢 Complete] PDF-only upload and public lab result/PDF-link ingestion with automatic terpene-page selection.
 - [🟢 Complete] Fail-closed source-total reconciliation and source-row provenance.
 - [🟢 Complete] CSV dataset export with the canonical 38-terpene block; no CSV ingestion.
-- [🟢 Complete] Surfaced unmapped analytes and blocked guessed/OCR-only results.
+- [🟢 Complete] Preserved outside-model analytes, disclosed modeled-mass coverage, and blocked guessed/OCR-only or materially incomplete results.
 - [🟢 Complete] Responsive education and classifier interface.
 
 ## Phase 2 — Enhanced features

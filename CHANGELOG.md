@@ -2,6 +2,27 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.4.1] - 2026-08-28
+
+### Added
+
+- Real six-page Mt. Hood Magic certificate fixture and deterministic 19-row source-truth regression.
+- Explicit modeled-mass coverage reporting in the accuracy gate, audit summary, buyer sheet, social card, and React payload.
+- A 95% minimum modeled-coverage gate so small unmodeled source rows can be disclosed without weakening protection against materially incomplete classifications.
+- Versioned screenshots covering the corrected MHM gate, both generated assets, the complete source panel, and the unmodeled-row disclosure.
+
+### Changed
+
+- Separated laboratory source reconciliation from internal classifier mapping. Every positive lab row now contributes to the source sum even when the current 38-terpene model does not use it.
+- Positive analytes outside the model are preserved with their original label/value and remain visible on buyer-facing output instead of being silently discarded or automatically treated as a parsing failure.
+- PDF table extraction now reads every positive analyte inside a verified terpene table rather than filtering source rows through the classifier lookup dictionary.
+
+### Fixed
+
+- Corrected the Mt. Hood Magic failure where `trans-Phytol 0.03%` was omitted, producing an incorrect 3.38% extracted subtotal against the laboratory&rsquo;s 3.41% total.
+- Restored generation of the MHM fingerprint, spectrum strip, buyer sheet, social card, React component, and dataset action after exact 3.41% source reconciliation.
+- Kept materially incomplete mappings fail-closed while allowing the supplied MHM panel to pass at 99.12% modeled coverage.
+
 ## [2.4.0] - 2026-07-20
 
 ### Added

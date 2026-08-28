@@ -32,7 +32,7 @@ The identity is typographic and data-led: a quiet near-black canvas, warm paper 
 - Wordmark: Newsreader 600 in off-white `#E8E3D9`; never recolor either word to a profile or utility accent. A ten-color spectrum rule sits directly beneath the wordmark.
 - Always pair color with a text label or code for accessibility.
 - Buyer imagery uses a black contain-fit stage so transparent or black-background flower photography stays intact without stretching.
-- The buyer sheet uses a content-aware vertical canvas: every mapped terpene row must fit before the footer, even when that produces a taller export.
+- The buyer sheet uses a content-aware vertical canvas: every positive laboratory source row, including preserved outside-model compounds, must fit before the footer even when that produces a taller export.
 - The social card stays at 1080 × 1350 and overlays a compact fingerprint on the flower photograph to keep both recognition devices visible.
 - Profile-learning controls use the same fixed ten-color order as the wheel. A selected band exposes the measured compounds and their relative weighted contribution in text as well as color.
 - Accuracy gate: neutral while idle, Earthy green when reconciled, Fruity red when blocked. A blocked state replaces the result and all export controls rather than decorating an unsafe classification.

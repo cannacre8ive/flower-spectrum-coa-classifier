@@ -18,7 +18,7 @@ Serve the repository with `python3 -m http.server 4173`; do not open the HTML di
 ## Pull request review
 
 1. Explain the user-facing outcome and any engine/model change.
-2. Run the in-app self-test and Johnny Glaze 16-row/4.06% accuracy regression, plus at least one intentionally blocked mismatch.
+2. Run the 15-check in-app suite: parser layouts, Johnny Glaze 16-row/4.06%, Mt. Hood Magic 19-row/3.41% with 99.12% modeled coverage, and at least one intentionally blocked mismatch/coverage case.
 3. Include desktop and mobile screenshots for visual changes.
 4. Confirm the required aroma-only disclaimer remains visible.
 5. For every production deployment, refresh the share image when the UI changes and verify Open Graph/Twitter metadata against the stable public Vercel alias.

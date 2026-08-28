@@ -7,14 +7,15 @@ Static HTML, CSS, and browser JavaScript with one Vercel serverless endpoint for
 ## Runtime layers
 
 1. PDF ingestion scores every page, keeps the selected source page available for review, and rebuilds independent left/right table rows from PDF x/y coordinates.
-2. Source-truth parsing preserves each original positive row label/value and separately maps that row to a canonical engine key.
-3. The accuracy gate requires a printed Total Terpenes value, at least two positive mapped rows, no positive unmapped/guessed rows, text-layer extraction, and a maximum 0.02% row-sum difference.
-4. Only a passed extraction reaches the canonical 38-terpene engine, which applies tier/potency weights and profile contributions.
-4. Gas/Fuel receives an additional balanced co-occurrence score from caryophyllene, limonene, and myrcene/humulene.
-5. Ten profile shares drive radial donut segment size; the 60%-of-leader rule drives the strip.
-6. Flower images are browser object/data URLs shared by the generated buyer sheet, social card, and React payload.
-8. Dataset state lives in memory and exports to CSV; CSV is never accepted as a laboratory source.
-9. `api/fetch-coa.js` validates HTTP(S) URLs and redirects, rejects private/internal destinations, caps HTML/PDF responses, discovers likely certificate links on public lab pages, and returns only a valid PDF payload.
+2. Source-truth parsing preserves every original positive row label/value before separately mapping supported rows to a canonical engine key.
+3. The source-reconciliation gate requires a printed Total Terpenes value, at least two positive modeled rows, no guessed result columns, text-layer extraction, and a maximum 0.02% difference between all positive source rows and the printed lab total.
+4. The model-coverage gate requires the canonical 38-terpene engine to represent at least 95% of the positive source mass. Smaller outside-model rows remain visible and disclosed; materially incomplete mappings stay blocked.
+5. Only a passed extraction reaches the canonical 38-terpene engine, which applies tier/potency weights and profile contributions.
+6. Gas/Fuel receives an additional balanced co-occurrence score from caryophyllene, limonene, and myrcene/humulene.
+7. Ten profile shares drive radial donut segment size; the 60%-of-leader rule drives the strip.
+8. Flower images are browser object/data URLs shared by the generated buyer sheet, social card, and React payload.
+9. Dataset state lives in memory and exports to CSV; CSV is never accepted as a laboratory source.
+10. `api/fetch-coa.js` validates HTTP(S) URLs and redirects, rejects private/internal destinations, caps HTML/PDF responses, discovers likely certificate links on public lab pages, and returns only a valid PDF payload.
 
 ## Data model
 
@@ -27,10 +28,11 @@ Strain {
 }
 
 VerifiedParse {
-  sourceRows [{ rawLabLabel, percent, canonicalEngineKey }],
+  sourceRows [{ rawLabLabel, percent, canonicalEngineKey?, modeled }],
   engineValues { canonicalTerpeneKey: summedPercent },
-  reportedTotal, sourceSum, delta, extractionMethod,
-  status: "passed" | "blocked", issues[]
+  reportedTotal, sourceSum, modeledMass, unmodeledMass, coveragePct,
+  delta, extractionMethod,
+  status: "passed" | "blocked", issues[], warnings[]
 }
 ```
 
@@ -49,6 +51,7 @@ Uploaded files, classification, PDF rendering, and OCR remain client-side. Only 
 ├── assets/johnny-glaze-flower.jpeg
 ├── components/FlowerSpectrumStrainCard.jsx
 ├── examples/johnny-glaze-coa.pdf
+├── examples/mt-hood-magic-coa.pdf
 ├── examples/johnny-glaze-lab-result.html
 ├── examples/illustrative-coa.txt
 ├── examples/illustrative-coa.pdf

@@ -141,7 +141,7 @@
     </div>
     <aside class="why-ten">
       <span class="why-mark">Why only ten segments?</span>
-      <p>Cannabis contains hundreds of volatile compounds, while commercial labs quantify different subsets. A ring segment for every molecule would be dense, lab-dependent, and impossible to compare at the shelf. Flower Spectrum keeps the complete 38-terpene data underneath, then compresses those signals into ten stable aroma dimensions. <strong>The fingerprint is the readable summary; the COA remains the source of truth.</strong></p>
+      <p>Cannabis contains hundreds of volatile compounds, while commercial labs quantify different subsets. A ring segment for every molecule would be dense, lab-dependent, and impossible to compare at the shelf. Flower Spectrum preserves the complete positive source panel, then uses a versioned 38-terpene scoring model to compress supported signals into ten stable aroma dimensions. <strong>The fingerprint is the readable summary; the COA remains the source of truth.</strong></p>
     </aside>
   </section>
 
@@ -166,7 +166,7 @@
     <p>Upload the original PDF certificate or provide the public lab-results link. Flower Spectrum identifies the terpene page, preserves every detected laboratory row, reconciles the extracted sum to the lab-reported total, and blocks classification when those values do not agree.</p>
   </section>
 
-  <div class="topbar tool-bar"><span class="spectrum-mini" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="brand">Flower Spectrum Engine</span><span class="ver">Classifier · v2.4.0 · 07_20_2026</span></div>
+  <div class="topbar tool-bar"><span class="spectrum-mini" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><span class="brand">Flower Spectrum Engine</span><span class="ver">Classifier · v2.4.1 · 08_28_2026</span></div>
 
   <!-- ============ PDF / LAB LINK COA ============ -->
   <div id="panePaste">
@@ -231,7 +231,7 @@
       <span class="lbl" style="margin:0">Accuracy regression suite</span>
       <button class="btn" style="margin-left:auto" onclick="runSelfTest()">Run format tests</button>
     </div>
-    <p class="note" style="margin-top:0">Runs deterministic table-layout tests. The real Johnny Glaze PDF fixture is validated separately against 16 positive source rows and the laboratory&rsquo;s reported 4.06% total.</p>
+    <p class="note" style="margin-top:0">Runs deterministic table-layout tests plus source-truth regressions for Johnny Glaze and Mt. Hood Magic, including preserved-but-unmodeled mass coverage.</p>
     <div id="stOut"></div>
   </div>
 
@@ -249,7 +249,7 @@
   </div>
 
   <div class="foot">
-    Flower Spectrum · Terpene Fingerprint Classifier · v2.4.0 · build 07_20_2026<br>
+    Flower Spectrum · Terpene Fingerprint Classifier · v2.4.1 · build 08_28_2026<br>
     Aroma classification, not effects or medical claims · Engine byte-faithful to Chemovar Classifier v1.3 (38 terpenes)<br>
     Built by <a href="https://cannacre8ive.com" target="_blank" rel="dofollow">CannaCre8ive</a>
   </div>
@@ -260,7 +260,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>
 <script>
 "use strict";
-const VERSION = "v2.4.0", BUILD = "07_20_2026";
+const VERSION = "v2.4.1", BUILD = "08_28_2026";
 
 /* =================== CANONICAL ENGINE (verbatim, Classifier v1.3) =================== */
 const PROFILES = [
@@ -714,7 +714,7 @@ function parseCOA(text){
       else if(ck==="total_cannabinoids") totalCannabinoids=value;
       skipped++; return;
     }
-    if(AMBIGUOUS[cn]){ unmapped.push({ raw:rawName, value, reason:AMBIGUOUS[cn] }); return; }
+    if(AMBIGUOUS[cn]){ unmapped.push({ raw:rawName, value, unit:unit||"%", guess:!!guess, reason:AMBIGUOUS[cn] }); return; }
     const key = LOOKUP[cn];
     if(key){
       if(value>0){
@@ -722,7 +722,7 @@ function parseCOA(text){
         values[key] = (values[key]||0) + value;
         matched.push({ raw:rawName, key, label:TERP_BY_KEY[key].label, value, unit:unit||"%", summed, guess:!!guess });
       }
-    } else { unmapped.push({ raw:rawName, value, reason:"not a tracked terpene" }); }
+    } else { unmapped.push({ raw:rawName, value, unit:unit||"%", guess:!!guess, reason:"not modeled by the current 38-terpene engine" }); }
   };
 
   for(const raw of lines){
@@ -777,28 +777,37 @@ function parseCOA(text){
 }
 
 const RECONCILIATION_TOLERANCE = 0.02;
+const MIN_MODELED_COVERAGE = 0.95;
 let CURRENT_EXTRACTION_METHOD = "text-layer";
 function validateCOA(p,method){
-  const sourceRows=p.matched.concat(p.unmapped.filter(row=>Number(row.value)>0));
+  const modeledRows=p.matched.filter(row=>Number(row.value)>0).map(row=>({...row,modeled:true}));
+  const unmodeledRows=p.unmapped.filter(row=>Number(row.value)>0).map(row=>({...row,key:null,label:"Not modeled",modeled:false}));
+  const sourceRows=modeledRows.concat(unmodeledRows);
   const sourceSum=+sourceRows.reduce((sum,row)=>sum+Number(row.value||0),0).toFixed(4);
+  const modeledMass=+modeledRows.reduce((sum,row)=>sum+Number(row.value||0),0).toFixed(4);
+  const unmodeledMass=+unmodeledRows.reduce((sum,row)=>sum+Number(row.value||0),0).toFixed(4);
+  const coverageRatio=sourceSum>0?modeledMass/sourceSum:0;
+  const coveragePct=+(coverageRatio*100).toFixed(2);
   const reported=p.reportedTotal==null?null:+Number(p.reportedTotal).toFixed(4);
   const delta=reported==null?null:+Math.abs(reported-sourceSum).toFixed(4);
   const issues=[];
+  const warnings=[];
   if(reported==null)issues.push("The lab-reported Total Terpenes value was not found.");
   if(p.matched.length<2)issues.push("Fewer than two positive terpene rows were extracted.");
-  const positiveUnmapped=p.unmapped.filter(row=>Number(row.value)>0);
-  if(positiveUnmapped.length)issues.push(positiveUnmapped.length+" positive source row"+(positiveUnmapped.length===1?" is":"s are")+" not mapped to the classifier.");
-  if(p.guessedCount)issues.push(p.guessedCount+" result value"+(p.guessedCount===1?" was":"s were")+" inferred instead of read from an explicit result column.");
+  if(unmodeledRows.length)warnings.push(unmodeledRows.length+" source row"+(unmodeledRows.length===1?" is":"s are")+" preserved in the lab total but excluded from the 38-terpene fingerprint ("+unmodeledMass.toFixed(2)+"%).");
+  if(sourceSum>0&&coverageRatio<MIN_MODELED_COVERAGE)issues.push("Only "+coveragePct.toFixed(1)+"% of the positive terpene mass is represented by the current classifier. Minimum modeled coverage is "+(MIN_MODELED_COVERAGE*100).toFixed(0)+"%.");
+  const guessedCount=sourceRows.filter(row=>row.guess).length;
+  if(guessedCount)issues.push(guessedCount+" result value"+(guessedCount===1?" was":"s were")+" inferred instead of read from an explicit result column.");
   if(delta!=null&&delta>RECONCILIATION_TOLERANCE)issues.push("Extracted rows differ from the lab total by "+delta.toFixed(2)+"%. Maximum allowed difference is "+RECONCILIATION_TOLERANCE.toFixed(2)+"%.");
   if(method==="ocr")issues.push("OCR-derived values require human verification and cannot be classified automatically.");
-  return {status:issues.length?"blocked":"passed",issues,sourceRows:p.matched.slice(),sourceSum,reported,delta,tolerance:RECONCILIATION_TOLERANCE,sourceCount:p.matched.length,engineKeyCount:Object.keys(p.values).length,method};
+  return {status:issues.length?"blocked":"passed",issues,warnings,sourceRows,modeledRows,unmodeledRows,sourceSum,modeledMass,unmodeledMass,coverageRatio,coveragePct,reported,delta,tolerance:RECONCILIATION_TOLERANCE,minimumCoverage:MIN_MODELED_COVERAGE,sourceCount:sourceRows.length,engineKeyCount:Object.keys(p.values).length,method};
 }
 
 function updateAccuracyGate(validation){
   const gate=document.getElementById("accuracyGate"); if(!gate)return;
   gate.className="accuracy-gate "+validation.status;
   if(validation.status==="passed"){
-    gate.innerHTML="<span>Accuracy gate · passed</span><strong>"+validation.sourceCount+" source rows reconcile to "+validation.reported.toFixed(2)+"%</strong><p>Difference "+validation.delta.toFixed(2)+"% · "+validation.engineKeyCount+" internal classifier keys · exports unlocked.</p>";
+    gate.innerHTML="<span>Accuracy gate · passed</span><strong>"+validation.sourceCount+" source rows reconcile to "+validation.reported.toFixed(2)+"%</strong><p>Difference "+validation.delta.toFixed(2)+"% · "+validation.engineKeyCount+" internal classifier keys · "+validation.coveragePct.toFixed(1)+"% modeled coverage · exports unlocked.</p>"+(validation.warnings.length?"<p class=\"accuracy-disclosure\">"+esc(validation.warnings.join(" "))+"</p>":"");
   }else{
     gate.innerHTML="<span>Accuracy gate · blocked</span><strong>Classification and exports are locked</strong><p>"+esc(validation.issues.join(" "))+"</p>";
   }
@@ -849,11 +858,22 @@ const FORMAT_FIXTURES = [
  { id:"Cannabinoids filtered",     text:"Total THC 24.8 %\nTHCA 28.1 %\nCBD ND\n\u03b2-Caryophyllene 0.50 %\nTotal Terpenes 2.10 %", expect:{caryophyllene:0.50}, thc:24.8 },
 ];
 const JOHNNY_ACCURACY_FIXTURE="Valencene 0.05 %\nδ-Limonene 0.87 %\nα-Humulene 0.08 %\n(-)-β-Pinene 0.13 %\nα-Pinene 0.08 %\n(-)-α-Bisabolol 0.03 %\nTerpinolene 0.09 %\nEndo-Fenchyl Alcohol 0.09 %\nα-Terpineol 0.07 %\nLinalool 0.44 %\nβ-Myrcene 0.14 %\nβ-Caryophyllene 0.31 %\ntrans-Nerolidol 0.14 %\nβ-Farnesene 0.43 %\ncis-β-Farnesene 0.99 %\nα-Farnesene 0.12 %\nTotal Terpenes 4.06 %";
+const MHM_ACCURACY_FIXTURE="Terpinolene 1.05 %\nβ-Caryophyllene 0.43 %\nβ-Myrcene 0.29 %\nβ-Farnesene 0.25 %\nδ-Limonene 0.22 %\nOcimene 2 0.22 %\nα-Farnesene 0.21 %\nα-Humulene 0.17 %\n(-)-β-Pinene 0.11 %\n(-)-α-Bisabolol 0.07 %\nα-Pinene 0.06 %\nValencene 0.05 %\nα-Phellandrene 0.05 %\nα-Terpinene 0.04 %\nα-Terpineol 0.04 %\nLinalool 0.04 %\ntrans-Nerolidol 0.04 %\nδ-3-Carene 0.04 %\ntrans-Phytol 0.03 %\nTotal Terpenes 3.41 %";
 function johnnyAccuracyRegression(){
   const p=parseCOA(JOHNNY_ACCURACY_FIXTURE),v=validateCOA(p,"text-layer");
   const farneseneRows=p.matched.filter(row=>/farnesene/i.test(row.raw));
   const pass=v.status==="passed"&&v.sourceCount===16&&v.engineKeyCount===15&&v.sourceSum===4.06&&v.reported===4.06&&v.delta===0&&farneseneRows.length===3;
   return {id:"Johnny Glaze source truth",pass,detail:"16 rows · 15 keys · 4.06% source · 4.06% lab · 0.00% difference · 3 distinct farnesene rows"};
+}
+function mhmAccuracyRegression(){
+  const p=parseCOA(MHM_ACCURACY_FIXTURE),v=validateCOA(p,"text-layer");
+  const phytol=v.unmodeledRows.find(row=>/phytol/i.test(row.raw));
+  const pass=v.status==="passed"&&v.sourceCount===19&&v.engineKeyCount===18&&v.sourceSum===3.41&&v.modeledMass===3.38&&v.reported===3.41&&v.delta===0&&v.unmodeledMass===0.03&&v.coveragePct===99.12&&phytol&&phytol.value===0.03;
+  const coverageBlock=validateCOA(parseCOA("Myrcene 0.25 %\nLimonene 0.25 %\ntrans-Phytol 0.50 %\nTotal Terpenes 1.00 %"),"text-layer");
+  return [
+    {id:"Mt Hood Magic source truth",pass,detail:"19 rows · 18 keys · 3.41% source · 3.38% modeled · 0.03% trans-Phytol preserved · 99.12% coverage"},
+    {id:"Modeled coverage gate",pass:coverageBlock.status==="blocked"&&coverageBlock.issues.some(issue=>/Minimum modeled coverage/.test(issue)),detail:"Material unmodeled mass remains blocked below 95% coverage"}
+  ];
 }
 function selfTest(){
   const near=(a,b)=>Math.abs(a-b)<1e-6;
@@ -965,7 +985,8 @@ function valOf(id){ const el=document.getElementById(id); return el?el.value.tri
 function displayPct(v){ const n=parseFloat(String(v||"").replace(/[^0-9.]/g,"")); return isNaN(n)?"—":n.toFixed(2)+"%"; }
 function buyerData(values){
   const c=classify(values), ranked=c.ranked, top=topTerpenes(values,99);
-  const sourcePanel=(CUR&&CUR.validation&&CUR.validation.status==="passed"?CUR.validation.sourceRows:[]).slice().sort((a,b)=>b.value-a.value);
+  const validation=(CUR&&CUR.validation&&CUR.validation.status==="passed")?CUR.validation:null;
+  const sourcePanel=(validation?validation.sourceRows:[]).slice().sort((a,b)=>b.value-a.value);
   const summed=Object.values(values).reduce((a,b)=>a+b,0);
   const lead=PROFILE_LANGUAGE[ranked[0].key],second=PROFILE_LANGUAGE[ranked[1].key],third=PROFILE_LANGUAGE[ranked[2].key];
   const leadPhrase=lead.noun.charAt(0).toUpperCase()+lead.noun.slice(1);
@@ -980,8 +1001,9 @@ function buyerData(values){
     lot:valOf("mLot")||"—",sample:valOf("mSample")||"—",harvest:valOf("mHarvest")||"—",quantity:valOf("mQuantity")||"Contact for availability",
     contact:valOf("mContact")||"Buyer contact not provided",image:CURRENT_FLOWER_IMAGE,thc:displayPct(valOf("mThc")),cannabinoids:displayPct(valOf("mCann")),cbd:displayPct(valOf("mCbd")),
     terps:displayPct(valOf("mTerps")||summed),tier:valOf("mTier")||"—",priceG:valOf("mPriceG"),priceE:valOf("mPriceE"),aroma,c,values,buyerBodyHeight,buyerHeight:buyerBodyHeight+408,
+    modeledMass:validation?validation.modeledMass:summed,unmodeledMass:validation?validation.unmodeledMass:0,coveragePct:validation?validation.coveragePct:100,
     blend:blendName(c),confidence:c.confidence,segments:bandSegments(c),scores:ranked.filter(x=>x.pct>0).slice(0,6),
-    topTerps:sourcePanel.slice(0,4).map(x=>({label:x.raw,value:x.value})),panel:sourcePanel.map(x=>({label:x.raw,value:x.value,key:x.key})),
+    topTerps:sourcePanel.slice(0,4).map(x=>({label:x.raw,value:x.value})),panel:sourcePanel.map(x=>({label:x.raw,value:x.value,key:x.key,modeled:x.modeled})),
     sensory:{top:lead.top,middle:second.mid,base:third.base},
     copy:[
       (valOf("mName")||"This flower")+" reads as "+lead.noun+" over "+second.noun+", with "+third.noun+" supporting the finish.",
@@ -1009,7 +1031,7 @@ function inspectCurrentProfile(key,button){
   document.querySelectorAll(".spike-band-button").forEach(b=>b.setAttribute("aria-pressed","false")); if(button)button.setAttribute("aria-pressed","true");
   const out=document.getElementById("spikeDetail"); if(out)out.innerHTML=spikeDetailHTML(LAST_BUYER_DATA.values,key);
 }
-function panelRowsHTML(d,limit){ return d.panel.slice(0,limit||99).map(t=>'<tr><td>'+esc(t.label)+'</td><td>'+t.value.toFixed(2)+'%</td><td>'+(t.value*10).toFixed(1)+'</td></tr>').join(""); }
+function panelRowsHTML(d,limit){ return d.panel.slice(0,limit||99).map(t=>'<tr'+(t.modeled===false?' class="unmodeled-source"':'')+'><td>'+esc(t.label)+(t.modeled===false?' <small>preserved · not modeled</small>':'')+'</td><td>'+t.value.toFixed(2)+'%</td><td>'+(t.value*10).toFixed(1)+'</td></tr>').join(""); }
 function buyerStripHTML(d){ return '<div class="buyer-strip">'+d.segments.map(s=>'<span style="flex:'+s.frac+';background:'+s.color+'"><b>'+esc(s.label.split(" / ")[0])+' · '+s.pct+'%</b></span>').join("")+'</div>'; }
 function fpAssetHTML(d,size){
   return '<div class="asset-fingerprint" style="width:'+size+'px">'+fingerprintSVG(d.values,true)+'</div>';
@@ -1028,8 +1050,8 @@ function buyerSheetHTML(d){
       '<main><section class="buyer-aroma"><h3>Aroma read</h3><blockquote>'+esc(d.aroma)+'</blockquote></section><section class="buyer-copy"><p>'+esc(d.copy[0])+'</p><p>'+esc(d.copy[1])+'</p></section>'+
       '<section><h3>Sensory architecture</h3><div class="buyer-sensory"><div><b>Top</b>'+esc(d.sensory.top)+'</div><div><b>Middle</b>'+esc(d.sensory.middle)+'</div><div><b>Base</b>'+esc(d.sensory.base)+'</div></div></section>'+
       '<section><h3>Loudest terpenes</h3><div class="buyer-terp-chips">'+d.topTerps.map(t=>'<span>'+esc(t.label)+' · '+t.value.toFixed(2)+'%</span>').join("")+'</div></section>'+
-      '<section class="buyer-panel"><h3>Terpene test results — validated COA panel</h3><table><thead><tr><th>Terpene</th><th>%</th><th>mg/g</th></tr></thead><tbody>'+panelRowsHTML(d)+'</tbody></table></section></main></div>'+ 
-    '<footer><span>Flower Spectrum · canonical 38-terpene engine</span><span>Aroma classification — not effects or medical claims</span></footer></article>';
+      '<section class="buyer-panel"><h3>Terpene test results — validated COA panel</h3><p class="buyer-coverage-note">Fingerprint models '+d.modeledMass.toFixed(2)+'% of the '+d.terps+' lab panel · '+d.coveragePct.toFixed(1)+'% modeled coverage. Every positive source row remains visible below.</p><table><thead><tr><th>Terpene</th><th>%</th><th>mg/g</th></tr></thead><tbody>'+panelRowsHTML(d)+'</tbody></table></section></main></div>'+
+    '<footer><span>Flower Spectrum · canonical 38-terpene engine</span><span>'+d.coveragePct.toFixed(1)+'% modeled coverage · aroma classification, not effects</span></footer></article>';
 }
 
 function socialCardHTML(d){
@@ -1039,7 +1061,7 @@ function socialCardHTML(d){
     '<div class="social-core"><div class="social-product-visual"><img src="'+esc(d.image)+'" alt="'+esc(d.name)+' flower"><div class="social-fp">'+fpAssetHTML(d,175)+'</div></div><div class="social-aroma"><b>Aroma read</b><blockquote>'+esc(d.aroma)+'</blockquote><div class="social-terps">'+d.topTerps.slice(0,3).map(t=>'<span>'+esc(t.label)+' '+t.value.toFixed(2)+'%</span>').join("")+'</div></div></div>'+
     '<div class="social-metrics"><div><b>THC</b><strong>'+d.thc+'</strong></div><div><b>Total terpenes</b><strong>'+d.terps+'</strong></div><div><b>Harvest</b><strong>'+esc(d.harvest)+'</strong></div><div><b>Available</b><strong>'+esc(d.quantity)+'</strong></div></div>'+ 
     '<div class="social-panel"><div><b>Farm</b>'+esc(d.grower)+'</div><div><b>Lot / sample</b>'+esc(d.lot)+' · '+esc(d.sample)+'</div><div><b>Buyer contact</b>'+esc(d.contact)+'</div></div>'+ 
-    '<footer><span>'+esc(d.grower)+'</span><span>Aroma classification · validated COA</span></footer></article>';
+    '<footer><span>'+esc(d.grower)+'</span><span>Aroma classification · '+d.coveragePct.toFixed(1)+'% modeled coverage</span></footer></article>';
 }
 
 let LAST_BUYER_DATA=null;
@@ -1103,24 +1125,25 @@ function doParse(){
 function renderParse(){
   const p = CUR;
   const v=p.validation;
-  const summary='<div class="accuracy-summary"><div><b>Source rows</b><strong>'+v.sourceCount+'</strong></div><div><b>Engine keys</b><strong>'+v.engineKeyCount+'</strong></div><div><b>Source sum</b><strong>'+v.sourceSum.toFixed(2)+'%</strong></div><div><b>Lab total</b><strong>'+(v.reported==null?'—':v.reported.toFixed(2)+'%')+'</strong></div><div><b>Difference</b><strong>'+(v.delta==null?'—':v.delta.toFixed(2)+'%')+'</strong></div></div>';
-  const rows=p.matched.slice().sort((a,b)=>b.value-a.value).map(m=>'<tr><td>'+esc(m.raw)+'</td><td>'+m.value.toFixed(2)+'%</td><td>'+(m.value*10).toFixed(1)+'</td><td class="engine-map">'+esc(m.label)+(m.summed?' · internal aggregate':'')+'</td></tr>').join("");
+  const summary='<div class="accuracy-summary"><div><b>Source rows</b><strong>'+v.sourceCount+'</strong></div><div><b>Engine keys</b><strong>'+v.engineKeyCount+'</strong></div><div><b>Modeled mass</b><strong>'+v.modeledMass.toFixed(2)+'%</strong></div><div><b>Source sum</b><strong>'+v.sourceSum.toFixed(2)+'%</strong></div><div><b>Lab total</b><strong>'+(v.reported==null?'—':v.reported.toFixed(2)+'%')+'</strong></div><div><b>Difference</b><strong>'+(v.delta==null?'—':v.delta.toFixed(2)+'%')+'</strong></div></div>';
+  const rows=v.sourceRows.slice().sort((a,b)=>b.value-a.value).map(m=>'<tr'+(m.modeled?'':' class="unmodeled-source"')+'><td>'+esc(m.raw)+'</td><td>'+m.value.toFixed(2)+'%</td><td>'+(m.value*10).toFixed(1)+'</td><td class="engine-map">'+(m.modeled?esc(m.label)+(m.summed?' · internal aggregate':''):'Preserved · not modeled')+'</td></tr>').join("");
   const sourceTable='<span class="lbl">Laboratory source rows · preserved exactly</span><table class="source-truth-table"><thead><tr><th>Source analyte</th><th>%</th><th>mg/g</th><th>Internal mapping</th></tr></thead><tbody>'+rows+'</tbody></table>';
   const blocked='<div class="classification-blocked"><h3>Result withheld until the source reconciles.</h3><p class="note">Flower Spectrum does not generate a fingerprint, buyer sheet, social card, or dataset row from an unverified extraction.</p><ul>'+v.issues.map(issue=>'<li>'+esc(issue)+'</li>').join("")+'</ul></div>';
-  const passed=classCardHTML(p.values,{extra:'<div class="stat" style="margin-top:10px">Accuracy gate passed · source rows <b>'+v.sourceSum.toFixed(2)+'%</b> · lab total <b>'+v.reported.toFixed(2)+'%</b></div>'});
+  const passed=classCardHTML(p.values,{extra:'<div class="stat" style="margin-top:10px">Accuracy gate passed · source rows <b>'+v.sourceSum.toFixed(2)+'%</b> · lab total <b>'+v.reported.toFixed(2)+'%</b> · modeled coverage <b>'+v.coveragePct.toFixed(1)+'%</b></div>'});
   const html='<div class="panel">'+(v.status==="passed"?passed:blocked)+summary+'<hr class="hr">'+sourceTable+unmappedHTML(p)+(v.status==="passed"?'<div class="btn-row"><button class="btn btn-primary" onclick="addCurrent()">Add verified result to dataset ↓</button></div>':'')+'</div>'+(v.status==="passed"?generatedAssetsHTML(p.values):'');
   document.getElementById("parseOut").innerHTML = html;
   if(v.status==="passed")requestAnimationFrame(layoutGeneratedAssets);
 }
 
 function unmappedHTML(p){
-  if(!p.unmapped.length) return '<div class="note accent" style="margin-top:10px">✓ Every analyte mapped to the engine.</div>';
-  const items = p.unmapped.map(u =>
+  const visible=p.unmapped.filter(u=>Number(u.value)>0);
+  if(!visible.length) return '<div class="note accent" style="margin-top:10px">✓ Every positive source analyte is modeled by the fingerprint engine.</div>';
+  const items = visible.map(u =>
     '<tr><td class="sm">'+esc(u.raw)+'</td><td class="sm muted">'+(u.value!=null?u.value:'')+'</td><td class="sm" style="color:var(--amber)">'+esc(u.reason)+'</td></tr>'
   ).join("");
-  return '<div class="amberbox"><span class="lbl">Unmapped — surfaced, not dropped ('+p.unmapped.length+')</span>'+
+  return '<div class="amberbox"><span class="lbl">Preserved outside the current model ('+visible.length+')</span>'+
     '<table><tbody>'+items+'</tbody></table>'+
-    '<p class="note">These did not match a tracked terpene. Cannabinoids and totals are filtered automatically; an entry here is usually an untracked minor terpene or an ambiguous isomer name.</p></div>';
+    '<p class="note">These positive lab rows count toward source reconciliation and stay on the buyer sheet, but they do not influence the fingerprint. Classification remains available only when at least 95% of the reported terpene mass is represented by the versioned 38-terpene engine.</p></div>';
 }
 
 function addCurrent(){
@@ -1154,14 +1177,19 @@ function cleanPdfAnalyteLabel(value){
 function pdfTerpeneRows(items,width){
   const out=[];
   ["left","right"].forEach(side=>{
-    pdfColumnLines(items,width,side).split(/\r?\n/).forEach(line=>{
+    let inAnalyteTable=false;
+    for(const line of pdfColumnLines(items,width,side).split(/\r?\n/)){
       const cells=line.split(/\t+/).map(x=>x.trim()).filter(Boolean);
-      if(cells.length<2)return;
-      const rawName=cleanPdfAnalyteLabel(cells[0]),cn=canon(rawName);
-      if(!LOOKUP[cn]&&!AMBIGUOUS[cn])return;
+      const first=cleanPdfAnalyteLabel(cells[0]||"");
+      if(/^Analyte$/i.test(first)){ inAnalyteTable=true; continue; }
+      if(!inAnalyteTable)continue;
+      if(/^(Primary Aromas|Method|Total Terpenes|Quality Control|Notes?)\b/i.test(first))break;
+      if(cells.length<2)continue;
+      const rawName=first;
+      if(!/[A-Za-zΑ-ω]/.test(rawName)||/^(Mass|Result|LOQ|LOD|%)$/i.test(rawName))continue;
       const result=cells[1],value=numFrom(result);
       if(value!=null&&value>0)out.push(rawName+"\t"+value+" %");
-    });
+    }
   });
   return out;
 }
@@ -1202,17 +1230,20 @@ async function extractPdfDocument(pdf,status){
   for(let i=1;i<=pdf.numPages;i++){
     status.textContent="Scanning page "+i+" of "+pdf.numPages+"…";
     const page=await pdf.getPage(i),viewport=page.getViewport({scale:1}),content=await page.getTextContent();
-    const full=pdfItemsToLines(content.items),terpRows=pdfTerpeneRows(content.items,viewport.width);
+    const full=pdfItemsToLines(content.items);
+    const isTerpenePage=/\bTerpenes?\b/i.test(full)&&/Total Terpenes/i.test(full);
+    const terpRows=isTerpenePage?pdfTerpeneRows(content.items,viewport.width):[];
     const score=terpRows.length*8+(/\bTerpenes?\b/i.test(full)?20:0)+(/Total Terpenes/i.test(full)?15:0)+(/mg\s*\/\s*g/i.test(full)?3:0);
     pages.push({page:i,items:content.items,width:viewport.width,full,terpRows,score});
   }
   const terpPage=pages.slice().sort((a,b)=>b.score-a.score)[0],metaPage=pages[0];
-  if(!terpPage||terpPage.terpRows.length<2)return {text:pages.map(p=>p.full).join("\n\n"),page:null,mapped:0};
+  if(!terpPage||terpPage.terpRows.length<2)return {text:pages.map(p=>p.full).join("\n\n"),page:null,mapped:0,sourceRows:0};
   const cannabinoidLines=pdfCannabinoidRows(metaPage.items,metaPage.width);
   const admin=pdfAdminLines(pages.map(p=>p.full).join("\n"));
   const total=totalTerpeneLine(terpPage.full);
   const text=admin.concat(cannabinoidLines,terpPage.terpRows,total?[total]:[]).join("\n");
-  return {text,page:terpPage.page,mapped:Object.keys(parseCOA(text).values).length};
+  const parsed=parseCOA(text),validation=validateCOA(parsed,"text-layer");
+  return {text,page:terpPage.page,mapped:Object.keys(parsed.values).length,sourceRows:validation.sourceCount};
 }
 
 async function loadCoaFile(ev){
@@ -1266,7 +1297,7 @@ async function processCoaFile(file){
         probe=parseCOA(text); mapped=Object.keys(probe.values).length;
         document.getElementById("pdfExtractMode").textContent="OCR · verification required";
       } else {
-        document.getElementById("pdfExtractMode").textContent="Page "+extracted.page+" · "+mapped+" mapped";
+        document.getElementById("pdfExtractMode").textContent="Page "+extracted.page+" · "+extracted.sourceRows+" source / "+mapped+" modeled";
         document.getElementById("pdfViewer").src=CURRENT_PDF_URL+"#page="+extracted.page+"&view=FitH";
         document.getElementById("pdfReviewNote").textContent="Flower Spectrum identified page "+extracted.page+" as the terpene analysis and extracted its two-column table by position. Verify the mapped values against the highlighted source page.";
       }
@@ -1389,7 +1420,7 @@ function renderExport(){
 }
 
 function runSelfTest(){
-  const res = selfTest().concat(johnnyAccuracyRegression());
+  const res = selfTest().concat(johnnyAccuracyRegression(),mhmAccuracyRegression());
   const pass = res.filter(r=>r.pass).length;
   const rows = res.map(r=>'<tr><td>'+(r.pass?'<span class="badge">pass</span>':'<span class="badge sum">fail</span>')+'</td><td class="sm">'+esc(r.id)+'</td><td class="sm muted">'+esc(r.detail)+'</td></tr>').join("");
   document.getElementById("stOut").innerHTML =
