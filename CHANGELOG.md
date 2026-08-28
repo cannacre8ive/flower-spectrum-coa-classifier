@@ -2,6 +2,50 @@
 
 All notable changes follow [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## [2.4.1] - 2026-08-28
+
+### Added
+
+- Real six-page Mt. Hood Magic certificate fixture and deterministic 19-row source-truth regression.
+- Explicit modeled-mass coverage reporting in the accuracy gate, audit summary, buyer sheet, social card, and React payload.
+- A 95% minimum modeled-coverage gate so small unmodeled source rows can be disclosed without weakening protection against materially incomplete classifications.
+- Versioned screenshots covering the corrected MHM gate, both generated assets, the complete source panel, and the unmodeled-row disclosure.
+
+### Changed
+
+- Separated laboratory source reconciliation from internal classifier mapping. Every positive lab row now contributes to the source sum even when the current 38-terpene model does not use it.
+- Positive analytes outside the model are preserved with their original label/value and remain visible on buyer-facing output instead of being silently discarded or automatically treated as a parsing failure.
+- PDF table extraction now reads every positive analyte inside a verified terpene table rather than filtering source rows through the classifier lookup dictionary.
+
+### Fixed
+
+- Corrected the Mt. Hood Magic failure where `trans-Phytol 0.03%` was omitted, producing an incorrect 3.38% extracted subtotal against the laboratory&rsquo;s 3.41% total.
+- Restored generation of the MHM fingerprint, spectrum strip, buyer sheet, social card, React component, and dataset action after exact 3.41% source reconciliation.
+- Kept materially incomplete mappings fail-closed while allowing the supplied MHM panel to pass at 99.12% modeled coverage.
+
+## [2.4.0] - 2026-07-20
+
+### Added
+
+- Fail-closed reconciliation gate requiring positive source-row mass to match the laboratory-reported Total Terpenes value within 0.02% before classification or export.
+- Source-truth audit summary showing source rows, internal engine keys, extracted sum, lab total, and difference.
+- Public laboratory result-page resolution that discovers and retrieves the original linked PDF certificate while retaining private-network and size protections.
+- Deterministic deployed lab-result-page fixture for end-to-end resolver regression testing.
+- Versioned brand and accuracy screenshots for the current release.
+
+### Changed
+
+- Limited COA ingestion to original PDFs and public laboratory result/PDF links; CSV, TXT, and manual-paste ingestion were removed.
+- Kept OCR as a review-only fallback that cannot pass the automatic accuracy gate.
+- Reworked the header wordmark to the approved off-white treatment with the ten-color spectrum rule and shifted interface emphasis away from teal.
+- Buyer-facing terpene tables and loudest-terpene callouts now use the laboratory&rsquo;s original row labels and values; canonical aggregation is internal only.
+- Lab-derived metadata fields are cleared and repopulated for every new certificate so stale values cannot carry across uploads.
+
+### Fixed
+
+- Corrected the Johnny Glaze panel to preserve β-Farnesene 0.43%, cis-β-Farnesene 0.99%, and α-Farnesene 0.12% as separate laboratory rows instead of presenting a collapsed β-Farnesene result.
+- Prevented fingerprints, buyer sheets, social cards, React exports, and dataset insertion whenever extraction does not reconcile.
+
 ## [2.3.2] - 2026-07-20
 
 ### Added
